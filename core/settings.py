@@ -1,7 +1,6 @@
 import os, subprocess, string
 from django.db.utils import OperationalError
 from django.db import connections
-import mysql.connector
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -96,31 +95,6 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 #====================Database setup========================
 
-try:
-    db_conn = mysql.connector.connect(user='user', password='password',
-                              host='127.0.0.1',
-                              database='ibf-web')
-except:
-    connected = False
-else:
-    connected = True
-
-if not connected:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'ibf-web.db',
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'ibf-web',
-            'USER': 'user',
-            'PASSWORD': 'password', 
-        }
-    }
 
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
