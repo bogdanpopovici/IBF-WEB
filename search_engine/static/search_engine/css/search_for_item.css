@@ -1,0 +1,46 @@
+.image-resize{
+  padding-top: 5px;
+  height: 155px;
+  width: 180px;
+  border: 2px solid #dddddd;
+  border-radius:20px;
+  margin-right: 7px;
+}
+
+img.image-resize:hover{
+  outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+    margin-right: 7px;
+}
+
+.list-groups {
+  padding-left: 0;
+  margin-right: 200px;
+  margin-left: 8px;
+  margin-top: 14px;
+}
+
+.list-groups-item {
+  position: relative;
+  display: block;
+  padding: 9px 15px;
+  background-color: rgba(214, 214, 194, 0.4);
+  border: 1px solid #dddddd;
+}
+
+.scrollable{
+  overflow-y: scroll;
+  height:500px;
+}
+
+.panel-c {
+}
+
+.search-cont{
+  max-width:60%;
+  border: 2px solid #dddddd;
+  padding: 20px;
+  margin-top: 10px;
+  margin-left:15px;
+}

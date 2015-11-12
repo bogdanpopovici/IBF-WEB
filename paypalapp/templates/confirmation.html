@@ -1,0 +1,24 @@
+{% extends 'public/base.html' %}
+
+{% block pagetitle %}Payment Confirmation{% endblock %}
+
+{% block main_block %}
+
+<div style="margin-top:30px; width:40%; min-width:500px; margin-left:auto; margin-right:auto;">
+
+	<div class="panel panel-default">
+		<div class="panel-footer">
+			<div class="row">
+			  <div class="col-md-12"><p>Are you sure you want to buy this thing?</p></div>
+			</div>
+			<form method="post" action="">
+			  {% csrf_token %}
+			  
+			  {{ form }}
+			  <input type="submit" value="Yes I Yams">
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

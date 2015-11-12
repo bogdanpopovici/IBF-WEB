@@ -1,0 +1,134 @@
+{% extends 'index.html' %}
+
+{% block pagetitle %}Lost Items{% endblock %}
+
+{% load staticfiles %}
+
+{% block header %}
+<link href="{% static 'public/css/search_for_item.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body_block %}
+
+  <!-- Begin Body -->
+<div class="container search-panel">
+  <img class="bg" src="{% static 'public/img/world.gif' %}"></img>
+  <div class="row">
+    <!-- intermediate search -->
+    <div class="container search-cont col-md-4">
+    
+      <form class="form" role="form" method="get" action="." >
+  
+        {% csrf_token %}
+        <div class="row center-block">
+          <h1 style="margin-left:25%;">SEARCH</h1>
+        </div>
+        <div class="row">
+          <label for="name">Item name:</label>
+          <div class="form-group">
+            <input class="form-control" input id="id_q" name="q" type="text" placeholder="Item name">
+          </div>
+        </div>  
+
+        <div class="row">
+          <label for="name">Please select a category:</label>
+          <select id="selectbasic" name="selectbasic" class="form-control">
+            <optgroup label="Please select a category">
+              <option value="Accessories">Accessories</option>
+              <option value="Animal">Animal</option>
+              <option value="Bag">Bag</option>
+              <option value="Book">Book</option>
+              <option value="Clothes">Clothes</option>
+              <option value="Container">Container</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Id/cards">Id/cards</option>
+              <option value="Jewellery">Jewellery</option>
+              <option value="Other">Other</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="row">
+          <label for="name">Location:</label>
+           <div class="form-group">
+            <input class="form-control isearch" name="location" id="locationInput" type="text" placeholder="Location" default="Unknown">
+          </div>
+        </div>
+        
+        <div class="row">
+          <label for="name">Date Interval Start:</label>
+          <div class="form-group">
+            <input class="form-control isearch" name="start_date" id="dateStartInput" type="date" placeholder="Start date">
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="name">Date Interval End:</label>
+          <div class="form-group">
+            <input class="form-control isearch" name="end_date" id="dateEndInput" type="date">
+          </div>
+        </div>
+
+        <div class="row">
+          <input type="submit" value="Search/find" class="btn btn-default" style="border-radius:100px; margin-left:33%;">
+        </div>
+
+      </form>
+    </div>
+
+    <div class="col-md-8">
+      <form method="get" action=".">
+        
+        {% if query %}
+        <h3>Results</h3>
+
+        <div class="panel panel-c scrollable">
+      
+          {% for result in page.object_list %}
+          <div class="panel panel-default">
+
+            <div class="panel-heading">
+              <h1 class="panel-title">{{ result.object.tags }}</h1>
+            </div>
+
+            <div class="panel-body" style="padding: 18px;">
+              <div class="row">
+                <img src="{% static 'public/img/found_keys.jpg' %}" class="image-resize img-responsive pull-right">
+                <ul class="list-groups">
+                  <li class="list-groups-item">Item name: <b>{{ result.object.tags }}</b></li>
+                  <li class="list-groups-item">Category: <b>{{ result.object.category }}</b></li>
+                  <li class="list-groups-item">Date found: <b>{{ result.object.date_field }}</b></li>
+                  <li class="list-groups-item">Location: <b>{{ result.object.location }}</b></li>
+                  <li class="list-groups-item">Finder: <b>{{ result.object.found_by_user }}</b></li>
+                </ul>
+              </div>
+              <div class="pull-right" style="margin-top: -60px; margin-right: 0px;">
+                <button type="button" class="btn btn-success" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Contact the finder</button>
+                <br>
+                <button type="button" class="btn btn-info" style="margin-left: 2.5px;"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
+              </div>
+            </div>
+          </div>
+
+          {% empty %}
+              <p>No results found.</p>
+          {% endfor %}
+    
+        </div>
+
+        {% if page.has_previous or page.has_next %}
+          <div>
+            {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+            |
+            {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+          </div>
+        {% endif %}
+        {% else %}
+          {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

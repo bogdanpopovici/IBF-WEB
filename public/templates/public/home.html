@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+
+{% load staticfiles %}
+
+{% block pagetitle %}Welcome{% endblock %}
+
+{% block body_block %}
+
+  <div class="page-top">
+    <img class="top" src="{% static 'public/img/top.jpg' %}"></img>
+    <div class="action-buttons">
+      <div class="row">
+        <a href="{% url 'search:custom_search' %}" class="a-btn ilost">
+          <span class="a-btn-text">I've lost something</span>
+        </a>
+        <a href="{% url 'public:item_registration' %}" class="a-btn ifound">
+          <span class="a-btn-text">I've found something</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-bottom">
+    <ul class="stories col-md-10 col-md-offset-1">
+      <li class="story col-md-3">
+        <div class="text-muted">
+          <label class="panel-title" id="s6">Success Story 1</label>
+          <hr>
+          <p>Mike lost his pfone on Burges Road. Nick found and returned it</p>
+        </div>
+      </li>
+      <li class="story col-md-3">
+        <div class="text-muted">
+          <label class="panel-title" id="s6">Success Story 2</label>
+          <hr>
+          <p>Mike lost his pfone on Burges Road. Nick found and returned it</p>
+        </div>
+      </li>  
+      <li class="story col-md-3">
+        <div class="text-muted">
+          <label class="panel-title" id="s6">Success Story 3</label>
+          <hr>
+          <p>Mike lost his pfone on Burges Road. Nick found and returned it</p>
+        </div>
+      </li>  
+      <li class="story col-md-3">
+        <div class="text-muted">
+          <label class="panel-title" id="s6">Success Story 4</label>
+          <hr>
+          <p>Mike lost his pfone on Burges Road. Nick found and returned it</p>
+        </div>
+      </li>        
+    </ul>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,298 @@
+{% extends 'index.html' %}
+
+{% load staticfiles %}
+
+{% block pagetitle %}MyAccount{% endblock %}
+
+{% block header %}
+
+<link href="{% static 'public/css/myaccount.css' %}" rel="stylesheet">
+<script type="text/javascript" src="{% static 'public/js/myaccount.js' %}"></script>
+
+{% endblock %}
+
+{% block body_block %}
+
+
+
+<div class="container tab-container">
+    <div class="panel with-nav-tabs panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-tabs">
+                <li class="active" onclick="reset()"><a href="#tab1" data-toggle="tab">Personal Details</a></li>
+                <li onclick="reset()"><a href="#tab2" data-toggle="tab">Account settings</a></li>
+                <li onclick="reset()"><a href="#tab3" data-toggle="tab">Registered Items</a></li>
+                <li onclick="reset()"><a href="#tab4" data-toggle="tab">Messages</a></li>
+                <li onclick="reset()"><a href="#tab5" data-toggle="tab">Lost & Found Items</a></li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="tab-content">
+
+                <!-- personal details tab -->
+                <div class="tab-pane fade in active" id="tab1">
+                    <div class="panel panel-default tab-heading">
+                        <div class="panel-heading  hover">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label  class="panel-title">First Name</label>
+                                </div>
+                                <div class="col-md-6 text-muted">
+                                    <label class="panel-title" id="s1">{{ user.first_name }}</label>
+                                    <input class="hideIt" id="it1" style="display: none"></input>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <label>
+                                        <a id="e1" href="javascript:toggle('it1','s1','e1', 'first_name');">Edit</a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default tab-heading">
+                        <div class="panel-heading  hover">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label  class="panel-title">Last Name</label>
+                                </div>
+                                <div class="col-md-6 text-muted"> 
+                                    <label class="panel-title" id="s2">{{ user.last_name }}</label>
+                                    <input id="it2" style="display: none"></input>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <label>
+                                        <a id="e2" href="javascript:toggle('it2','s2','e2', 'last_name');">Edit</a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default tab-heading">
+                        <div class="panel-heading  hover">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label  class="panel-title">Mobile Number</label>
+                                </div>
+                                <div class="col-md-6 text-muted">
+                                    <label class="panel-title" id="s3">0123456789</label>
+                                    <input class="hideIt" id="it3" style="display: none"></input>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <label>
+                                        <a id="e3" href="javascript:toggle('it3','s3','e3', 'phone_number');">Edit</a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default tab-heading">
+                        <div class="panel-heading  hover">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label  class="panel-title">Landline Number</label>
+                                </div>
+                                <div class="col-md-6 text-muted">
+                                    <label class="panel-title" id="s4">004400487845</label>
+                                    <input class="hideIt" id="it4" style="display: none"></input>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <label>
+                                        <a id="e4" href="javascript:toggle('it4','s4','e4');">Edit</a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default tab-heading">
+                        <div class="panel-heading hover">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label  class="panel-title">Home address</label>
+                                </div>
+                                <div class="col-md-6 text-muted">
+                                    <label class="panel-title" id="s5">Flat 1, 123 Northam Road Southampton UK</label>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <label>
+                                        <a id="e5" href="javascript:toggle('it5','s5','e5');">Edit</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="hideIt" id="it5" style="display: none">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Postocde</label>
+                                            <input type="postcode" class="form-control" required="" name="postcode" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Address Line 1</label>
+                                            <input type="postcode" class="form-control" required="" name="postcode" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Addess Line 2</label>
+                                            <input type="postcode" class="form-control" required="" name="postcode" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end personal details tab -->
+
+                <!-- account details tab -->
+                <div class="tab-pane fade in" id="tab2">
+                    <div class="panel panel-default tab-heading">
+                        <div class="panel-heading hover">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label  class="panel-title">Password</label>
+                                </div>
+                                <div class="col-md-6 text-muted">
+                                    <label class="panel-title" id="s6">Not visible</label>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <label>
+                                        <a id="e6" href="javascript:toggle('it6','s6','e6');">Edit</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="hideIt" id="it6" style="display: none">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4 text-right ">
+                                                <label>Current Password</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span><input class="form-control fild-group" required=""></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4 text-right">
+                                                <label>New Password</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span><input class="form-control fild-group" required=""></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4  text-right">
+                                                <label>Confirm New Password</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span><input class="form-control fild-group" required="" ></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default tab-heading">
+                        <div class="panel-heading hover">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label  class="panel-title">Email address</label>
+                                </div>
+                                <div class="col-md-6 text-muted">
+                                    <label class="panel-title" id="s7">{{ user.email }}</label>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <label>
+                                        <a id="e7" href="javascript:toggle('it7','s7','e7');">Edit</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="hideIt" id="it7" style="display: none">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4 text-right ">
+                                                <label>Current Email Used</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span><input class="form-control fild-group" required=""></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4 text-right">
+                                                <label>New Email</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span><input class="form-control fild-group" required=""></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4  text-right">
+                                                <label>Confirm New Email</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span><input class="form-control fild-group" required="" ></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end account settings -->
+
+                <!-- registered items tab -->
+                <div class="tab-pane fade in" id="tab3">
+                    <div class="row controls">
+                        <button type="button" class="btn btn-primary "><span class="glyphicon glyphicon-plus"></span> Register New Item</button>
+                    </div>
+                    <ul class="registered-items">
+                        <li class="row registered-item">
+                            <div class="col-md-3">
+                                <img src="{% static 'public/img/unknown.jpg' %}" class="img-responsive center-block"></img>
+                            </div>
+                            <div class="col-md-6 text-muted">
+                                <label class="panel-title" id="s6">iPhone 5S Black 64 GB</label>
+                                <hr>
+                                <p>Brand new iPhome with no scratches or marks</p>
+                            </div>
+                            <div class="col-md-3 text-right">
+                                <label>
+                                    <a id="e6" href="javascript:toggle('it6','s6','e6');">Update</a>
+                                </label>
+                            </div>
+                        </li>
+                        <div class="hideIt" id="it6" style="display: none">
+                        </div>
+
+                        <div id="kv-avatar-errors" class="center-block" style="width:800px;display:none"></div>
+                        <form class="text-center" action="/avatar_upload.php" method="post" enctype="multipart/form-data">
+                            <div class="kv-avatar center-block" style="width:200px">
+                                <input id="avatar" name="avatar" type="file" class="file-loading">
+                            </div>
+                            <!-- include other inputs if needed and include a form submit (save) button -->
+                        </form>
+                    </ul>
+                </div>
+                <!-- end registered items -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

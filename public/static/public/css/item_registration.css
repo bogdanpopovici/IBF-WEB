@@ -1,0 +1,32 @@
+#item_registration_form {
+	padding-top: 5%;
+}
+
+.bootstrap-tagsinput {
+    width: 100%;
+}
+
+.label-info {
+    background-color: #303880;
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 100%;
+    font-weight: normal;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.modal-body{
+    padding-top: 25px;
+}
+
+.modal-footer{
+  padding: 19px 20px 20px;
+  margin-top: 0;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
