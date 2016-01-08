@@ -1,3 +1,7 @@
+<!-- University of Southampton 
+     Group Design Project in collaboration with 'The Big Consulting' 
+     Copyright 2015 -->
+
 {% extends 'index.html' %}
 
 {% load staticfiles %}
@@ -256,20 +260,20 @@
                 </div>
                 <!-- end account settings -->
 
-                <!-- registered items tab -->
-                <div class="tab-pane fade in" id="tab3">
+				 <div class="tab-pane fade in" id="tab3">
                     <div class="row controls">
-                        <button type="button" class="btn btn-primary "><span class="glyphicon glyphicon-plus"></span> Register New Item</button>
+                        <button type="button" onclick="location.href={% url 'public:item_pre_registration' %}" class="btn btn-primary "><span class="glyphicon glyphicon-plus"></span> Register New Item</button>
                     </div>
                     <ul class="registered-items">
+                        {% for item in pre_reg_items %}
                         <li class="row registered-item">
                             <div class="col-md-3">
-                                <img src="{% static 'public/img/unknown.jpg' %}" class="img-responsive center-block"></img>
+                                <img src="{{MEDIA_URL}}/{{item.media.data}}" class="img-responsive center-block"></img>
                             </div>
                             <div class="col-md-6 text-muted">
-                                <label class="panel-title" id="s6">iPhone 5S Black 64 GB</label>
+                                <label class="panel-title" id="s6">{{item.tags}}</label>
                                 <hr>
-                                <p>Brand new iPhome with no scratches or marks</p>
+                                <p>{{item.category}}</p>
                             </div>
                             <div class="col-md-3 text-right">
                                 <label>
@@ -277,20 +281,89 @@
                                 </label>
                             </div>
                         </li>
+                        {% empty %}
+                        <li class="row registered-item">
+                            <div class="col-md-6 text-muted">
+                                <label class="panel-title" id="s6">You don't have any items registered with our system at the moment. To register one use the 'egister Item' button above</label>
+                                <hr>
+                            </div>
+                        </li>
+                        {% endfor %}
                         <div class="hideIt" id="it6" style="display: none">
                         </div>
-
-                        <div id="kv-avatar-errors" class="center-block" style="width:800px;display:none"></div>
-                        <form class="text-center" action="/avatar_upload.php" method="post" enctype="multipart/form-data">
-                            <div class="kv-avatar center-block" style="width:200px">
-                                <input id="avatar" name="avatar" type="file" class="file-loading">
-                            </div>
-                            <!-- include other inputs if needed and include a form submit (save) button -->
-                        </form>
                     </ul>
                 </div>
-                <!-- end registered items -->
+				
+				<!-- Messages tab -->
+				<div class="tab-pane fade in" id="tab4">
+				<div class="chat">
+				<header>
+				    <div class="menu-icon"><span class="entypo-menu"></span></div>
+				</header>
+                {% for seq in message_sequences %}
+                    <div id="message_box_{{seq.index}}" class="messages-box">
+                        <div class="other-user">Coversation with {{seq.other_user}} about item: '{{seq.topic.topic.tags}}'</div>
+                        {% for message in seq.messages %}
+                        <div class="row no-margin">
+                        {% if message.type == "SEND" %}
+                            <div class="message-sent">{{message.message}}</div>
+                        {% else %}
+                            <div class="message-received">{{message.message}}</div>
+                        {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-footer">
+                        <div class="row no-margin">
+                            <div class="col-xs-11">
+                                <input id="message_input_{{seq.index}}" type="phone" class="form-control message_input" name="phone_number" value="">
+                            </div>
+                            <div class="col-xs-1">
+                                <a onclick="reply_to_notification('{{seq.index}}', '{{seq.topic.pk}}')" class="btn btn-primary btn-md">
+                                    <i class="btn-icon fa-paper-plane nav-icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="alert-box warning"><span>Note: </span>You don't have any messages to show here.</div>
+                {% endfor %}
+
+                <!--
+				<div class="new">
+				<p><span class="entypo-feather"></span> New Message</p>
+				</div>
+				<section class="messages">
+				<div class="message">
+				<div class="bubble">
+				<h3>Iphone 6s</h3>
+				<h4>Finder1</h4>
+				<p>I have found an Iphone 6s at the central station...</p>
+				<p class="time"><span class="entypo-clock"></span><font color="grey"> 5 mins ago</p></font>
+				</div>
+				</div>
+				<div class="message">
+				<div class="bubble">
+				<h3>HP Laptop</h3>
+				<h4>Finder2</h4>
+				<p>Does your laptop have a black cover?</p>
+				<p class="time"><span class="entypo-clock"></span><font color="grey"> 3 mins ago</p></font>
+				</div>
+				</div>
+				<div class="message">
+				<div class="bubble">
+				<h3>Nike Bag</h3>
+				<h4>Claimer1</h4>
+				<p>The Nike bag is black in colour.</p>
+				<p class="time"><span class="entypo-clock"></span><font color="grey"> just now</p></font>
+				</div>
+				</div>
+				</section>
+				<footer><p>Load more</p></footer>
+				</div>
+            -->
             </div>
+			</div>
         </div>
     </div>
 </div>

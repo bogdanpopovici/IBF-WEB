@@ -1,3 +1,7 @@
+#  --- University of Southampton ---
+#  --- Group Design Project in collaboration with 'The Big Consulting' ---
+#  --- Copyright 2015 ---
+
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from core.models import CustomUser

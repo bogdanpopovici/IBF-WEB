@@ -1,3 +1,8 @@
+#  --- University of Southampton ---
+#  --- Group Design Project in collaboration with 'The Big Consulting' ---
+#  --- Copyright 2015 ---
+
+import hashlib, datetime, random, json, re, traceback, base64
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.contrib.auth import authenticate, login, logout
@@ -5,21 +10,28 @@ from django.shortcuts import redirect, get_object_or_404
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.utils import timezone
+from django.core.files.temp import NamedTemporaryFile
+from django.core.files import File
+from django.core.management import call_command
+from django.contrib.auth import get_user_model
 from social.backends.oauth import BaseOAuth1, BaseOAuth2
 from social.backends.google import GooglePlusAuth
 from social.backends.utils import load_backends
 from social.apps.django_app.utils import psa
-from public.decorators import render_to
-from django.contrib.auth import get_user_model
 from core.forms import RegistrationForm
-from core.models import UserProfile
-import hashlib, datetime, random, json, re, traceback
-from django.core.mail import send_mail
-from django.utils import timezone
+from core.models import UserProfile, Item, PreRegisteredItem, Media, Notification
+from core.settings import MEDIA_URL
+from collections import defaultdict
+from public.decorators import render_to
+from itertools import chain
+
 
 def index(request):
 
   error = ''
+  notifications = []
 
   if request.method=='POST':
     username = request.POST['username']
@@ -35,13 +47,15 @@ def index(request):
     else:
         error="Your username and password didn't match. Please try again."
 
+  if request.user and request.user.is_authenticated():
+    notifications = Notification.objects.filter(receiver=request.user, seen=False)
   context = RequestContext(request,
                            {'request': request,
                             'user': request.user,
+                            'notifications': notifications,
                             'error_message': error
                             })
   return render_to_response('public/home.html', context_instance=context)
-
 
 def register(request):
   if request.method == 'POST':
@@ -105,7 +119,6 @@ def check_username_ok(un):
 # ----------------------------------------------------------------------------------------
 
 def username_check(request):
-  print "yes"
   response_data = {}
   
   response_data['valid'] = check_username_ok(request.GET.get("username"))
@@ -195,12 +208,53 @@ def ajax_auth(request, backend):
 @login_required
 def myaccount(request):
 
+  user = request.user
+
+  #==========fetch user notifications==============
+  message_sequences = []
+  notifications= list(chain(Notification.objects.filter(sender=user), Notification.objects.filter(receiver=user)))
+  groups= defaultdict( list )
+  for obj in notifications:
+      obj.seen = True
+      obj.save()
+      groups[obj.topic].append( obj )
+  groups_list = groups.values()
+  index = 0
+  for topic in groups_list:
+    topic = sorted(topic, key=lambda x: x.created_at, reverse=False)
+    for message in topic:
+      if message.sender == user:
+        message.type = 'SEND'
+        other_user = message.receiver.username
+      else:
+        message.type = 'RECEIVE'
+        other_user = message.sender.username
+    message_sequence = {}
+    message_sequence['messages'] = topic
+    message_sequence['other_user'] = other_user
+    message_sequence['index'] = index
+    message_sequence['topic'] = topic[0]
+    index += 1
+    message_sequences.append(message_sequence)
+  #==================================================
+
+  #=========fetch pre-registered items===============
+  pre_reg_items = PreRegisteredItem.objects.filter(lost_by_user=user)
+  for item in pre_reg_items:
+      media = Media.objects.all().filter(of_item=item)
+      if media:
+         item.media = media[0]  
+
   context = RequestContext(request,
                            {'request': request,
-                            'user': request.user
+                            'user': user,
+                            'message_sequences':message_sequences,
+                            'pre_reg_items': pre_reg_items,
+                            'MEDIA_URL': MEDIA_URL
                             })
-  return render_to_response('public/myaccount.html', context_instance=context)
+  return render_to_response('public/myAccount.html', context_instance=context)
 
+@login_required
 def edit_personal_details(request):
   
   user = request.user
@@ -247,20 +301,163 @@ def edit_personal_details(request):
   
   return HttpResponse(json.dumps(response_data), content_type="application/json")
 
+@login_required
+def reply_to_notification(request):
+
+  if request.method=='POST':
+    try:
+      old_notification = Notification.objects.filter(pk=request.POST.get('notification_pk'))[0]
+      sender = request.user
+      if old_notification.sender == sender:
+        receiver = old_notification.receiver
+      else:
+        receiver = old_notification.sender
+      response_data = {}
+
+      message = request.POST.get('message')
+      print message
+      notification = Notification()
+      notification.sender = sender
+      notification.receiver = receiver
+      notification.type = "CLAIM"
+      notification.message = message
+      notification.topic = old_notification.topic
+      notification.save()
+      response_data['result'] = 'OK'
+    except Exception, e:
+      traceback.print_exc()
+      response_data['result'] = 'ERROR'
+  
+  return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+@login_required
 def item_registration(request):
+
+  if request.method=='POST':
+    try:
+     uid = request.POST.get('uniqueid')
+     category = request.POST.get('category')
+     description = request.POST.get('description')
+     tags = request.POST.get('tags')
+     media = request.POST.get('media1')
+
+     new_item = Item()
+     new_item.unique_id = uid
+     new_item.tags = tags
+     new_item.tags = description
+     new_item.location = "Southampton"
+     new_item.category = category
+     new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
+     new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
+     new_item.found_by_user = request.user
+     new_item.save()
+
+     photo = Media()
+     photo.of_item = new_item
+     photo.media_type = "PHOTO" 
+     save_base64image_to_media(photo, media)
+     photo.save()
+
+     call_command('update_index')
+     
+     return HttpResponse(json.dumps({'result': 'OK'}), content_type="application/json")
+    except Exception as e:
+     return HttpResponse(json.dumps({'result': 'ERROR'}), content_type="application/json")
+
   context = RequestContext(request,
                            {'request': request,
                             'user': request.user
                             })
   return render_to_response('public/registerfounditem.html', context_instance=context)
+  
+@login_required
+def item_pre_registration(request):
 
-#=============Implement search View Here====================
+  if request.method=='POST':
+    try:
+     uid = request.POST.get('uniqueid')
+     category = request.POST.get('category')
+     description = request.POST.get('description')
+     tags = request.POST.get('tags')
+     media = request.POST.get('media1')
 
-from haystack.generic_views import SearchView
+     new_item = Item()
+     new_item.unique_id = uid
+     new_item.tags = tags
+     new_item.tags = description
+     new_item.category = category
+     new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
+     new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
+     new_item.lost_by_user = request.user
+     new_item.save()
 
-RESULTS_PER_PAGE = getattr(settings, 'HAYSTACK_SEARCH_RESULTS_PER_PAGE', 20)
+     photo = Media()
+     photo.of_item = new_item
+     photo.media_type = "PHOTO" 
+     save_base64image_to_media(photo, media)
+     photo.save()
+     
+     return HttpResponse(json.dumps({'result': 'OK'}), content_type="application/json")
+    except Exception as e:
+     return HttpResponse(json.dumps({'result': 'ERROR'}), content_type="application/json")
+
+@login_required
+def notify(request):
+
+  if request.method=='POST':
+    try:
+      item = Item.objects.filter(pk=request.POST.get('item_id'))[0]
+      sender = request.user
+      receiver = item.found_by_user
+      response_data = {}
+
+      method =  request.POST.get('method')
+      message = request.POST.get('message')
+
+      if (method == 'IBF'):
+        notification = Notification()
+        notification.sender = sender
+        notification.receiver = receiver
+        notification.message = message
+        notification.topic = item
+        notification.save()
+        item.claimed = True
+        item.save()
+        response_data['result'] = 'OK'
+
+      elif (method == 'email'):
+        email_subject = 'IBF: Claimed Item'
+        email_body = "Hey %s, someone is claiming one of the items you found. Here's his email address so you can get in touchL %s" % (receiver.username, sender.email)
+
+        send_mail(email_subject, email_body, 'myemail@example.com',
+              [receiver.email], fail_silently=False)
+        item.claimed = True
+        item.save()
+        response_data['result'] = 'OK'
+
+      elif (method == 'phone'):
+        item.claimed = True
+        item.save()
+        response_data['result'] = 'OK'
+    except Exception, e:
+      traceback.print_exc()
+      response_data['result'] = 'ERROR'
+  
+  return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+def save_base64image_to_media(media_obj, data):
+  img_temp = NamedTemporaryFile()
+  img_temp.write(base64.b64decode(data))
+  img_temp.flush()
+  media_obj.data.save("media.jpg", File(img_temp))
+
+def terms_conditions(request):
+  context = RequestContext(request,
+                           {'request': request,
+                            'user': request.user
+                            })
+  return render_to_response('public/terms_conditions.html', context_instance=context)
 
 
-class CustomSearchView(SearchView):
-    template = 'search/search.html'
+
 

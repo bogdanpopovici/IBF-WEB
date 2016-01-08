@@ -1,3 +1,7 @@
+<!-- University of Southampton 
+     Group Design Project in collaboration with 'The Big Consulting' 
+     Copyright 2015 -->
+
 {% extends 'index.html' %}
 
 {% load staticfiles %}
@@ -7,50 +11,94 @@
 {% block body_block %}
 
   <div class="page-top">
-    <img class="top" src="{% static 'public/img/top.jpg' %}"></img>
+    <img class="top" src="{% static 'public/img/top-screen.jpg' %}"></img>
     <div class="action-buttons">
       <div class="row">
-        <a href="{% url 'search:custom_search' %}" class="a-btn ilost">
-          <span class="a-btn-text">I've lost something</span>
-        </a>
-        <a href="{% url 'public:item_registration' %}" class="a-btn ifound">
-          <span class="a-btn-text">I've found something</span>
-        </a>
+        <div class="col-xs-6">
+          <a href="{% url 'search:custom_search' %}" class="a-btn ilost">
+            <span class="a-btn-text">I've lost something</span>
+          </a>
+        </div>
+        <div class="col-xs-6">
+          <a href="{% url 'public:item_registration' %}" class="a-btn ifound">
+            <span class="a-btn-text">I've found something</span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="page-bottom">
+  <div class="row stories">
     <ul class="stories col-md-10 col-md-offset-1">
       <li class="story col-md-3">
         <div class="text-muted">
-          <label class="panel-title" id="s6">Success Story 1</label>
+          <label class="panel-title" id="s6">"Never thought I'd find it"</label>
           <hr>
-          <p>Mike lost his pfone on Burges Road. Nick found and returned it</p>
+          <p>Kate lost her purse in central London this week. Now Mark is her hero after he found the purse and retured it within 24 hours</p>
         </div>
       </li>
       <li class="story col-md-3">
         <div class="text-muted">
-          <label class="panel-title" id="s6">Success Story 2</label>
+          <label class="panel-title" id="s6">Go hard or go with IBF</label>
           <hr>
-          <p>Mike lost his pfone on Burges Road. Nick found and returned it</p>
+          <p>Nicole lost her watch in Asda in November. After trying to determine the place where she lost it she discevered IBF. Surprise, the watch was already online</p>
         </div>
       </li>  
       <li class="story col-md-3">
         <div class="text-muted">
-          <label class="panel-title" id="s6">Success Story 3</label>
+          <label class="panel-title" id="s6">Missing home</label>
           <hr>
-          <p>Mike lost his pfone on Burges Road. Nick found and returned it</p>
+          <p>Johnson's dog BigBoy got lost on a Friday. The Mickelsons found him 9 miles away in their yard. IBF is happy that Johnson got his companion back</p>
         </div>
       </li>  
       <li class="story col-md-3">
         <div class="text-muted">
-          <label class="panel-title" id="s6">Success Story 4</label>
+          <label class="panel-title" id="s6">"I am grateful to IBF"</label>
           <hr>
-          <p>Mike lost his pfone on Burges Road. Nick found and returned it</p>
+          <p>Joe lost his only car key he had. Before taking the car to service she had a look on the IBF website. Joe donated 100£ to the largest homeless center in UK</p>
         </div>
       </li>        
     </ul>
   </div>
+
+  
+  <footer class="footer">
+    <div class="row">
+      <div class="col-xs-3">
+        <p class="footer-column">About us</p>
+        <ul class="">
+          <li class=""><a>What is IBF</a></li>
+          <li class=""><a>Why use our service?<a/></li>
+          <li class=""><a>Our strategy</a></li>
+          <li class=""><a>Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+      <div class="col-xs-3">
+        <p class="footer-column">How to:</p>
+        <ul class="">
+          <li class=""><a>Register a found item</a></li>
+          <li class=""><a>Look up a lost item<a/></li>
+          <li class=""><a>Return an item</a></li>
+          <li class=""><a>Common tips</a></li>
+        </ul>
+      </div>
+      <div class="col-xs-3">
+        <p class="footer-column">Our App</p>
+        <ul class="">
+          <li class=""><a>Android App</a></li>
+          <li class=""><a>IOS App (soon)<a/></li>
+          <li class=""><a>Windows Phone (soon)</a></li>
+        </ul>
+      </div>
+      <div class="col-xs-3">
+        <p class="footer-column">Contact &amp; Support</p>
+        <ul class="">
+          <li class=""><a>Tel: 01234566789</a></li>
+          <li class=""><a>Email: info@ibf.com<a/></li>
+          <li class=""><a>Or try our live chat (soon)</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
 
 {% endblock %}

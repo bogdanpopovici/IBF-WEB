@@ -30,3 +30,17 @@
   text-align: right;
   border-top: 1px solid #e5e5e5;
 }
+
+.modal-content {
+
+  overflow-y: scroll;
+}
+
+.main-panel{
+  overflow-y: scroll;
+  max-height: 600px;
+}
+
+.container1 {
+  padding-bottom: 5%;
+}

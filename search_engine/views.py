@@ -9,7 +9,8 @@ from haystack.forms import FacetedSearchForm, ModelSearchForm
 from haystack.query import EmptySearchQuerySet
 from haystack.generic_views import SearchView
 from search_engine.forms import ItemsSearchForm
-from core.models import Media
+from core.models import Media, Item
+from core.settings import MEDIA_URL
 
 RESULTS_PER_PAGE = getattr(settings, 'HAYSTACK_SEARCH_RESULTS_PER_PAGE', 20)
 
@@ -48,7 +49,6 @@ class CustomSearchView(SearchView):
         self.form = self.build_form()
         self.query = self.get_query()
         self.results = self.get_results()
-
         return self.create_response()
 
     def build_form(self, form_kwargs=None):
@@ -104,7 +104,6 @@ class CustomSearchView(SearchView):
 
         if page_no < 1:
             raise Http404("Pages should be 1 or greater.")
-        print(self.results)
         start_offset = (page_no - 1) * self.results_per_page
         self.results[start_offset:start_offset + self.results_per_page]
 
@@ -118,12 +117,7 @@ class CustomSearchView(SearchView):
         return (paginator, page)
 
     def extra_context(self):
-        """
-        Allows the addition of more context variables as needed.
-
-        Must return a dictionary.
-        """
-        return {}
+        return {'MEDIA_URL':MEDIA_URL}
 
     def create_response(self):
         """
@@ -131,18 +125,34 @@ class CustomSearchView(SearchView):
         """
         (paginator, page) = self.build_page()
 
-        results_list = []
+        search_results = []
+        recent_feeds = []
 
-        for item in page.object_list:
-            medias = []
-            print (item.location)
-            Media.objects.all().filter()
+
+        if self.query:
+            for item in page.object_list:
+                media = Media.objects.all().filter(of_item=item.object)
+                if not media:
+                   item.media = media
+                else:
+                   item.media = media[0]  
+                search_results.append(item)
+        else:
+            for item in Item.objects.all().order_by('pk')[:20]:
+                media = Media.objects.all().filter(of_item=item)
+                if not media:
+                   item.media = media
+                else:
+                   item.media = media[0]  
+                recent_feeds.append(item)
+        page.objects_list = search_results
         context = {
             'query': self.query,
             'form': self.form,
             'page': page,
             'paginator': paginator,
             'suggestion': None,
+            'recent_feeds': recent_feeds,
         }
 
         if self.results and hasattr(self.results, 'query') and self.results.query.backend.include_spelling:

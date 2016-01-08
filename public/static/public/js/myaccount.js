@@ -43,3 +43,24 @@ function reset() {
   		}
 }
 
+function reply_to_notification(seq_index, topic_pk){
+	var it = $("#message_input_"+seq_index);
+	var container = $("#message_box_"+seq_index);
+	var message = it.val();
+
+	$.post('/reply_to_notification/',{
+		    'notification_pk':   topic_pk,
+		    'message': message,
+		    'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+		},function(result){
+		    if(result.result=='OK'){
+		    	var new_message = jQuery('<div class="row no-margin"> <div class="message-sent">'+ message +'</div> </div>').hide();
+		        container.append(new_message)
+		        new_message.show('slow');
+		        it.val('');
+		    }
+		    else{
+		    	alert(result.err_message);
+		    }
+		});
+}

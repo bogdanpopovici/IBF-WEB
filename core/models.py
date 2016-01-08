@@ -1,3 +1,7 @@
+#  --- University of Southampton ---
+#  --- Group Design Project in collaboration with 'The Big Consulting' ---
+#  --- Copyright 2015 ---
+
 from __future__ import unicode_literals
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin,
                                         UserManager)
@@ -131,12 +135,14 @@ class Item(models.Model):
 							help_text = "Unique Identification numbers like IMEI,Serial Number,reference number etc (Every item might not have it,so optional)")
 
 	tags = models.CharField(max_length=2000)
+	description = models.CharField(max_length=2000)
 	found_by_user = models.ForeignKey('CustomUser', related_name='Item_found_by_user', null=True, blank=True, help_text = "The user id of the user who found item")
 	lost_by_user = models.ForeignKey('CustomUser', related_name='Item_lost_by_user', null=True, blank=True, help_text = "The user id of the user who lost the item")
 	location = models.CharField(max_length=30)
 	category = models.CharField(max_length=30)
 	date_field = models.DateField(blank=True)
 	time_field = models.TimeField(blank=True)
+	claimed = models.BooleanField(default=False)
 
 	def __unicode__(self):
 		return self.tags + self.location
@@ -147,6 +153,9 @@ class Item(models.Model):
 	def __repr__(self):
 		return str(self)
 
+class PreRegisteredItem(Item):
+
+	pre_registered = models.BooleanField(default=False)
 
 class Media(models.Model):
 
@@ -164,4 +173,27 @@ class Media(models.Model):
 	data = StdImageField(upload_to='items_media', null=True, blank=True)
 
 	def __unicode__(self):
-		return self.tags
+		return str(self.media_id)
+
+class Notification(models.Model):
+
+	message = models.CharField(max_length=2000)
+	sender = models.ForeignKey('CustomUser', related_name='Notification_from', null=True, blank=True)
+	receiver = models.ForeignKey('CustomUser', related_name='Notification_to', null=True, blank=True)
+	topic = models.ForeignKey('Item', null=True, blank=True)
+	seen = models.BooleanField(default=False)
+	created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+	
+	NOTIFICATION_TYPE = (
+        ('CLAIM', 'claim'),
+		('ACCEPT', 'accept'),
+		('REJECT', 'reject'),
+		('MESSAGE', 'message')
+    )
+	notification_type = models.CharField(max_length='8',
+								  choices=NOTIFICATION_TYPE ,
+								  default='MESSAGE')
+
+	def __unicode__(self):
+		return str(self.message)
+

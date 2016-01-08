@@ -93,7 +93,11 @@
 
             <div class="panel-body" style="padding: 18px;">
               <div class="row">
-                <img src="{% static 'public/img/found_keys.jpg' %}" class="image-resize img-responsive pull-right">
+                {% if result.media %}
+                <img src="{{MEDIA_URL}}/{{result.media.data}}" class="image-resize img-responsive pull-right">
+                {% else %}
+                <img src="{% static 'img/no_media.jpg' %}" class="image-resize img-responsive pull-right">
+                {% endif %}
                 <ul class="list-groups">
                   <li class="list-groups-item">Item name: <b>{{ result.object.tags }}</b></li>
                   <li class="list-groups-item">Category: <b>{{ result.object.category }}</b></li>
@@ -103,7 +107,11 @@
                 </ul>
               </div>
               <div class="pull-right" style="margin-top: -60px; margin-right: 0px;">
-                <button type="button" class="btn btn-success" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Contact the finder</button>
+                {% if result.object.claimed %}
+                <a class="btn btn-success" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item claimed</a>
+                {% else %}
+                <a class="btn btn-success" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item</a>
+                {% endif %}
                 <br>
                 <button type="button" class="btn btn-info" style="margin-left: 2.5px;"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
               </div>
@@ -124,11 +132,147 @@
           </div>
         {% endif %}
         {% else %}
-          {# Show some example queries to run, maybe query syntax, something else? #}
+          {% for item in recent_feeds %}
+          <div class="panel panel-default">
+
+            <div class="panel-heading">
+              <h1 class="panel-title">{{ item.tags }}</h1>
+            </div>
+
+            <div class="panel-body" style="padding: 18px;">
+              <div class="row">
+                {% if item.media %}
+                <img src="{{MEDIA_URL}}/{{item.media.data}}" class="image-resize img-responsive pull-right">
+                {% else %}
+                <img src="{% static 'img/no_media.jpg' %}" class="image-resize img-responsive pull-right">
+                {% endif %}
+                <ul class="list-groups">
+                  <li class="list-groups-item">Item name: <b>{{ item.tags }}</b></li>
+                  <li class="list-groups-item">Category: <b>{{ item.category }}</b></li>
+                  <li class="list-groups-item">Date found: <b>{{ item.date_field }}</b></li>
+                  <li class="list-groups-item">Location: <b>{{ item.location }}</b></li>
+                  <li class="list-groups-item">Finder: <b>{{ item.found_by_user }}</b></li>
+                </ul>
+              </div>
+              <div class="pull-right" style="margin-top: -60px; margin-right: 0px;">
+                {% if item.claimed %}
+                <a class="btn btn-success active" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
+                {% else %}
+                <a onclick="popUpNotificationModal('{{item.pk}}', '{{item.found_by_user.prefered_way_of_contact}}', '{{item.found_by_user.phone_number}}')" class="btn btn-success" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item</a>
+                {% endif %}
+                <br>
+                <button type="button" class="btn btn-info" style="margin-left: 2.5px;"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
+              </div>
+            </div>
+          </div>
+
+          {% empty %}
+              <p>No results found.</p>
+          {% endfor %}
         {% endif %}
       </form>
     </div>
   </div>
 </div>
+
+<!-- Notification Modal -->
+<div class="modal fade" id="notificationModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Claim this item</h4>
+      </div>
+
+      <div class="modal-body">
+         <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <div>
+                  <div class="alert alert-warning">
+                    <p id="notification_text" ><strong>Hi!</strong>The finder will receive a notification</p> 
+                  </div>
+                  <label class="sr-only" for="location">Message</label>
+                  <textarea id="notification_message" rows="4" cols="50" class="form-control" name="location" autocapitalize="off" autocomplete="off" autocorrect="off" required placeholder="e.g. 59 Harrison Road Southampton" value=""></textarea>
+                </div>
+                <a id="notification_creator" class="btn btn-success btn-block">Claim item</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function popUpNotificationModal(item_id, pwoc, contact_details){
+
+  if (pwoc=='IBF'){
+    $('#notification_text').text("Hi! The finder would like to use our dedicated messaging service. Go On ! Leave him/her a message to get in contact...");
+    $('#notification_creator').click(function(){
+      $.post('/notify/',{
+          'method': 'IBF',
+          'message':   $('#notification_message').val(),
+          'item_id':   item_id,
+          'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+      },function(result){
+          if(result.result=='OK'){
+              location.reload();
+          }
+          else{
+            alert("An error occured. Please get in contact with the support team");
+          }
+      });
+    });
+        
+  }
+  else 
+  if (pwoc=='EMAIL'){
+    $('#notification_text').text("Hi! The finder would like to use his/her email address to get in contact.  Go on! Add your message and will take care of the rest...");
+    $('#notification_creator').click(function(){
+      $.post('/notify/',{
+          'method': 'email',
+          'message':   $('#notification_message').val(),
+          'item_id':   item_id,
+          'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+      },function(result){
+          if(result.result=='OK'){
+              location.reload();
+          }
+          else{
+            alert("An error occured. Please get in contact with the support team");
+          }
+      });
+    });
+
+
+  } else {
+    $('#notification_text').text("Hi! The finder would like to contact him by phone, here's his/her number: " + contact_details + ", so please get in touch before claiming the item.");
+    $('#notification_message').css('display','none')
+    $('#notification_creator').click(function(){
+      $.post('/notify/',{
+          'method': 'phone',
+          'item_id':   item_id,
+          'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+      },function(result){
+          if(result.result=='OK'){
+              location.reload();
+          }
+          else{
+            alert("An error occured. Please get in contact with the support team");
+          }
+      });
+    });
+  }
+
+  $('#notificationModal').modal('toggle');
+
+}
+
+</script>
+<!-- Notification Modal-->
 
 {% endblock %}
