@@ -11,7 +11,7 @@ from core import settings
 
 urlpatterns = [
 	url(r'^', include('public.urls', namespace="public")),
-	url(r'^android_monule/', include('android_module.urls', namespace="android_module")),
+	url(r'^android_module/', include('android_module.urls', namespace="android_module")),
 	url(r'^paypal/', include('paypalapp.urls', namespace="paypal")),
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^login/$', auth_views.login, name='login' ),
