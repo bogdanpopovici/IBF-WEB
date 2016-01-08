@@ -252,7 +252,7 @@ def myaccount(request):
                             'pre_reg_items': pre_reg_items,
                             'MEDIA_URL': MEDIA_URL
                             })
-  return render_to_response('public/myAccount.html', context_instance=context)
+  return render_to_response('public/myaccount.html', context_instance=context)
 
 @login_required
 def edit_personal_details(request):
