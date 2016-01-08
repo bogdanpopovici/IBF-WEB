@@ -31,10 +31,10 @@ def upload_item(request):
       call_command('update_index')
      except:
         pass
-        
+
      response_data['result'] = 'OK'
     except Exception as e:
      response_data['result'] = 'ERROR'
-     response_data['message'] = traceback.print_exc()
+     print traceback.print_exc()
  
   return HttpResponse(json.dumps(response_data), content_type="application/json")
