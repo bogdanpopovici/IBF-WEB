@@ -20,7 +20,7 @@ def upload_item(request):
      new_item.category = category
      new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
      new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
-     new_item.found_by_user = CustomUser.objects().filter(pk=1)
+     new_item.found_by_user = CustomUser.objects.all()[:1].get()
      new_item.save()
 
      call_command('update_index')
