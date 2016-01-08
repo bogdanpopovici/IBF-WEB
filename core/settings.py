@@ -132,6 +132,8 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = './media' 
+MEDIA_URL = '/media/'
 LOGIN_URL = '/'
 
 #==========Email Setup using Gmail platform==============
