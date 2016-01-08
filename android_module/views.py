@@ -16,7 +16,7 @@ def upload_item(request):
 
      new_item = Item()
      new_item.tags = tags
-     new_item.tags = valuable
+     new_item.description = valuable
      new_item.category = category
      new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
      new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
