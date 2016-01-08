@@ -3,6 +3,7 @@ from core.models import CustomUser
 from django.views.decorators.csrf import csrf_exempt
 from core.models import *
 import hashlib, datetime, random, json, re, traceback, base64
+from django.core.management import call_command
 
 @csrf_exempt
 def upload_item(request):
@@ -10,10 +11,12 @@ def upload_item(request):
 
   if request.method=='POST':
     try:
-     category = request.POST.get('category')
-     tags = request.POST.get('tags')
-     valuable = request.POST.get('valuable')
-     print request.POST
+     body_unicode = request.body.decode('utf-8')
+     body = json.loads(body_unicode)
+     category = body['category']
+     tags = body['tags']
+     valuable = body['valuable']
+     print request.body
      new_item = Item()
      new_item.tags = tags
      new_item.description = valuable
@@ -23,7 +26,11 @@ def upload_item(request):
      new_item.found_by_user = CustomUser.objects.all()[:1].get()
      new_item.save()
 
-     call_command('update_index')
+     try:
+      call_command('update_index')
+     except:
+        pass
+        
      response_data['result'] = 'OK'
     except Exception as e:
      response_data['result'] = 'ERROR'

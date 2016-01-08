@@ -131,7 +131,7 @@ class UserProfile(models.Model):
 class Item(models.Model):
 
 	item_id = models.AutoField(primary_key=True)
-	unique_id = models.CharField(_('Unique Identification ID'), blank=True, max_length=40, unique=True,
+	unique_id = models.CharField(_('Unique Identification ID'), blank=True, null=True, max_length=40,
 							help_text = "Unique Identification numbers like IMEI,Serial Number,reference number etc (Every item might not have it,so optional)")
 
 	tags = models.CharField(max_length=2000)
