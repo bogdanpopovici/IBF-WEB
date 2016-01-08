@@ -2,6 +2,7 @@ from django.shortcuts import render
 from core.models import CustomUser
 import hashlib, datetime, random, json, re, traceback, base64
 
+@csrf_exempt
 def upload_item(request):
   response_data = {}
 
