@@ -13,7 +13,6 @@ def upload_item(request):
      category = request.POST.get('category')
      tags = request.POST.get('tags')
      valuable = request.POST.get('valuable')
-     print category + tags + valuable
      print request.POST
      new_item = Item()
      new_item.tags = tags
