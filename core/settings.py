@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'haystack',
     'search_engine',
     'core',
+    'android_module',
 )
 
 

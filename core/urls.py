@@ -1,10 +1,17 @@
+#  --- University of Southampton ---
+#  --- Group Design Project in collaboration with 'The Big Consulting' ---
+#  --- Copyright 2015 ---
+
 from django.conf.urls import include, url
+from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
+from core import settings
 
 
 urlpatterns = [
 	url(r'^', include('public.urls', namespace="public")),
+	url(r'^android_monule/', include('android_module.urls', namespace="android_module")),
 	url(r'^paypal/', include('paypalapp.urls', namespace="paypal")),
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^login/$', auth_views.login, name='login' ),
@@ -17,4 +24,4 @@ urlpatterns = [
 	url(r'^reset/done/$', auth_views.password_reset_complete,{'template_name': 'public/password_reset_complete.html'}, name='password_reset_complete'),
 	url(r'', include('social.apps.django_app.urls', namespace='social')),
 	url(r'^search/', include('search_engine.urls', namespace="search")),
-]
+] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
