@@ -21,7 +21,7 @@ def upload_item(request):
      media =  body['media']
 
      new_item = Item()
-     new_item.tags = tags + "lllada" 
+     new_item.tags = tags
      new_item.description = valuable
      new_item.category = category
      new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
