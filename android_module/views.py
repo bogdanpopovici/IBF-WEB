@@ -17,7 +17,8 @@ def upload_item(request):
      category = body['category']
      tags = body['tags']
      valuable = body['valuable']
-     print request.body
+     media =  body['media']
+
      new_item = Item()
      new_item.tags = tags
      new_item.description = valuable
@@ -26,6 +27,12 @@ def upload_item(request):
      new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
      new_item.found_by_user = CustomUser.objects.all()[:1].get()
      new_item.save()
+
+     photo = Media()
+     photo.of_item = new_item
+     photo.media_type = "PHOTO" 
+     save_base64image_to_media(photo, media)
+     photo.save()
 
      try:
       call_command('update_index')
@@ -38,3 +45,10 @@ def upload_item(request):
      print traceback.print_exc()
  
   return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def save_base64image_to_media(media_obj, data):
+  img_temp = NamedTemporaryFile()
+  img_temp.write(base64.b64decode(data))
+  img_temp.flush()
+  media_obj.data.save("media.jpg", File(img_temp))
