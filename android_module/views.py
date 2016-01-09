@@ -3,6 +3,7 @@ from core.models import CustomUser
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.core.files.temp import NamedTemporaryFile
+from django.core.files import File
 from core.models import *
 import hashlib, datetime, random, json, re, traceback, base64
 from django.core.management import call_command
