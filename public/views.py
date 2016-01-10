@@ -330,7 +330,6 @@ def reply_to_notification(request):
   
   return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-@login_required
 def item_registration(request):
 
   if request.method=='POST':
