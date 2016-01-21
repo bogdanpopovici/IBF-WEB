@@ -196,3 +196,23 @@ ul.registered-items li:last-child{
   line-height: 20px;
   -webkit-font-smoothing: antialiased;
 }
+
+span.mandatory-star {
+  color: red;
+}
+
+#pre-register-modal .modal-dialog{
+  width:50%;
+  max-width: 800px;
+  margin: auto;
+}
+
+#pre-register-modal #previewButton {
+  font-size: 2.2rem;
+  color: #ffffff;
+}
+
+#pre-register-modal #previewButton:hover {
+  background-color: #ffffff;
+  color: #4cae4c;
+}

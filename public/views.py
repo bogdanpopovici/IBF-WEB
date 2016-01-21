@@ -292,6 +292,36 @@ def edit_personal_details(request):
         user.phone_number = value
         user.save()
         response_data['new_value'] = value
+    elif (attr == 'password'):
+      current_password = request.POST.get('value1')
+      new_password = request.POST.get('value2')
+      confirm_password = request.POST.get('value3')
+
+      if not request.user.check_password(current_password):
+        response_data['result'] = 'ERROR'
+        response_data['err_message'] = 'Old password is not correct'
+      elif not new_password==confirm_password:
+        response_data['result'] = 'ERROR'
+        response_data['err_message'] = 'New password and confirmation password did not match'
+      else:
+        request.user.set_password(new_password)
+        response_data['result'] = 'OK'
+    elif (attr == 'email'):
+      current_email = request.POST.get('value1')
+      new_email = request.POST.get('value2')
+      confirm_email = request.POST.get('value3')
+
+      if not request.user.email == current_email:
+        response_data['result'] = 'ERROR'
+        response_data['err_message'] = 'Old email is not correct'
+      elif not new_email==confirm_email:
+        response_data['result'] = 'ERROR'
+        response_data['err_message'] = 'New email and confirmation email did not match'
+      else:
+        request.user.email  = new_email
+        request.user.save()
+        response_data['result'] = 'OK'
+        response_data['new_value'] = new_email
   except Exception, e:
     traceback.print_exc()
   else:

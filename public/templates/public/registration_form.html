@@ -216,6 +216,61 @@
     </div>
 </div>
 
-    <script type="text/javascript" src="{% static 'public/js/register.js' %}"></script>
+<script>
+    $("#file-upload-input").fileinput({
+        uploadUrl: '#', // you must set a valid URL here else you will get an error
+        allowedFileExtensions : ['jpg', 'png','gif'],
+        overwriteInitial: false,
+        maxFileSize: 1000,
+        maxFilesNum: 10,
+        //allowedFileTypes: ['image', 'video', 'flash'],
+        slugCallback: function(filename) {
+            return filename.replace('(', '_').replace(']', '_');
+        }
+    });
+
+    function uploadData(){
+
+      var ui = $('#uid').val();
+      var category = $('#categoryid').val();
+      var description = $('#descriptionid').val();
+      var tags = $('#tagsid').val();
+      var files = []
+
+      $("img.file-preview-image").each(function( index ) {
+         files.push(JSON.stringify(getBase64Image(this)));
+      });
+
+      console.log(files);
+
+      $.post('/item_registration/',{
+            'uniqueid':   ui,
+            'category':   category,
+            'description':   description,
+            'tags':   tags,
+            'media1':   files[0],
+            'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+        },function(result){
+            if(result.result=='OK'){
+               location.reload();
+            }
+            else{
+              alert("An error has occured while uploading yur file");
+            }
+        });
+    }
+
+    function getBase64Image(imgElem) {
+    // imgElem must be on the same server otherwise a cross-origin error will be thrown "SECURITY_ERR: DOM Exception 18"
+        var canvas = document.createElement("canvas");
+        canvas.width = imgElem.naturalWidth;
+        canvas.height = imgElem.naturalHeight;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(imgElem, 0, 0);
+        var dataURL = canvas.toDataURL("image/png");
+        return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    }
+
+</script>
 
 {% endblock %}

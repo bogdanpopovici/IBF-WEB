@@ -1,0 +1,115 @@
+<div class="panel panel-default tab-heading">
+    <div class="panel-heading  hover">
+        <div class="row">
+            <div class="col-md-3">
+                <label  class="panel-title">First Name</label>
+            </div>
+            <div class="col-md-6 text-muted">
+                <label class="panel-title" id="s1">{{ user.first_name }}</label>
+                <input class="hideIt" id="it1" style="display: none"></input>
+            </div>
+            <div class="col-md-3 text-right">
+                <label>
+                    <a id="e1" href="javascript:toggle('it1','s1','e1', 'first_name');">Edit</a>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default tab-heading">
+    <div class="panel-heading  hover">
+        <div class="row">
+            <div class="col-md-3">
+                <label  class="panel-title">Last Name</label>
+            </div>
+            <div class="col-md-6 text-muted"> 
+                <label class="panel-title" id="s2">{{ user.last_name }}</label>
+                <input id="it2" style="display: none"></input>
+            </div>
+            <div class="col-md-3 text-right">
+                <label>
+                    <a id="e2" href="javascript:toggle('it2','s2','e2', 'last_name');">Edit</a>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default tab-heading">
+    <div class="panel-heading  hover">
+        <div class="row">
+            <div class="col-md-3">
+                <label  class="panel-title">Mobile Number</label>
+            </div>
+            <div class="col-md-6 text-muted">
+                <label class="panel-title" id="s3">0123456789</label>
+                <input class="hideIt" id="it3" style="display: none"></input>
+            </div>
+            <div class="col-md-3 text-right">
+                <label>
+                    <a id="e3" href="javascript:toggle('it3','s3','e3', 'phone_number');">Edit</a>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default tab-heading">
+    <div class="panel-heading  hover">
+        <div class="row">
+            <div class="col-md-3">
+                <label  class="panel-title">Landline Number</label>
+            </div>
+            <div class="col-md-6 text-muted">
+                <label class="panel-title" id="s4">004400487845</label>
+                <input class="hideIt" id="it4" style="display: none"></input>
+            </div>
+            <div class="col-md-3 text-right">
+                <label>
+                    <a id="e4" href="javascript:toggle('it4','s4','e4');">Edit</a>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default tab-heading">
+    <div class="panel-heading hover">
+        <div class="row">
+            <div class="col-md-3">
+                <label  class="panel-title">Home address</label>
+            </div>
+            <div class="col-md-6 text-muted">
+                <label class="panel-title" id="s5">Flat 1, 123 Northam Road Southampton UK</label>
+            </div>
+            <div class="col-md-3 text-right">
+                <label>
+                    <a id="e5" href="javascript:toggle('it5','s5','e5');">Edit</a>
+                </label>
+            </div>
+        </div>
+        <div class="hideIt" id="it5" style="display: none">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Postocde</label>
+                        <input type="postcode" class="form-control" required="" name="postcode" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Address Line 1</label>
+                        <input type="postcode" class="form-control" required="" name="postcode" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Addess Line 2</label>
+                        <input type="postcode" class="form-control" required="" name="postcode" value="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

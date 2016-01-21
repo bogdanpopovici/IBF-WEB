@@ -1,4 +1,4 @@
-import os, subprocess, string
+import os, subprocess, string, dj_database_url
 from django.db.utils import OperationalError
 from django.db import connections
 
@@ -97,9 +97,6 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 #====================Database setup========================
 
-
-import dj_database_url
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -107,7 +104,8 @@ DATABASES = {
     }
 }
 
-DATABASES['default'] =  dj_database_url.config()
+if 'DYNO' in os.environ:
+    DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
