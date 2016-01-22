@@ -1,3 +1,59 @@
+var new_item_title = ''
+var new_item_description = ''
+var new_item_files = []
+var new_item_uid =''
+
+function previewItem() {
+	
+  new_item_title = $('#titleid').val();
+  new_item_category = $('#categoryid').val();
+  new_item_description = $('#descriptionid').val();
+  new_item_uid = $('#uid').val();
+  files = []
+
+  $("img.file-preview-image").each(function( index ) {
+     files.push(JSON.stringify(getBase64Image(this)));
+  });
+
+  $('#preview-modal').modal('toggle');
+
+  var p_title = $('#preview_title');
+  var p_photos = $('#preview_photos');
+  var p_desc = $('#preview_desc');
+  var p_uid = $('#preview_uid');
+
+  p_title.html(new_item_title);
+  p_desc.html(new_item_description);
+
+  if (new_item_uid != ''){
+  	p_uid.html(new_item_uid);
+  	p_uid.removeClass("hideIt");
+  }
+  else{
+  	p_uid.addClass("hideIt");
+  }
+  
+  $("img.file-preview-image").each(function( index ) {
+     p_photos.append(this);
+  });
+}
+
+function backToEdit(){
+  $('#preview-modal').modal('toggle');
+}
+
+function getBase64Image(imgElem) {
+// imgElem must be on the same server otherwise a cross-origin error will be thrown "SECURITY_ERR: DOM Exception 18"
+    var canvas = document.createElement("canvas");
+    canvas.width = imgElem.naturalWidth;
+    canvas.height = imgElem.naturalHeight;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(imgElem, 0, 0);
+    var dataURL = canvas.toDataURL("image/png");
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+} 
+
+
 function toggle(input, value, option, field) {
 	var it = document.getElementById(input);
 	var v = document.getElementById(value);

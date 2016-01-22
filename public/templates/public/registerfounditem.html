@@ -125,8 +125,6 @@ function uploadData(){
      files.push(JSON.stringify(getBase64Image(this)));
   });
 
-  console.log(files);
-
   $.post('/item_registration/',{
         'uniqueid':   ui,
         'category':   category,
