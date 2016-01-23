@@ -487,6 +487,13 @@ def terms_conditions(request):
                             })
   return render_to_response('public/terms_conditions.html', context_instance=context)
 
+def accessibility_support(request):
+  context = RequestContext(request,
+                           {'request': request,
+                            'user': request.user
+                            })
+  return render_to_response('public/accessibility_support.html', context_instance=context)
+
 
 
 

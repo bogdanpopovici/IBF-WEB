@@ -10,8 +10,11 @@
 
 {% block body_block %}
 
+<a href="#search-box" class="skip-link" tabindex="2" accesskey="s">skip to search box</a>
+<a href="#items-list" class="skip-link" tabindex="3">skip to items list</a>
+
   <!-- Begin Body -->
-<div class="container search-panel">
+<div id="search-box" class="container search-panel">
   <img class="bg" src="{% static 'public/img/world.gif' %}"></img>
   <div class="row">
     <!-- intermediate search -->
@@ -26,13 +29,13 @@
         <div class="row">
           <label for="name">Item name:</label>
           <div class="form-group">
-            <input class="form-control" input id="id_q" name="q" type="text" placeholder="Item name">
+            <input class="form-control" input id="id_q" name="q" type="text" placeholder="Item name" tabindex="5">
           </div>
         </div>  
 
         <div class="row">
           <label for="name">Please select a category:</label>
-          <select id="selectbasic" name="selectbasic" class="form-control">
+          <select id="selectbasic" name="selectbasic" class="form-control" tabindex="6">
             <optgroup label="Please select a category">
               <option value="Accessories">Accessories</option>
               <option value="Animal">Animal</option>
@@ -51,32 +54,32 @@
         <div class="row">
           <label for="name">Location:</label>
            <div class="form-group">
-            <input class="form-control isearch" name="location" id="locationInput" type="text" placeholder="Location" default="Unknown">
+            <input class="form-control isearch" name="location" id="locationInput" type="text" placeholder="Location" default="Unknown" tabindex="7">
           </div>
         </div>
         
         <div class="row">
           <label for="name">Date Interval Start:</label>
           <div class="form-group">
-            <input class="form-control isearch" name="start_date" id="dateStartInput" type="date" placeholder="Start date">
+            <input class="form-control isearch" name="start_date" id="dateStartInput" type="date" placeholder="Start date" tabindex="8">
           </div>
         </div>
 
         <div class="row">
           <label for="name">Date Interval End:</label>
           <div class="form-group">
-            <input class="form-control isearch" name="end_date" id="dateEndInput" type="date">
+            <input class="form-control isearch" name="end_date" id="dateEndInput" type="date" tabindex="9">
           </div>
         </div>
 
         <div class="row">
-          <input type="submit" value="Search/find" class="btn btn-default" style="border-radius:100px; margin-left:33%;">
+          <input type="submit" value="Search/find" class="btn btn-default" style="border-radius:100px; margin-left:33%;" tabindex="10">
         </div>
 
       </form>
     </div>
 
-    <div class="col-md-8">
+    <div id="items-list" class="col-md-8">
       <form method="get" action=".">
         
         {% if query %}
@@ -142,9 +145,9 @@
             <div class="panel-body" style="padding: 18px;">
               <div class="row">
                 {% if item.media %}
-                <img src="{{MEDIA_URL}}/{{item.media.data}}" class="image-resize img-responsive pull-right">
+                <img src="{{MEDIA_URL}}/{{item.media.data}}" class="image-resize img-responsive pull-right" alt="image of {{item.tags}}">
                 {% else %}
-                <img src="{% static 'img/no_media.jpg' %}" class="image-resize img-responsive pull-right">
+                <img src="{% static 'img/no_media.jpg' %}" class="image-resize img-responsive pull-right" alt="no image available for this item">
                 {% endif %}
                 <ul class="list-groups">
                   <li class="list-groups-item">Item name: <b>{{ item.tags }}</b></li>
