@@ -128,9 +128,11 @@ class UserProfile(models.Model):
     class Meta:
         verbose_name_plural=u'User profiles'
 
-class Item(models.Model):
-
+class AbstractItem(models.Model):
 	item_id = models.AutoField(primary_key=True)
+
+class Item(AbstractItem):
+
 	unique_id = models.CharField(_('Unique Identification ID'), blank=True, null=True, max_length=40,
 							help_text = "Unique Identification numbers like IMEI,Serial Number,reference number etc (Every item might not have it,so optional)")
 
@@ -153,9 +155,26 @@ class Item(models.Model):
 	def __repr__(self):
 		return str(self)
 
-class PreRegisteredItem(Item):
+class PreRegisteredItem(AbstractItem):
 
-	pre_registered = models.BooleanField(default=False)
+	unique_id = models.CharField(_('Unique Identification ID'), blank=True, null=True, max_length=40,
+							help_text = "Unique Identification numbers like IMEI,Serial Number,reference number etc (Every item might not have it,so optional)")
+
+	tags = models.CharField(max_length=2000)
+	description = models.CharField(max_length=2000)
+	owner = models.ForeignKey('CustomUser', related_name='owner', null=True, blank=True, help_text = "The user id of the user who found item")
+	category = models.CharField(max_length=30)
+	lost = models.BooleanField(default=False)
+	created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+	def __unicode__(self):
+		return self.tags + self.category
+
+	def __str__(self):
+		return self.tags + self.category
+
+	def __repr__(self):
+		return str(self)
 
 class Media(models.Model):
 
@@ -165,7 +184,7 @@ class Media(models.Model):
 		('VIDEO', 'video'),
 		('AUDIO', 'audio')
     )
-	of_item = models.ForeignKey('Item', blank=True, help_text = "Media recorded for this item")
+	of_item = models.ForeignKey('AbstractItem', blank=True, help_text = "Media recorded for this item")
 	media_type = models.CharField(max_length='5',
 								  choices=MEDIA_TYPES,
 								  default='PHOTO')

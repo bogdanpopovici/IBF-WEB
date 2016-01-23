@@ -239,7 +239,7 @@ def myaccount(request):
   #==================================================
 
   #=========fetch pre-registered items===============
-  pre_reg_items = PreRegisteredItem.objects.filter(lost_by_user=user)
+  pre_reg_items = PreRegisteredItem.objects.filter(owner=user)
   for item in pre_reg_items:
       media = Media.objects.all().filter(of_item=item)
       if media:
@@ -402,6 +402,8 @@ def item_registration(request):
 @login_required
 def item_pre_registration(request):
 
+  image = None
+
   if request.method=='POST':
     try:
      uid = request.POST.get('uniqueid')
@@ -410,14 +412,12 @@ def item_pre_registration(request):
      tags = request.POST.get('tags')
      media = request.POST.get('media1')
 
-     new_item = Item()
+     new_item = PreRegisteredItem()
      new_item.unique_id = uid
      new_item.tags = tags
      new_item.tags = description
-     new_item.category = category
-     new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
-     new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
-     new_item.lost_by_user = request.user
+     new_item.category = category 
+     new_item.owner = request.user
      new_item.save()
 
      photo = Media()
@@ -425,9 +425,11 @@ def item_pre_registration(request):
      photo.media_type = "PHOTO" 
      save_base64image_to_media(photo, media)
      photo.save()
+     image = photo.data
      
-     return HttpResponse(json.dumps({'result': 'OK'}), content_type="application/json")
+     return HttpResponse(json.dumps({'result': 'OK', 'image':image.url}), content_type="application/json")
     except Exception as e:
+     traceback.print_exc()
      return HttpResponse(json.dumps({'result': 'ERROR'}), content_type="application/json")
 
 @login_required

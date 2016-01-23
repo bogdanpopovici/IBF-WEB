@@ -1,7 +1,8 @@
 var new_item_title = ''
 var new_item_description = ''
-var new_item_files = []
+var new_item_category  = ''
 var new_item_uid =''
+var new_item_files = []
 
 function previewItem() {
 	
@@ -9,10 +10,9 @@ function previewItem() {
   new_item_category = $('#categoryid').val();
   new_item_description = $('#descriptionid').val();
   new_item_uid = $('#uid').val();
-  files = []
-
+  
   $("img.file-preview-image").each(function( index ) {
-     files.push(JSON.stringify(getBase64Image(this)));
+     new_item_files.push(JSON.stringify(getBase64Image(this)));
   });
 
   $('#preview-modal').modal('toggle');
@@ -169,4 +169,23 @@ function reply_to_notification(seq_index, topic_pk){
 		    	alert(result.err_message);
 		    }
 		});
+}
+
+function pre_register_item(){
+
+  $.post('/item_pre_registration/',{
+        'uniqueid':   new_item_ui,
+        'category':   new_item_category,
+        'description':   new_item_description,
+        'tags':   new_item_title,
+        'media1':   new_item_files[0],
+        'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+    },function(result){
+        if(result.result=='OK'){
+           location.reload();
+        }
+        else{
+          alert("An error has occured while uploading yur file");
+        }
+    });
 }
