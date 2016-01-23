@@ -1,11 +1,16 @@
 body{
 }
 
-.navbar-custom {
+.navbar-inverse {
   padding: 0;
   border-bottom: 4px solid rgba(214, 214, 214, .3);
   background: #ffffff;
   height: 2px;
+}
+
+.main-nav{
+  position: relative;
+  padding-left: 20%;
 }
 
 .nav-icon{
@@ -42,6 +47,10 @@ body{
 
 .label-mess{
   background: #5ebd5e;
+}
+
+.navbar-toogle > span{
+  color: #000;
 }
 
 /* banner img style */
@@ -87,6 +96,7 @@ img.top {
 .modal-header {
   text-align: center;
 }
+
 .or-spacer {
   position: relative;
   margin: auto;
@@ -204,10 +214,19 @@ img.top {
   .a-btn-text{
     font-size: 1.8rem;
   }
+
   .action-buttons{
   margin-top: -2rem;
   }
 }
+
+@media only screen and (max-width:991px){
+
+  .main-nav{
+    padding-left: 6%;
+  }
+}
+
 @media only screen and (max-width:900px){
   .a-btn{
     width: 20rem;
@@ -216,10 +235,12 @@ img.top {
   .a-btn-text{
     font-size: 1.5rem;
   }
+
   .action-buttons{
   margin-top: -2rem;
   }
 }
+
 @media only screen and (max-width:780px){
   .a-btn{
     width: 15rem;
@@ -390,6 +411,7 @@ ul.stories li:last-child{
   transition: top 1s ease-out, background 1s linear;
     z-index: 100;
 }
+
 .skip-link:focus{
   top: 50px;
 }
@@ -401,4 +423,20 @@ ul.stories li:last-child{
   color: rgba(0,0,0,0.7);
   text-shadow: 3px 3px 3px #fff;
   padding:1rem;
+}
+
+.hero {
+  margin-top: 3.5%;
+  background-image: url('http://www.johnwinter.co.uk/wp-content/uploads/2015/02/sitemap.jpg') !important;
+  background-size: cover;
+}
+
+ul.map-list{
+  font-size: 3rem;
+}
+
+h4.section-title{
+  padding-top: 2%;
+  font-style: bold;
+  font-size: 4rem;
 }
