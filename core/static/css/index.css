@@ -138,7 +138,15 @@ img.top {
 }
 
 .signin {
-    vertical-align: center;
+    vertical-align: middle;
+    margin-top: 10px;
+    padding: 5px !important;
+}
+
+.signin:hover, .signin:active, .signin:focus {
+    border-radius: 5px;
+    background-color: #1f7a1f !important;
+    color: #ffffff !important;
 }
 
 .signin:focus{
@@ -316,7 +324,9 @@ img.top {
   font-size: 1.7rem;
   color: #000;
 }
-.footer ul li a:hover{
+.footer ul li a:hover,
+.footer ul li a:active,
+.footer ul li a:focus{
   cursor: pointer;
   text-decoration: none;
   color: #fff;
@@ -367,4 +377,19 @@ ul.stories li:last-child{
   background-color: #fff;
   text-decoration: none;
   font-weight: bold;
+}
+.skip-link {
+  padding: 5px;
+  background-color: #1f7a1f !important;
+  color: #ffffff !important;
+  text-decoration: underline;
+  font-size: 1.5rem;
+  position: absolute;
+  left: 10px;
+  top: -20px;
+  transition: top 1s ease-out, background 1s linear;
+    z-index: 100;
+}
+.skip-link:focus{
+  top: 50px;
 }
