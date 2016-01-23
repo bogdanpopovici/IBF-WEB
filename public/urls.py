@@ -4,6 +4,7 @@ from public import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'^accessibility_support/$', views.accessibility_support, name='accessibility_support'),
     url(r'^terms_conditions/$', views.terms_conditions, name='terms_conditions'),
     url(r'^site_map/$', views.site_map, name='site_map'),
     url(r'^myaccount/$', views.myaccount, name='myaccount'),
