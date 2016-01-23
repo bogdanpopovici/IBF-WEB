@@ -15,8 +15,24 @@
     <div class="container">
       <div class="navbar-header">
         <a class="navbar-brand" href="{% url 'public:index' %}" tabindex="1"><img class="icon IBF-icon" src="{% static 'public/img/IBF-icon.png' %}" alt="IBF logo"></img></a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
       </div>
-      <div class="collapse navbar-collapse">
+      <div class="navbar-collapse collapse ">
+        <ul class="nav navbar-nav main-nav nav-center">
+          <li>
+            <a href="{% url 'public:site_map' %}"  class="smap">Site Map</a>
+          </li>
+          <li>
+            <a href="{% url 'public:index' %}"  class="contact">Contact</a>
+          </li>
+          <li>
+            <a href="{% url 'public:index' %}"  class="note">Accessibility Note</a>
+          </li>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}
           <li class="nav-icon-btn nav-icon-btn-success dropdown">

@@ -488,5 +488,13 @@ def terms_conditions(request):
   return render_to_response('public/terms_conditions.html', context_instance=context)
 
 
+def site_map(request):
+  context = RequestContext(request,
+                           {'request': request,
+                            'user': request.user
+                            })
+  return render_to_response('public/site_map.html', context_instance=context)
+
+
 
 
