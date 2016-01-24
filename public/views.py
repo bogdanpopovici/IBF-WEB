@@ -525,3 +525,31 @@ def why_our_services(request):
                             'user': request.user
                             })
   return render_to_response('public/why_our_services.html', context_instance=context)
+
+def register_tutorial(request):
+  context = RequestContext(request,
+                           {'request': request,
+                            'user': request.user
+                            })
+  return render_to_response('public/register_tutorial.html', context_instance=context)
+
+def search_tutorial(request):
+  context = RequestContext(request,
+                           {'request': request,
+                            'user': request.user
+                            })
+  return render_to_response('public/search_tutorial.html', context_instance=context)
+
+def return_item(request):
+  context = RequestContext(request,
+                           {'request': request,
+                            'user': request.user
+                            })
+  return render_to_response('public/return_item.html', context_instance=context)
+
+def common_tips(request):
+  context = RequestContext(request,
+                           {'request': request,
+                            'user': request.user
+                            })
+  return render_to_response('public/common_tips.html', context_instance=context)

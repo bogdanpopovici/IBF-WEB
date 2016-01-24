@@ -81,10 +81,10 @@
       <div class="col-xs-3">
         <p class="footer-column">How to:</p>
         <ul class="">
-          <li class=""><a tabindex="11">Register a found item</a></li>
-          <li class=""><a tabindex="12">Look up a lost item<a/></li>
-          <li class=""><a tabindex="13">Return an item</a></li>
-          <li class=""><a tabindex="14">Common tips</a></li>
+          <li class=""><a href="{% url 'public:register_tutorial' %}" tabindex="11">Register a found item</a></li>
+          <li class=""><a href="{% url 'public:search_tutorial' %}" tabindex="12">Look up a lost item<a/></li>
+          <li class=""><a href="{% url 'public:return_item' %}" tabindex="13">Return an item</a></li>
+          <li class=""><a href="{% url 'public:common_tips' %}" tabindex="14">Common tips</a></li>
         </ul>
       </div>
       <div class="col-xs-3">

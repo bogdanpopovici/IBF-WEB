@@ -1,0 +1,35 @@
+<!-- University of Southampton 
+     Group Design Project in collaboration with 'The Big Consulting' 
+     Copyright 2015 -->
+
+{% extends 'index.html' %}
+
+{% load staticfiles %}
+
+{% block pagetitle %}IBF - Register Item Tutorial{% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+    <h1 class="text-center">I've Been Found - Register Item Tutorial</h1>
+    <br/>
+    <p style="text-align: justify;">If you came to this page, it means you are new to IBF website and most likely you found an item which you want to return to its rightful owner. In order to do so, follow these steps:</p>
+    <ul>
+    	<li>On the <a href="{% url 'public:index' %}">home</a> page, click the "I've found something" button</li>
+    	<li>This will take you to the found items registration page</li>
+    	<li>Complete all the fields required (category, item name, optional photo, etc.)</li>
+    	<li>Press "Report Item" and you are done.</li>
+    </ul>
+    <br/>
+    
+
+
+</div>
+  <br><br><br><br><br>
+
+
+
+
+
+
+{% endblock %}
