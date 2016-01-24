@@ -20,4 +20,7 @@ urlpatterns = patterns('',
 	url(r'^item_pre_registration/$', views.item_pre_registration, name='item_pre_registration'),
     url(r'^username_check/$', views.username_check, name='username_check'),
     url(r'^email_check/$', views.email_check, name='email_check'),
+    url(r'^about_us/$', views.about_us, name='about_us'),
+    url(r'^our_strategy/$', views.our_strategy, name='our_strategy'),
+    url(r'^why_our_services/$', views.why_our_services, name='why_our_services'),
 )
