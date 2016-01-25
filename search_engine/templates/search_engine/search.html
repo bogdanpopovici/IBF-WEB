@@ -97,7 +97,7 @@
             <div class="panel-body" style="padding: 18px;">
               <div class="row">
                 {% if result.media %}
-                <img src="{{MEDIA_URL}}/{{result.media.data}}" class="image-resize img-responsive pull-right">
+                <img src="{{MEDIA_URL}}{{result.media.data}}" class="image-resize img-responsive pull-right">
                 {% else %}
                 <img src="{% static 'img/no_media.jpg' %}" class="image-resize img-responsive pull-right">
                 {% endif %}
