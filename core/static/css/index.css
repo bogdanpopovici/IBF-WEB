@@ -440,3 +440,7 @@ h4.section-title{
   font-style: bold;
   font-size: 4rem;
 }
+
+.no-margin {
+  margin: 0;
+}
