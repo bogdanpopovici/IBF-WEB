@@ -70,7 +70,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 		('IBF', 'IBF')
     )
 
-	prefered_way_of_contact = models.CharField(max_length='5',
+	prefered_way_of_contact = models.CharField(max_length=5,
 											   choices=CONTACT_METHODS)
 
 	phone_number = models.IntegerField(null=True, blank=True)
@@ -126,7 +126,7 @@ class UserProfile(models.Model):
         return self.user.username
 
     class Meta:
-        verbose_name_plural=u'User profiles'
+        verbose_name_plural='User profiles'
 
 class AbstractItem(models.Model):
 	item_id = models.AutoField(primary_key=True)
@@ -185,7 +185,7 @@ class Media(models.Model):
 		('AUDIO', 'audio')
     )
 	of_item = models.ForeignKey('AbstractItem', blank=True, help_text = "Media recorded for this item")
-	media_type = models.CharField(max_length='5',
+	media_type = models.CharField(max_length=5,
 								  choices=MEDIA_TYPES,
 								  default='PHOTO')
 
@@ -209,7 +209,7 @@ class Notification(models.Model):
 		('REJECT', 'reject'),
 		('MESSAGE', 'message')
     )
-	notification_type = models.CharField(max_length='8',
+	notification_type = models.CharField(max_length=8,
 								  choices=NOTIFICATION_TYPE ,
 								  default='MESSAGE')
 
