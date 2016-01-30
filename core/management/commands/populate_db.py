@@ -39,7 +39,7 @@ class Command(BaseCommand):
 		user1.last_name = "Mickaelson"
 		user1.email = "nm@libf.com"
 		user1.prefered_way_of_contact = "IBF"
-		user1.phone_number = "12345672141"
+		user1.phone_number = "12345673"
 		user1.set_password('nick')
 		user1.save()
 

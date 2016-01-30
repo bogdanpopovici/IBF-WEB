@@ -154,7 +154,7 @@ class Item(AbstractItem):
 		('PREREPATRIATED', 'prerepatriated'),
 		('REPATRIATED', 'repatriated')
     )
-	status = models.CharField(max_length=8,
+	status = models.CharField(max_length=15,
 								  choices=STATUS_TYPE ,
 								  default='FOUND')
 
