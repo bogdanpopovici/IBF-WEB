@@ -140,7 +140,6 @@ function get_notifications(){
             }
         }
         else{
-          alert(result.err_message);
         }
     });
   }
