@@ -62,7 +62,7 @@ img.top {
   border-bottom: solid 5px #09451e;
     
   /* Set up proportionate scaling */
-  width: 100%;
+  width: auto;
 }
 
 /* login modal styles */
