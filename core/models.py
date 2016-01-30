@@ -73,7 +73,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 	prefered_way_of_contact = models.CharField(max_length=5,
 											   choices=CONTACT_METHODS)
 
-	phone_number = models.IntegerField(null=True, blank=True)
+	phone_number = models.CharField(max_length=15, null=True, blank=True)
 	is_premium = models.BooleanField(_('premium status'), default=False)
 
 	profile_picture = StdImageField(upload_to='profile_pics', null=True, blank=True, variations={

@@ -49,7 +49,7 @@ class Command(BaseCommand):
 		user2.last_name = "Johnson"
 		user2.email = "mj@libf.com"
 		user2.prefered_way_of_contact = "PHONE"
-		user2.phone_number = "12245672141"
+		user2.phone_number = "122456141"
 		user2.set_password("mark")
 		user2.save()
 
