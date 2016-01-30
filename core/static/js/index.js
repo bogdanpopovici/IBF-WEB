@@ -92,3 +92,57 @@ function popUpNotificationModal(item_id, pwoc, contact_details){
 
 }
 
+$(document).ready( function() {
+    get_notifications();
+setInterval(function() {
+    get_notifications();
+}, 30000);
+});
+
+function get_notifications(){
+
+  if($("#notifications-no")){
+    $.get('/API/get_notifications/',{
+    },function(result){
+        if(result.result=='OK'){
+
+            var notifications = result.notifications;
+            var messages = result.messages;
+            $("#notifications-no").html(notifications.length);
+            $("#messages-no").html(messages.length);
+            $("#notifications-top-container").empty();
+            $("#messages-top-container").empty();
+
+            if(notifications.length !=0){
+               notifications.forEach(function (item){
+                  $("#notifications-top-container").append('<div><h4 class="item-title">Match found for item:</h4>'+
+                    '<a href="/myaccount/5/" class="item-info">'+ item.item +'</a></div>');
+               });
+
+            } else {
+              $("#notifications-top-container").append('<div><h4 class="empty-title">There are no new matches found for any of your lost items.</h4>'+
+                 '<p class="empty-tip">To see old conversations go to the "Notifications" Tab inside </p>'+
+                 '<a href="/myaccount/5/">MyAccount</a></div>');
+
+            }
+
+            if(messages.length !=0){
+              messages.forEach(function (item){
+                  $("#messages-top-container").append('<div><h4 class="item-title">Message: '+messsage.message+'</h4>'+
+                   '<a href="/myaccount/4/" class="item-info">From: '+message.sender+'</a></div>');
+               });
+
+            } else {
+              $("#messages-top-container").append('<div><h4 class="empty-title">There are no new matches found for any of your lost items.</h4>'+
+                 '<p class="empty-tip">To see old conversations go to the "Notifications" Tab inside </p>'+
+                 '<a href="/myaccount/4/">MyAccount</a></div>');
+
+            }
+        }
+        else{
+          alert(result.err_message);
+        }
+    });
+  }
+  
+}

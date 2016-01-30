@@ -37,10 +37,10 @@
           {% if user.is_authenticated %}
           <li class="nav-icon-btn nav-icon-btn-success dropdown">
             <a href="#matches" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="label label-notif">{{matches|length}}</span>
+              <span id="notifications-no" class="label label-notif">0</span>
               <i class="nav-icon fa-lg fa-bell"></i>
             </a>
-            <ul class="dropdown-menu notifications-menu">
+            <ul id="notifications-top-container" class="dropdown-menu notifications-menu">
               {% for match in matches %}
               <div>
                  <h4 class="item-title">Match found for item:</h4>
@@ -57,10 +57,10 @@
           </li>
           <li class="nav-icon-btn nav-icon-btn-success dropdown">
             <a href="#messages" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="label label-mess">{{notifications|length}}</span>
+              <span id="messages-no" class="label label-mess">0</span>
               <i class="nav-icon fa-lg fa-envelope"></i>
             </a>
-            <ul class="dropdown-menu notifications-menu">
+            <ul id="messages-top-container" class="dropdown-menu notifications-menu">
               {% for notification in notifications %}
               <div>
                  <h4 class="item-title">Message: {{notification.message}}</h4>

@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 from ibfAPI import views
 
 urlpatterns = patterns('',
+    url(r'^get_notifications/$', views.get_notifications, name='get_notifications'),
     url(r'^reject_match/$', views.reject_match, name='reject_match'),
     url(r'^reply_to_notification/$', views.reply_to_notification, name = "reply_to_notification"),
     url(r'^respond_to_repatriation/$', views.respond_to_repatriation, name = "respond_to_repatriation"),

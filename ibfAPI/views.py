@@ -314,6 +314,38 @@ def notifications_job(request):
 
   return HttpResponse(log)
 
+@login_required
+def get_notifications(request):
+
+  response_data = {}
+  notifications_JSON = []
+  messages_JSON = []
+
+  if request.method=='GET':
+    try:
+      notifications = Notification.objects.filter(receiver=request.user, seen=False, notification_type__in=['CLAIM','ACCEPT'])
+      matches = Notification.objects.filter(receiver=request.user, seen=False, notification_type="MATCH")
+
+      for notification in notifications:
+        messages_JSON.append({'id': notification.id,
+                               'message': notification.message,
+                               'sender': notification.sender.username
+                              })
+      for match in matches:
+        notifications_JSON.append({'id': match.id,
+                                   'item': match.match.tags
+                                  })
+      response_data['notifications'] = notifications_JSON
+      response_data['messages'] = messages_JSON
+      response_data['result'] = 'OK'
+
+      return HttpResponse(json.dumps(response_data), content_type="application/json")
+    except Exception, e:
+      traceback.print_exc()
+      response_data['result'] = 'ERROR'
+      return HttpResponse(json.dumps({}), content_type="application/json")
+  
+
 def save_base64image_to_media(media_obj, data):
   img_temp = NamedTemporaryFile()
   img_temp.write(base64.b64decode(data))
