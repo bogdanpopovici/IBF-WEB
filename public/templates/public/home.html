@@ -72,25 +72,25 @@
       <div class="col-xs-3">
         <p class="footer-column">About us</p>
         <ul class="">
-          <li class=""><a href="{% url 'public:about_us' %}" tabindex="7">What is IBF</a></li>
-          <li class=""><a href="{% url 'public:why_our_services' %}" tabindex="8">Why use our service?<a/></li>
-          <li class=""><a href="{% url 'public:our_strategy' %}" tabindex="9">Our strategy</a></li>
-          <li class=""><a href="{% url 'public:terms_conditions' %}"  tabindex="10">Terms &amp; Conditions</a></li>
+          <li class=""><a href="{% url 'staticpages:about_us' %}" tabindex="7">What is IBF</a></li>
+          <li class=""><a href="{% url 'staticpages:why_our_services' %}" tabindex="8">Why use our service?<a/></li>
+          <li class=""><a href="{% url 'staticpages:our_strategy' %}" tabindex="9">Our strategy</a></li>
+          <li class=""><a href="{% url 'staticpages:terms_conditions' %}"  tabindex="10">Terms &amp; Conditions</a></li>
         </ul>
       </div>
       <div class="col-xs-3">
         <p class="footer-column">How to:</p>
         <ul class="">
-          <li class=""><a href="{% url 'public:register_tutorial' %}" tabindex="11">Register a found item</a></li>
-          <li class=""><a href="{% url 'public:search_tutorial' %}" tabindex="12">Look up a lost item<a/></li>
-          <li class=""><a href="{% url 'public:return_item' %}" tabindex="13">Return an item</a></li>
-          <li class=""><a href="{% url 'public:common_tips' %}" tabindex="14">Common tips</a></li>
+          <li class=""><a href="{% url 'staticpages:register_tutorial' %}" tabindex="11">Register a found item</a></li>
+          <li class=""><a href="{% url 'staticpages:search_tutorial' %}" tabindex="12">Look up a lost item<a/></li>
+          <li class=""><a href="{% url 'staticpages:return_item' %}" tabindex="13">Return an item</a></li>
+          <li class=""><a href="{% url 'staticpages:common_tips' %}" tabindex="14">Common tips</a></li>
         </ul>
       </div>
       <div class="col-xs-3">
         <p class="footer-column">Our App</p>
         <ul class="">
-          <li class=""><a href="https://play.google.com/store/apps/details?id=com.phonehalo.itemtracker&hl=en" tabindex="15">Android App</a></li>
+          <li class=""><a href="{{MEDIA_URL}}app-release.apk" tabindex="15">Android App</a></li>
           <li class=""><a tabindex="16">IOS App (soon)<a/></li>
           <li class=""><a tabindex="17">Windows Phone (soon)</a></li>
         </ul>
@@ -101,7 +101,7 @@
           <li class=""><a tabindex="18">Tel: 01234566789</a></li>
           <li class=""><a href="mailto:info@ibf.com" tabindex="19">Email: info@ibf.com<a/></li>
           <li class=""><a tabindex="20">Or try our live chat (soon)</a></li>
-          <li class=""><a href="{% url 'public:accessibility_support' %}" tabindex="21">Accessibility Note</a></li>
+          <li class=""><a href="{% url 'staticpages:accessibility_support' %}" tabindex="21">Accessibility Note</a></li>
         </ul>
       </div>
     </div>

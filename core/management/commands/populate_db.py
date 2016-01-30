@@ -3,7 +3,7 @@
 #  --- Copyright 2015 ---
 
 from django.core.management.base import BaseCommand
-from core.models import CustomUser, Item, Media
+from core.models import CustomUser, Item, Media, PreRegisteredItem
 import sys, urllib2
 from urlparse import urlparse
 from django.core.files import File
@@ -30,8 +30,38 @@ class Command(BaseCommand):
 		call_command('syncdb', interactive=True)
 
 		Item.objects.all().delete()
+		CustomUser.objects.all().delete()
+		CustomUser.objects.create_superuser(username='bodi', password='bodi', email='lala@lulu.co')
 		
-		user = CustomUser.objects.all()[:1].get()
+		user1 = CustomUser()
+		user1.username = "nick"
+		user1.first_name = "Nikolaus"
+		user1.last_name = "Mickaelson"
+		user1.email = "nm@libf.com"
+		user1.prefered_way_of_contact = "IBF"
+		user1.phone_number = "12345672141"
+		user1.set_password('nick')
+		user1.save()
+
+		user2 = CustomUser()
+		user2.username = "mark"
+		user2.first_name = "Mark"
+		user2.last_name = "Johnson"
+		user2.email = "mj@libf.com"
+		user2.prefered_way_of_contact = "PHONE"
+		user2.phone_number = "12245672141"
+		user2.set_password("mark")
+		user2.save()
+
+		pitem = PreRegisteredItem()
+		pitem.unique_id = ''
+		pitem.tags = "Bag"
+		pitem.description = 'Green Bag lost near Southampton'
+		pitem.location = "southampton"
+		pitem.category = "Bag"
+		pitem.owner = CustomUser.objects.filter(username='bodi')[0]
+		pitem.lost = True
+		pitem.save()
 
 		tphone = Item()
 		tphone.unique_id = '123456789'
@@ -41,18 +71,17 @@ class Command(BaseCommand):
 		tphone.category = "Electronics"
 		tphone.date_field = "2015-09-15"
 		tphone.time_field = "14:33::22"
-		tphone.found_by_user = user
+		tphone.found_by_user = user1
 		tphone.save()
 
 		tbag = Item()
-		tbag.unique_id = '-'
 		tbag.description = 'Green bag found on the poll edge at "Summer Time"'
 		tbag.tags = "Bag Green"
 		tbag.location = "london"
-		tbag.category = "Bags"
-		tbag.date_field = "2015-08-20"
+		tbag.category = "Bag"
+		tbag.date_field = "2016-09-09"
 		tbag.time_field = "10:33::22"
-		tbag.found_by_user = user
+		tbag.found_by_user = user1
 		tbag.save()
 
 		photo = Media()
@@ -65,10 +94,10 @@ class Command(BaseCommand):
 		tbag.description = 'Green bag found on the poll edge at "Summer Time"'
 		tbag.tags = "Bag"
 		tbag.location = "london"
-		tbag.category = "Bags"
-		tbag.date_field = "2015-09-12"
+		tbag.category = "Bag"
+		tbag.date_field = "2016-09-09"
 		tbag.time_field = "10:33::22"
-		tbag.found_by_user = user
+		tbag.found_by_user = user1
 		tbag.save()
 
 		photo = Media()
@@ -85,7 +114,7 @@ class Command(BaseCommand):
 		tLeptop.category = "Electronics"
 		tLeptop.date_field = "2015-09-18"
 		tLeptop.time_field = "10:33::22"
-		tLeptop.found_by_user = user
+		tLeptop.found_by_user = user1
 		tLeptop.save()
 
 		tLaptop = Item()
@@ -96,7 +125,7 @@ class Command(BaseCommand):
 		tLaptop.category = "Electronics"
 		tLaptop.date_field = "2015-11-16"
 		tLaptop.time_field = "22:35::22"
-		tLaptop.found_by_user = user
+		tLaptop.found_by_user = user1
 		tLaptop.save()
 
 		photo = Media()
@@ -113,7 +142,7 @@ class Command(BaseCommand):
 		tIDCard.category = "ID/Cards"
 		tIDCard.date_field = "2015-07-23"
 		tIDCard.time_field = "12:07::22"
-		tIDCard.found_by_user = user
+		tIDCard.found_by_user = user1
 		tIDCard.save()
 
 		photo = Media()
@@ -130,7 +159,7 @@ class Command(BaseCommand):
 		tBook.category = "Books"
 		tBook.date_field = "2015-09-30"
 		tBook.time_field = "17:53:28"
-		tBook.found_by_user = user
+		tBook.found_by_user = user2
 		tBook.save()
 
 		photo = Media()
@@ -147,7 +176,7 @@ class Command(BaseCommand):
 		tScarf.category = "Clothes"
 		tScarf.date_field = "2015-10-28"
 		tScarf.time_field = "13:53:28"
-		tScarf.found_by_user = user
+		tScarf.found_by_user = user2
 		tScarf.save()
 
 		photo = Media()
@@ -164,7 +193,7 @@ class Command(BaseCommand):
 		tNecklace.category = "Accessories"
 		tNecklace.date_field = "2015-11-28"
 		tNecklace.time_field = "13:27:28"
-		tNecklace.found_by_user = user
+		tNecklace.found_by_user = user2
 		tNecklace.save()
 
 		photo = Media()
@@ -181,7 +210,7 @@ class Command(BaseCommand):
 		tHobbit.category = "Books"
 		tHobbit.date_field = "2015-10-30"
 		tHobbit.time_field = "10:41:28"
-		tHobbit.found_by_user = user
+		tHobbit.found_by_user = user2
 		tHobbit.save()
 
 		photo = Media()
@@ -198,7 +227,7 @@ class Command(BaseCommand):
 		tPlayer.category = "Electronics"
 		tPlayer.date_field = "2015-10-30"
 		tPlayer.time_field = "10:41:28"
-		tPlayer.found_by_user = user
+		tPlayer.found_by_user = user2
 		tPlayer.save()
 
 		photo = Media()
@@ -215,13 +244,13 @@ class Command(BaseCommand):
 		tDog.category = "Animal"
 		tDog.date_field = "2015-11-17"
 		tDog.time_field = "22:41:28"
-		tDog.found_by_user = user
+		tDog.found_by_user = user2
 		tDog.save()
 
 		photo = Media()
 		photo.of_item = tDog
 		photo.media_type = "PHOTO" 
-		save_url_to_image(photo, 'http://thepoodleanddogblog.typepad.com/.a/6a00d83451580669e20115723c6d29970b-pi')
+		save_url_to_image(photo, 'https://canophilia.files.wordpress.com/2014/04/chihuahua_4.jpg')
 		photo.save()
 
 		tHobbit = Item()
@@ -232,7 +261,7 @@ class Command(BaseCommand):
 		tHobbit.category = "Other"
 		tHobbit.date_field = "2015-09-27"
 		tHobbit.time_field = "13:44:28"
-		tHobbit.found_by_user = user
+		tHobbit.found_by_user = user2
 		tHobbit.save()
 
 		photo = Media()
@@ -249,7 +278,7 @@ class Command(BaseCommand):
 		tMug.category = "Other"
 		tMug.date_field = "2015-10-06"
 		tMug.time_field = "09:13:28"
-		tMug.found_by_user = user
+		tMug.found_by_user = user2
 		tMug.save()
 
 		photo = Media()

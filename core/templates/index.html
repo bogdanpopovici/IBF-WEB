@@ -24,22 +24,36 @@
       <div class="navbar-collapse collapse ">
         <ul class="nav navbar-nav main-nav nav-center">
           <li>
-            <a href="{% url 'public:site_map' %}"  class="smap">Site Map</a>
+            <a href="{% url 'staticpages:site_map' %}"  class="smap">Site Map</a>
           </li>
           <li>
             <a href="{% url 'public:index' %}"  class="contact">Contact</a>
           </li>
           <li>
-            <a href="{% url 'public:accessibility_support' %}"  class="note">Accessibility Note</a>
+            <a href="{% url 'staticpages:accessibility_support' %}"  class="note">Accessibility Note</a>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}
           <li class="nav-icon-btn nav-icon-btn-success dropdown">
-            <a href="#messages" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="label label-notif">5</span>
+            <a href="#matches" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="label label-notif">{{matches|length}}</span>
               <i class="nav-icon fa-lg fa-bell"></i>
             </a>
+            <ul class="dropdown-menu notifications-menu">
+              {% for match in matches %}
+              <div>
+                 <h4 class="item-title">Match found for item:</h4>
+                 <p class="item-info">{{match.match.tags}}</p>
+              </div>
+              {% empty %}
+              <div>
+                 <h4 class="empty-title">There are no new matches found for any of your lost items.</h4>
+                 <p class="empty-tip">To see old conversations go to the 'Notifications' Tab inside </p>
+                 <a href="{% url 'public:myaccount' 3 %}">MyAccount</a>
+              </div>
+              {% endfor %}              
+            </ul>
           </li>
           <li class="nav-icon-btn nav-icon-btn-success dropdown">
             <a href="#messages" class="dropdown-toggle" data-toggle="dropdown">
@@ -56,7 +70,7 @@
               <div>
                  <h4 class="empty-title">There are no new notifications here</h4>
                  <p class="empty-tip">To see old conversations go to the 'Messages' Tab inside </p>
-                 <a href="{% url 'public:myaccount' %}">MyAccount</a>
+                 <a href="{% url 'public:myaccount' 4 %}">MyAccount</a>
               </div>
               {% endfor %}              
             </ul>
@@ -64,7 +78,7 @@
           <li><p class="navbar-text">{{ user.get_full_name }}</p></li>
           <li class="dropdown" tabindex="4">
             <a id="menu" href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding:10px;">
-              <img class="user-avatar" src="http://www.virginia.edu/foodcollaborative/img/icons/user.jpg"></img>
+              <img class="user-avatar" src="http://cdn3.rd.io/user/no-user-image-square.jpg"></img>
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
@@ -152,7 +166,53 @@
   </div>
   <!-- Registration Modal-->
 
+  <!-- Notification Modal -->
+  <div class="modal fade" id="notificationModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
 
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Claim this item</h4>
+        </div>
+
+        <div class="modal-body">
+           <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div>
+                    <div class="alert alert-warning">
+                      <p id="notification_text" ><strong>Hi!</strong>The finder will receive a notification</p> 
+                    </div>
+                    <label class="sr-only" for="location">Message</label>
+                    <textarea id="notification_message" rows="4" cols="50" class="form-control" name="location" autocapitalize="off" autocomplete="off" autocorrect="off" required placeholder="e.g. 59 Harrison Road Southampton" value=""></textarea>
+                  </div>
+                  <a id="notification_creator" class="btn btn-success btn-block">Claim item</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Notification Modal -->
+
+  <!-- Reject Modal -->
+  <div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- dialog body -->
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          Hello world!
+        </div>
+        <!-- dialog buttons -->
+        <div class="modal-footer"><button type="button" class="btn btn-primary">OK</button></div>
+      </div>
+    </div>
+  </div>
+  <!-- Reject Modal -->
       
   {% if error_message %}
   <script>$('#loginModal').modal('show');</script>

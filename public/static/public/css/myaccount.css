@@ -216,3 +216,9 @@ span.mandatory-star {
   background-color: #ffffff;
   color: #4cae4c;
 }
+.custom-report-button {
+  width: 90px;
+  float: left;
+  margin: 0.7rem auto;
+  font-weight: bold
+}

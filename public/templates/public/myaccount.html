@@ -24,11 +24,12 @@
     <div class="panel with-nav-tabs panel-default">
         <div class="panel-heading">
             <ul class="nav nav-tabs">
-                <li class="active" onclick="reset()"><a href="#tab1" data-toggle="tab">Personal Details</a></li>
-                <li onclick="reset()"><a href="#tab2" data-toggle="tab">Account settings</a></li>
-                <li onclick="reset()"><a href="#tab3" data-toggle="tab">Registered Items</a></li>
-                <li onclick="reset()"><a href="#tab4" data-toggle="tab">Messages</a></li>
-                <li onclick="reset()"><a href="#tab5" data-toggle="tab">Lost & Found Items</a></li>
+                <li id="ltab1" class="active" onclick="reset()"><a href="#tab1" data-toggle="tab">Personal Details</a></li>
+                <li id="ltab2" onclick="reset()"><a href="#tab2" data-toggle="tab">Account settings</a></li>
+                <li id="ltab3" onclick="reset()"><a href="#tab3" data-toggle="tab">Registered Items</a></li>
+                <li id="ltab4" onclick="reset()"><a href="#tab4" data-toggle="tab">Messages</a></li>
+                <li id="ltab5" onclick="reset()"><a href="#tab5" data-toggle="tab">Notifications</a></li>
+                <li id="ltab6" onclick="reset()"><a href="#tab6" data-toggle="tab">Lost & Found Items</a></li>
             </ul>
         </div>
         <div class="panel-body">
@@ -36,33 +37,44 @@
 
                 <!-- personal details tab -->
                 <div class="tab-pane fade in active" id="tab1">
-                    {% include 'public/personal_details_tab.html' %}
+                    {% include 'public/tabs/personal_details_tab.html' %}
                 </div>
                 <!-- end personal details tab -->
 
                 <!-- account details tab -->
                 <div class="tab-pane fade in" id="tab2">
-                    {% include 'public/account_settings_tab.html' %}
+                    {% include 'public/tabs/account_settings_tab.html' %}
                 </div>
                 <!-- end account settings -->
 
 				<div class="tab-pane fade in" id="tab3">
-                    {% include 'public/registered_items_tab.html' %}
+                    {% include 'public/tabs/registered_items_tab.html' %}
                 </div>
 				
 				<!-- Messages tab -->
 				<div class="tab-pane fade in" id="tab4">
-    				{% include 'public/messages_tab.html' %}
+    				{% include 'public/tabs/messages_tab.html' %}
+                </div>
+
+                <!-- Notifications tab -->
+                <div class="tab-pane fade in" id="tab5">
+                    {% include 'public/tabs/notifications_tab.html' %}
                 </div>
 
                 <!-- Lost & Found Items tab -->
-                <div class="tab-pane fade in" id="tab5">
-                    {% include 'public/lost_n_found_items_tab.html' %}
+                <div class="tab-pane fade in" id="tab6">
+                    {% include 'public/tabs/lost_n_found_items_tab.html' %}
                 </div>
 			</div>
         </div>
     </div>
 </div>
+
+{%if tab%}
+<script>
+    open_tab('{{tab}}');
+</script>
+{% endif %}
 
 {% include 'public/pre_registration_form.html' %}
 

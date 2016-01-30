@@ -104,7 +104,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 	    """
 	    Returns the first_name plus the last_name, with a space in between.
 	    """
-	    full_name = full_name = '%s %s' % (self.first_name, self.last_name)
+	    if self.first_name or self.last_name:
+	    	full_name = full_name = '%s %s' % (self.first_name, self.last_name)
+	    else:
+	    	full_name = self.username
 	    return full_name.strip()
 
 	def get_short_name(self):
@@ -144,7 +147,16 @@ class Item(AbstractItem):
 	category = models.CharField(max_length=30)
 	date_field = models.DateField(blank=True)
 	time_field = models.TimeField(blank=True)
-	claimed = models.BooleanField(default=False)
+
+	STATUS_TYPE = (
+        ('FOUND', 'found'),
+		('CLAIMED', 'claimed'),
+		('PREREPATRIATED', 'prerepatriated'),
+		('REPATRIATED', 'repatriated')
+    )
+	status = models.CharField(max_length=8,
+								  choices=STATUS_TYPE ,
+								  default='FOUND')
 
 	def __unicode__(self):
 		return self.tags + self.location
@@ -199,7 +211,8 @@ class Notification(models.Model):
 	message = models.CharField(max_length=2000)
 	sender = models.ForeignKey('CustomUser', related_name='Notification_from', null=True, blank=True)
 	receiver = models.ForeignKey('CustomUser', related_name='Notification_to', null=True, blank=True)
-	topic = models.ForeignKey('Item', null=True, blank=True)
+	topic = models.ForeignKey('Item', related_name='Notification_topic',null=True, blank=True)
+	match = models.ForeignKey('PreRegisteredItem', related_name='Notification_match',null=True, blank=True)
 	seen = models.BooleanField(default=False)
 	created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 	
@@ -207,7 +220,8 @@ class Notification(models.Model):
         ('CLAIM', 'claim'),
 		('ACCEPT', 'accept'),
 		('REJECT', 'reject'),
-		('MESSAGE', 'message')
+		('MESSAGE', 'message'),
+		('MATCH', 'match')
     )
 	notification_type = models.CharField(max_length=8,
 								  choices=NOTIFICATION_TYPE ,
@@ -215,4 +229,3 @@ class Notification(models.Model):
 
 	def __unicode__(self):
 		return str(self.message)
-

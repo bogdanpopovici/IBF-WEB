@@ -36,10 +36,7 @@ def upload_item(request):
      save_base64image_to_media(photo, media)
      photo.save()
 
-     try:
-      call_command('update_index')
-     except:
-        pass
+     call_command('update_index')
 
      response_data['result'] = 'OK'
     except Exception as e:

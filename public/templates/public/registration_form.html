@@ -46,7 +46,7 @@
                         remote: {
                             delay: 1000, 
                             message: 'The username is not available',
-                            url: '{% url "public:username_check" %}'
+                            url: '{% url "API:username_check" %}'
                         }
                     }
                 },
@@ -63,7 +63,7 @@
                         remote: {
                             delay: 1000, 
                             message: 'The email address is already registered to an account',
-                            url: '{% url "public:email_check" %}'
+                            url: '{% url "API:email_check" %}'
                         }
                     }
                 }
@@ -201,7 +201,7 @@
                     <div class="row accept">
                         <div class="form-group">
                             <input type="checkbox" name="accept" id="acceptterms">
-                            <label  for="acceept">I accept the <a href='{% url "public:terms_conditions" %}'>terms and conditions</a> applying to the content and the usage of this site </label>
+                            <label  for="acceept">I accept the <a href='{% url "staticpages:terms_conditions" %}'>terms and conditions</a> applying to the content and the usage of this site </label>
                         </div>
                     </div>
                 </div>

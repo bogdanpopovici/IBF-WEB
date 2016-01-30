@@ -135,45 +135,4 @@ $("#photos-upload-input").fileinput({
     }
 });
 
-function getBase64Image(imgElem) {
-// imgElem must be on the same server otherwise a cross-origin error will be thrown "SECURITY_ERR: DOM Exception 18"
-    var canvas = document.createElement("canvas");
-    canvas.width = imgElem.naturalWidth;
-    canvas.height = imgElem.naturalHeight;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(imgElem, 0, 0);
-    var dataURL = canvas.toDataURL("image/png");
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-}
-
-
-function pre_register_item(media_url){
-
-  $.post('/item_pre_registration/',{
-        'uniqueid':   new_item_uid,
-        'category':   new_item_category,
-        'description':   new_item_description,
-        'tags':   new_item_title,
-        'media1':   new_item_files[0],
-        'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
-    },function(result){
-        if(result.result=='OK'){
-
-
-          $('#preview-modal').modal('toggle');
-          $('#pre-register-modal').modal('toggle');
-          $('.registered-items').append(
-              '<li class="row registered-item">'+
-                '<div class="col-md-3"><img src="'+result.image+'" class="img-responsive center-block"></img></div>'+
-                '<div class="col-md-6 text-muted"><label class="panel-title" id="s6">'+new_item_title+'</label><hr><p>'+new_item_category+
-                '</p></div><div class="col-md-3 text-right"><label><a id="e6" href="">Update</a></label></div></li>'
-            );
-
-        }
-        else{
-          alert("An error has occured while uploading your file");
-        }
-    });
-}
-
 </script>

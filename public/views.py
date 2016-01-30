@@ -2,7 +2,7 @@
 #  --- Group Design Project in collaboration with 'The Big Consulting' ---
 #  --- Copyright 2015 ---
 
-import hashlib, datetime, random, json, re, traceback, base64
+import hashlib, datetime, random, json, re, traceback, base64, string
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.contrib.auth import authenticate, login, logout
@@ -26,12 +26,14 @@ from core.settings import MEDIA_URL
 from collections import defaultdict
 from public.decorators import render_to
 from itertools import chain
+from search_engine.views import ItemsMatchView
 
 
 def index(request):
 
   error = ''
   notifications = []
+  matches = []
 
   if request.method=='POST':
     username = request.POST['username']
@@ -48,12 +50,16 @@ def index(request):
         error="Your username and password didn't match. Please try again."
 
   if request.user and request.user.is_authenticated():
-    notifications = Notification.objects.filter(receiver=request.user, seen=False)
+    notifications = Notification.objects.filter(receiver=request.user, seen=False, notification_type__in=['CLAIM','ACCEPT'])
+    print "match"
+    matches = Notification.objects.filter(receiver=request.user, seen=False, notification_type="MATCH")
   context = RequestContext(request,
                            {'request': request,
                             'user': request.user,
                             'notifications': notifications,
-                            'error_message': error
+                            'matches': matches,
+                            'error_message': error,
+                            'MEDIA_URL': MEDIA_URL
                             })
   return render_to_response('public/home.html', context_instance=context)
 
@@ -102,52 +108,6 @@ def register(request):
                             })
   return render_to_response('public/registration_form.html', context_instance=context)
   
-# ----------------------------------------------------------------------------------------
-# Username check - Local function
-# ----------------------------------------------------------------------------------------
-
-def check_username_ok(un):
-  # Check if the username matches a username already in the database
-  try:
-    user = get_user_model().objects.get(username=un)
-    return False
-  except get_user_model().DoesNotExist:
-    return True
-
-# ----------------------------------------------------------------------------------------
-# Username check - Accessed by URL 
-# ----------------------------------------------------------------------------------------
-
-def username_check(request):
-  response_data = {}
-  
-  response_data['valid'] = check_username_ok(request.GET.get("username"))
- 
-  return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-
-# ----------------------------------------------------------------------------------------
-# Email check - Local Function
-# ----------------------------------------------------------------------------------------
-
-def email_check_ok(email_address):
-  # Check if the username matches a username already in the database
-  try:
-    user = get_user_model().objects.get(email=email_address)
-    return False
-  except get_user_model().DoesNotExist:
-    return True
-
-
-# ----------------------------------------------------------------------------------------
-# Email check - Accessed by URL 
-# ----------------------------------------------------------------------------------------
-
-def email_check(request):
-  response_data = {}
-  response_data['valid'] = email_check_ok(request.GET.get("email"))
-  return HttpResponse(json.dumps(response_data), content_type="application/json")
-
 def register_confirm(request, activation_key):
 
     if request.user.is_authenticated():
@@ -206,17 +166,28 @@ def ajax_auth(request, backend):
     return HttpResponse(json.dumps(data), mimetype='application/json')
 
 @login_required
-def myaccount(request):
+def myaccount(request, **tab):
 
   user = request.user
-
+  if not tab:
+    tab = {'tab':1}
   #==========fetch user notifications==============
   message_sequences = []
+  matches = []
   notifications= list(chain(Notification.objects.filter(sender=user), Notification.objects.filter(receiver=user)))
+  messages = [x for x in notifications if x.notification_type == "CLAIM" or x.notification_type == "ACCEPT"]
+
+  matches = [x for x in notifications if x.notification_type == "MATCH"]
+  for macth in matches:
+    media = Media.objects.all().filter(of_item=macth.topic)
+    if media:
+       macth.media = media[0]  
+
   groups= defaultdict( list )
-  for obj in notifications:
-      obj.seen = True
-      obj.save()
+  for obj in messages:
+      if not obj.sender == user:
+        obj.seen = True
+        obj.save()
       groups[obj.topic].append( obj )
   groups_list = groups.values()
   index = 0
@@ -243,13 +214,23 @@ def myaccount(request):
   for item in pre_reg_items:
       media = Media.objects.all().filter(of_item=item)
       if media:
-         item.media = media[0]  
+         item.media = media[0] 
+
+  #=========fetch found items===============
+  found_items = Item.objects.filter(found_by_user=user)
+  for item in found_items:
+      media = Media.objects.all().filter(of_item=item)
+      if media:
+         item.media = media[0]   
 
   context = RequestContext(request,
                            {'request': request,
                             'user': user,
                             'message_sequences':message_sequences,
                             'pre_reg_items': pre_reg_items,
+                            'matches': matches,
+                            'found_items': found_items,
+                            'tab': tab['tab'],
                             'MEDIA_URL': MEDIA_URL
                             })
   return render_to_response('public/myaccount.html', context_instance=context)
@@ -331,35 +312,6 @@ def edit_personal_details(request):
   
   return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-@login_required
-def reply_to_notification(request):
-
-  if request.method=='POST':
-    try:
-      old_notification = Notification.objects.filter(pk=request.POST.get('notification_pk'))[0]
-      sender = request.user
-      if old_notification.sender == sender:
-        receiver = old_notification.receiver
-      else:
-        receiver = old_notification.sender
-      response_data = {}
-
-      message = request.POST.get('message')
-      print message
-      notification = Notification()
-      notification.sender = sender
-      notification.receiver = receiver
-      notification.type = "CLAIM"
-      notification.message = message
-      notification.topic = old_notification.topic
-      notification.save()
-      response_data['result'] = 'OK'
-    except Exception, e:
-      traceback.print_exc()
-      response_data['result'] = 'ERROR'
-  
-  return HttpResponse(json.dumps(response_data), content_type="application/json")
-
 def item_registration(request):
 
   if request.method=='POST':
@@ -398,158 +350,9 @@ def item_registration(request):
                             'user': request.user
                             })
   return render_to_response('public/registerfounditem.html', context_instance=context)
-  
-@login_required
-def item_pre_registration(request):
-
-  image = None
-
-  if request.method=='POST':
-    try:
-     uid = request.POST.get('uniqueid')
-     category = request.POST.get('category')
-     description = request.POST.get('description')
-     tags = request.POST.get('tags')
-     media = request.POST.get('media1')
-
-     new_item = PreRegisteredItem()
-     new_item.unique_id = uid
-     new_item.tags = tags
-     new_item.tags = description
-     new_item.category = category 
-     new_item.owner = request.user
-     new_item.save()
-
-     photo = Media()
-     photo.of_item = new_item
-     photo.media_type = "PHOTO" 
-     save_base64image_to_media(photo, media)
-     photo.save()
-     image = photo.data
-     
-     return HttpResponse(json.dumps({'result': 'OK', 'image':image.url}), content_type="application/json")
-    except Exception as e:
-     traceback.print_exc()
-     return HttpResponse(json.dumps({'result': 'ERROR'}), content_type="application/json")
-
-@login_required
-def notify(request):
-
-  if request.method=='POST':
-    try:
-      item = Item.objects.filter(pk=request.POST.get('item_id'))[0]
-      sender = request.user
-      receiver = item.found_by_user
-      response_data = {}
-
-      method =  request.POST.get('method')
-      message = request.POST.get('message')
-
-      if (method == 'IBF'):
-        notification = Notification()
-        notification.sender = sender
-        notification.receiver = receiver
-        notification.message = message
-        notification.topic = item
-        notification.save()
-        item.claimed = True
-        item.save()
-        response_data['result'] = 'OK'
-
-      elif (method == 'email'):
-        email_subject = 'IBF: Claimed Item'
-        email_body = "Hey %s, someone is claiming one of the items you found. Here's his email address so you can get in touchL %s" % (receiver.username, sender.email)
-
-        send_mail(email_subject, email_body, 'myemail@example.com',
-              [receiver.email], fail_silently=False)
-        item.claimed = True
-        item.save()
-        response_data['result'] = 'OK'
-
-      elif (method == 'phone'):
-        item.claimed = True
-        item.save()
-        response_data['result'] = 'OK'
-    except Exception, e:
-      traceback.print_exc()
-      response_data['result'] = 'ERROR'
-  
-  return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 def save_base64image_to_media(media_obj, data):
   img_temp = NamedTemporaryFile()
   img_temp.write(base64.b64decode(data))
   img_temp.flush()
   media_obj.data.save("media.jpg", File(img_temp))
-
-def terms_conditions(request):
-  context = RequestContext(request,
-                           {'request': request,
-                            'user': request.user
-                            })
-  return render_to_response('public/terms_conditions.html', context_instance=context)
-
-def accessibility_support(request):
-  context = RequestContext(request,
-                           {'request': request,
-                            'user': request.user
-                            })
-  return render_to_response('public/accessibility_support.html', context_instance=context)
-
-
-def site_map(request):
-  context = RequestContext(request,
-                           {'request': request,
-                            'user': request.user
-                            })
-  return render_to_response('public/site_map.html', context_instance=context)
-
-
-def about_us(request):
-  context = RequestContext(request,
-                           {'request': request,
-                            'user': request.user
-                            })
-  return render_to_response('public/about_us.html', context_instance=context)
-
-def our_strategy(request):
-  context = RequestContext(request,
-                           {'request': request,
-                            'user': request.user
-                            })
-  return render_to_response('public/our_strategy.html', context_instance=context)
-
-def why_our_services(request):
-  context = RequestContext(request,
-                           {'request': request,
-                            'user': request.user
-                            })
-  return render_to_response('public/why_our_services.html', context_instance=context)
-
-def register_tutorial(request):
-  context = RequestContext(request,
-                           {'request': request,
-                            'user': request.user
-                            })
-  return render_to_response('public/register_tutorial.html', context_instance=context)
-
-def search_tutorial(request):
-  context = RequestContext(request,
-                           {'request': request,
-                            'user': request.user
-                            })
-  return render_to_response('public/search_tutorial.html', context_instance=context)
-
-def return_item(request):
-  context = RequestContext(request,
-                           {'request': request,
-                            'user': request.user
-                            })
-  return render_to_response('public/return_item.html', context_instance=context)
-
-def common_tips(request):
-  context = RequestContext(request,
-                           {'request': request,
-                            'user': request.user
-                            })
-  return render_to_response('public/common_tips.html', context_instance=context)

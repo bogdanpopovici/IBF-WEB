@@ -154,7 +154,7 @@ function reply_to_notification(seq_index, topic_pk){
 	var container = $("#message_box_"+seq_index);
 	var message = it.val();
 
-	$.post('/reply_to_notification/',{
+	$.post('/API/reply_to_notification/',{
 		    'notification_pk':   topic_pk,
 		    'message': message,
 		    'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
@@ -171,10 +171,10 @@ function reply_to_notification(seq_index, topic_pk){
 		});
 }
 
-function pre_register_item(){
+function pre_register_item(media_url){
 
-  $.post('/item_pre_registration/',{
-        'uniqueid':   new_item_ui,
+  $.post('/API/item_pre_registration/',{
+        'uniqueid':   new_item_uid,
         'category':   new_item_category,
         'description':   new_item_description,
         'tags':   new_item_title,
@@ -182,10 +182,95 @@ function pre_register_item(){
         'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
     },function(result){
         if(result.result=='OK'){
-           location.reload();
+
+
+          $('#preview-modal').modal('toggle');
+          $('#pre-register-modal').modal('toggle');
+          $('.registered-items').append(
+              '<li class="row registered-item">'+
+                '<div class="col-md-3"><img src="'+result.image+'" class="img-responsive center-block"></img></div>'+
+                '<div class="col-md-6 text-muted"><label class="panel-title" id="s6">'+new_item_title+'</label><hr><p>'+new_item_category+
+                '</p></div><div class="col-md-3 text-right"><label><a id="e6" href="">Update</a></label></div></li>'
+            );
+
+        }
+        else{
+          alert("An error has occured while uploading your file");
+        }
+    });
+}
+
+
+function repatriate_item(item_id){
+	$.post('/API/repatriate_item/',{
+        'item_id':   item_id,
+        'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+    },function(result){
+        if(result.result=='OK'){
+           
         }
         else{
           alert("An error has occured while uploading yur file");
         }
     });
+}
+
+
+function rejectNotification(notification_id){
+
+    bootbox.confirm("Are you sure this is not yours? You won't be notified on this item in the future!", function(result) {
+      
+      if(result){
+	      $.post('/API/reject_match/',{
+	      'notification_id':   notification_id,
+	      'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+	      },function(result){
+	          if(result.result=='OK'){
+	              $('#match_'+notification_id).remove();
+	          }
+	          else{
+	            alert("An error occured. Please get in contact with the support team");
+	          }
+	      });
+		}
+	 }); 
+}
+
+
+function open_tab(tab){
+
+	var i;
+	for(i=1;i<=6;i++){
+		$('#ltab'+i).removeClass('active');
+		$('#tab'+i).removeClass('active');
+	}
+
+	$('#ltab'+tab).addClass('active');
+	$('#tab'+tab).addClass('active');
+
+}
+
+
+function respond_to_repatriation(response, notification_id, seq_index){
+
+	var container = $("#message_box_"+seq_index);
+
+	$.post('/API/respond_to_repatriation/',{
+	      'notification_id':   notification_id,
+	      'response':   response,
+	      'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+	      },function(result){
+	          if(result.result=='OK'){
+				   	$('#yes_button_'+notification_id).remove();
+				   	$('#no_button_'+notification_id).remove();
+				   	var new_message = jQuery('<div class="row no-margin"> <div class="message-sent">'+ result.message +'</div> </div>').hide();
+			        container.append(new_message)
+			        new_message.show('slow');
+	          }
+	          else{
+	            alert("An error occured. Please get in contact with the support team");
+	          }
+	      });
+
+	
 }

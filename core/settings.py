@@ -35,6 +35,8 @@ INSTALLED_APPS = (
     'search_engine',
     'core',
     'android_module',
+    'staticpages',
+    'ibfAPI',
 )
 
 
@@ -114,12 +116,17 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 #=============SearchEngine Setup=================
-
+from urlparse import urlparse
+parsed = urlparse('https://iu95z78r:ehszgqi6jed03ggj@apple-3757140.us-east-1.bonsai.io/')
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'https://iu95z78r:ehszgqi6jed03ggj@apple-3757140.us-east-1.bonsai.io/',
+        'URL': parsed.hostname,
         'INDEX_NAME': 'haystack',
+        'KWARGS': {
+            'http_auth': (parsed.username, parsed.password),
+            'use_ssl': False,
+        }
     },
 }
 
