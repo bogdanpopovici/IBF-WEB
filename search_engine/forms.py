@@ -42,8 +42,8 @@ class ItemsMatchForm(SearchForm):
                 sqs = sqs.filter(category=self.cleaned_data['category'])
 
         # Check to see if a start_date was chosen.
-        if self.cleaned_data['start_date']:
-            sqs = sqs.filter(date_found__lte=self.cleaned_data['start_date'])
+        #if self.cleaned_data['start_date']:
+        #    sqs = sqs.filter(date_found__lte=self.cleaned_data['start_date'])
 
         if self.cleaned_data['unique_id']:
                 sqs = sqs.filter(unique_id=self.cleaned_data['unique_id'])
