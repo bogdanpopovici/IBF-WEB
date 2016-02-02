@@ -7,6 +7,7 @@ from django.core.files import File
 from core.models import *
 import hashlib, datetime, random, json, re, traceback, base64
 from django.core.management import call_command
+from django.contrib.auth import authenticate
 
 @csrf_exempt
 def upload_item(request):
@@ -45,6 +46,33 @@ def upload_item(request):
  
   return HttpResponse(json.dumps(response_data), content_type="application/json")
 
+
+@csrf_exempt
+def login_user(request):
+  response_data = {}
+
+  if request.method=='POST':
+    try:
+     body_unicode = request.body.decode('utf-8')
+     body = json.loads(body_unicode)
+     username = body['username']
+     password = body['password']
+
+     user = authenticate(username=username, password=password)
+     if user is not None:
+       response_data['result'] = 'OK'
+       response_data['username'] = user.username
+       response_data['first_name'] = user.first_name
+       response_data['last_name'] = user.last_name
+     else:
+       response_data['result'] = 'ERROR'
+       response_data['message'] = 'Username or password do not match !!'
+       
+    except Exception as e:
+     response_data['result'] = 'ERROR'
+     print traceback.print_exc()
+ 
+  return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 def save_base64image_to_media(media_obj, data):
   img_temp = NamedTemporaryFile()

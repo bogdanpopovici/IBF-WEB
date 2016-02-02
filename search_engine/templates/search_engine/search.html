@@ -110,10 +110,10 @@
                 </ul>
               </div>
               <div class="pull-right" style="margin-top: -60px; margin-right: 0px;">
-                {% if result.object.status == 'FOUND' %}
-                <a class="btn btn-success" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item</a>
+                {% if item.status == 'FOUND' %}
+                <a onclick="popUpNotificationModal('{{item.pk}}', '{{item.found_by_user.prefered_way_of_contact}}', '{{item.found_by_user.phone_number}}')" class="btn btn-success" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item</a>
                 {% else %}
-                <a class="btn btn-success" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item claimed</a>
+                <a class="btn btn-success active" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
                 {% endif %}
                 <br>
                 <button type="button" class="btn btn-info" style="margin-left: 2.5px;"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>

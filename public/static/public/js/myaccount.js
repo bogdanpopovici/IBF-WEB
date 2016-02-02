@@ -202,12 +202,14 @@ function pre_register_item(media_url){
 
 
 function repatriate_item(item_id){
+	console.log("okk");
 	$.post('/API/repatriate_item/',{
         'item_id':   item_id,
         'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
     },function(result){
         if(result.result=='OK'){
-           
+           $('#repatriate_button_found_'+item_id).html('Waiting...');
+           $('#repatriate_button_found_'+item_id).addClass('active');
         }
         else{
           alert("An error has occured while uploading yur file");

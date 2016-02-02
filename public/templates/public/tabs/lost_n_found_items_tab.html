@@ -14,7 +14,7 @@
                 <a class="btn btn-info custom-report-button">View</a>
                 <br/>
                 {% if found_item.status == 'CLAIMED' %}
-                <a onclick="repatriate_item('{{found_item.pk}}')" class="btn btn-primary custom-report-button">Repatriate item</a>
+                <a id="repatriate_button_found_item.pk" onclick="repatriate_item('{{found_item.pk}}')" class="btn btn-primary custom-report-button">Repatriate item</a>
                 {% endif %}
             </label>
         </div>
