@@ -33,6 +33,13 @@ def upload_item(request):
       print  email.split('@')
       if CustomUser.objects.filter(username=username):
         print "yes"
+        i = 0
+        new_username = username+i
+        while CustomUser.objects.filter(username=new_username):
+          print (i + 'afasf')
+          i = i+1
+          new_username = username+i
+        username = new_username
 
       finder = CustomUser()
       finder.username = username
