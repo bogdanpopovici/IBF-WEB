@@ -35,7 +35,7 @@ def upload_item(request):
       finder.email = email
       finder.prefered_way_of_contact = "IBF"
       finder.set_password(password)
-      dinder.save()
+      finder.save()
       
 
       salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
