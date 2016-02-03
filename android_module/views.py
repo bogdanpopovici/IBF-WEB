@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedire
 from django.core.files.temp import NamedTemporaryFile
 from django.core.files import File
 from core.models import *
-import hashlib, datetime, random, json, re, traceback, base64
+import hashlib, datetime, random, json, re, traceback, base64, string
 from django.core.management import call_command
 from django.contrib.auth import authenticate
 
