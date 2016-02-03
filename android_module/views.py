@@ -29,9 +29,10 @@ def upload_item(request):
       email = body['email']
       hash_user = hashlib.sha1()
       hash_user.update(email)
+      username = hash_user.hexdigest()
 
       finder = CustomUser()
-      finder.username = hash_user.hexdigest()
+      finder.username = username
       finder.email = email
       finder.prefered_way_of_contact = "IBF"
       finder.set_password(password)
