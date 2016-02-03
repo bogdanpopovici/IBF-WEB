@@ -27,7 +27,10 @@ def upload_item(request):
      if not finder:
       password = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
       email = body['email']
-      username = email.split('@')[0]
+      hash_user = hashlib.sha1()
+      hash_user.update(email)
+      username = hash_user.hexdigest()
+      print  email.split('@')
       if CustomUser.objects.filter(username=username):
         i = 0
         new_username = username+i
