@@ -29,7 +29,7 @@ def upload_item(request):
       email = body['email']
 
       finder = CustomUser()
-      finder.username = username
+      finder.username = hash_user.hexdigest()
       finder.email = email
       finder.prefered_way_of_contact = "IBF"
       finder.set_password(password)
