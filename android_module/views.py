@@ -32,13 +32,7 @@ def upload_item(request):
       username = hash_user.hexdigest()
       print  email.split('@')
       if CustomUser.objects.filter(username=username):
-        i = 0
-        new_username = username+i
-        while CustomUser.objects.filter(username=new_username):
-          print i + 'afasf'
-          i++
-          new_username = username+i
-        username = new_username
+        print "yes"
 
       finder = CustomUser()
       finder.username = username
