@@ -18,9 +18,8 @@ def upload_item(request):
      body_unicode = request.body.decode('utf-8')
      body = json.loads(body_unicode)
 
-     username = body['username']
-
      try:
+      username = body['username']
       finder =  CustomUser.objects.filter(username=username)
      except:
       finder = None
