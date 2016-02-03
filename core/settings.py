@@ -146,7 +146,7 @@ LOGIN_URL = '/'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ibfdefaultmail@gmail.com'
-EMAIL_HOST_PASSWORD = 'IBFpassword'
+EMAIL_HOST_PASSWORD = 'IBFpassword2015'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'ibfdefaultmail@gmail.com'
