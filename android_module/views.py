@@ -34,7 +34,7 @@ def upload_item(request):
       if CustomUser.objects.filter(username=username):
         print "yes"
         i = 0
-        new_username = username+i
+        new_username = username+str(i)
 
       finder = CustomUser()
       finder.username = username
