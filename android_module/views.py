@@ -56,6 +56,8 @@ def upload_item(request):
       send_mail(email_subject, email_body, 'myemail@example.com',
           [email], fail_silently=False)
 
+      print "Email sent to " + email
+
      category = body['category']
      tags = body['tags']
      location = body['location']
