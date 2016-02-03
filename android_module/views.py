@@ -17,8 +17,46 @@ def upload_item(request):
     try:
      body_unicode = request.body.decode('utf-8')
      body = json.loads(body_unicode)
+
+     username = body['username']
+
+     try:
+      finder =  CustomUser.objects.filter(username=username)
+     except:
+      finder = None
+
+     if not finder:
+      password = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
+      email = body['email']
+
+      finder = CustomUser()
+      finder.username = username
+      finder.email = email
+      finder.prefered_way_of_contact = "IBF"
+      finder.set_password(password)
+      dinder.save()
+      
+
+      salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
+      activation_key = hashlib.sha1(salt+email).hexdigest()            
+      key_expires = datetime.datetime.today() + datetime.timedelta(2)
+
+      # Create and save user profile                                                                                                                                  
+      new_profile = UserProfile(user=finder, activation_key=activation_key, 
+          key_expires=key_expires)
+      new_profile.save()
+
+      # Send email with activation key
+      email_subject = 'Account confirmation'
+      email_body = "Hey %s, thanks for uploading the item. We have created an account for you.\n To activate your account, click this link within \
+      48hours http://127.0.0.1:8000/accounts/confirm/%s. \n Your username: %s \n Your password: %s \n" % (username, activation_key, username, password)
+
+      send_mail(email_subject, email_body, 'myemail@example.com',
+          [email], fail_silently=False)
+
      category = body['category']
      tags = body['tags']
+     location = body['location']
      valuable = body['valuable']
      media =  body['media']
 
@@ -26,6 +64,7 @@ def upload_item(request):
      new_item.tags = tags
      new_item.description = valuable
      new_item.category = category
+     new_item.location = location
      new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
      new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
      new_item.found_by_user = CustomUser.objects.all()[:1].get()
