@@ -54,17 +54,33 @@ body{
 }
 
 /* banner img style */
-img.top {
+.top-image {
+  min-height: 40rem;
+  height:40vh;
+  width: 100%;
+  background-image: url('../public/img/homepage_top.jpg');
+  background-size: cover;
+  background-position: bottom right;
+}
+img.ibf-logo-big {
   display: block;
-  height: 40rem;
-  /* Set rules to fill background */
-  min-height: 10%;
-  margin: 0 auto;
-  margin-top: 50px;
-  border-bottom: solid 5px #09451e;
+  width: 15%;
+  height: auto;
+  margin-left: 10%;
+  margin-right: 0%;
+  padding-top: 5%;
     
   /* Set up proportionate scaling */
-  width: auto;
+}
+p.connecting-text{
+  color: #000000;
+  text-align: right;
+  font-size: 35px;
+  line-height: 45px;    
+  font-weight: 600;
+  font-family: Cambria,Georgia,serif;
+  margin-right: 10%;
+  margin-top: -10rem;
 }
 
 /* login modal styles */
@@ -202,10 +218,14 @@ img.top {
   font-size: 2.4rem;
   color: #09451e;
   line-height: 2.4rem;
-  font-weight: bold;./static/public/img/top.jpg
-  font-family: "Myriad Pro", "Trebuchet MS", sans-serif;
+  font-weight: bold;
+  font-family: Cambria,Georgia,serif;
   text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
   display: inline-block;
+}
+a.ifound:hover,
+a.ilost:hover{
+  background-color: #eeeeee;
 }
 
 @media only screen and (max-width:1120px){
@@ -418,10 +438,18 @@ ul.stories li:last-child{
   top: 50px;
 }
 .stories .panel-title{
-  font: 100 25px/1.3 'Oleo Script', Helvetica, sans-serif;
+  font-family: Cambria,Georgia,serif;
+  font-size: 2.3rem;
+}
+hr.story-line{
+    margin-top: 12px;
+    margin-bottom: 12px;
+    border: 0;
+    border-top: 2px solid #eeeeee;
 }
 .stories .text-muted p{
-  font: 100 18px/1.3 'Merienda One', Helvetica, sans-serif;
+  font-family: Cambria,Georgia,serif;
+  font-weight: 600;
   color: rgba(0,0,0,0.7);
   text-shadow: 3px 3px 3px #fff;
   padding:1rem;

@@ -66,7 +66,37 @@
                             url: '{% url "API:email_check" %}'
                         }
                     }
-                }
+                },
+                phone_number: {
+                    message: 'This phone number is not valid',
+                    validators: {
+                        regexp: {
+                            regexp: /^[+]?[0-9]+$/i,
+                            message: 'This is not a valid phone number'
+                        },
+                        stringLength: {
+                            message: 'Phone number must be between 10 and 16 digits long',
+                            min: 10,
+                            max: 16
+                        },
+                    }
+                },
+                prefered_way_of_contact: {
+                    message: 'No option selected',
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select one option'
+                        },
+                    }
+                },
+                accept: {
+                    message: 'Please agree to our terms before continuing',
+                    validators: {
+                        notEmpty: {
+                            message: 'Please agree to our terms before continuing'
+                        },
+                    }
+                },
             }
         });
     });

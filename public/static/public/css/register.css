@@ -196,3 +196,6 @@ input[type="radio"]:checked ~ .reveal-if-active, input[type="checkbox"]:checked 
 .has-success .form-control{
     border-color: #28b62c;
 }
+.row.accept i{
+  display: none!important;
+}
