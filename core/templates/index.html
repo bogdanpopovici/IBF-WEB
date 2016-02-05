@@ -27,7 +27,7 @@
             <a href="{% url 'staticpages:site_map' %}"  class="smap">Site Map</a>
           </li>
           <li>
-            <a href="{% url 'public:index' %}"  class="contact">Contact</a>
+            <a href="" data-target="#modal-item" data-toggle="modal"  class="contact">Contact</a>
           </li>
           <li>
             <a href="{% url 'staticpages:accessibility_support' %}"  class="note">Accessibility Note</a>
@@ -113,53 +113,49 @@
         </div>
 
         <div class="modal-body">
-           <div class="row">
-              <div class="col-md-12">
-                <form class="form" role="form" method="post" action="{% url 'public:index' %}" accept-charset="UTF-8" id="login-nav" >
+          <div class="row">
+            <div class="col-md-12">
+              <form class="form" role="form" method="post" action="{% url 'public:index' %}" accept-charset="UTF-8" id="login-nav" >
+                
+                {% csrf_token %}
+                {% if error_message %}
                   
-                  {% csrf_token %}
-                  {% if error_message %}
-                    
-                      <div class="alert alert-danger" role="alert">Your username and password didn't match. Please try again.</p>
+                    <div class="alert alert-danger" role="alert">Your username and password didn't match. Please try again.
+                    </div>
 
-                      </div>
-
-                  {% endif %}
-                  <div class="form-group">
-                    <label class="sr-only" for="username">Email address</label>
-                    <input type="text" class="form-control" id="exampleInputEmail" name="username" placeholder="Email address" autocapitalize="off" autocomplete="off" autocorrect="off" required value="">
-                  </div>
-                  <div class="form-group">
-                    <label class="sr-only" for="exampleInputPassword2">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword2" name="password" placeholder="Password" autocapitalize="off" autocomplete="off" autocorrect="off" required value="">
-                    <div class="help-block text-right"><a href="{% url 'password_reset' %}">Forgot the password ?</a></div>
-                  </div>
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-block">Sign in</button>
-                  </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox"> keep me logged-in
-                    </label>
-                  </div>
-                </form>
-                <div class="or-spacer left">
-                  <div class="mask"></div>
-                  <span><i>or</i></span>
+                {% endif %}
+                <div class="form-group">
+                  <label class="sr-only" for="username">Email address</label>
+                  <input type="text" class="form-control" id="exampleInputEmail" name="username" placeholder="Email address" autocapitalize="off" autocomplete="off" autocorrect="off" required value="">
                 </div>
-                <a class="btn btn-block btn-social btn-md btn-twitter" href="{% url 'social:begin' 'twitter' %}">
-                  <i class="fa fa-twitter"></i> Sign in with Twitter
-                </a>
-                <a class="btn btn-block btn-social btn-md btn-facebook" href="{% url 'social:begin' 'facebook' %}">
-                  <i class="fa fa-facebook"></i> Sign in with Facebook
-                </a>
+                <div class="form-group">
+                  <label class="sr-only" for="exampleInputPassword2">Password</label>
+                  <input type="password" class="form-control" id="exampleInputPassword2" name="password" placeholder="Password" autocapitalize="off" autocomplete="off" autocorrect="off" required value="">
+                  <div class="help-block text-right"><a href="{% url 'password_reset' %}">Forgot the password ?</a></div>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-success btn-block">Sign in</button>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox"> keep me logged-in</label>
+                </div>
+              </form>
+              <div class="or-spacer left">
+                <div class="mask"></div>
+                <span><i>or</i></span>
               </div>
+              <a class="btn btn-block btn-social btn-md btn-twitter" href="{% url 'social:begin' 'twitter' %}">
+                <i class="fa fa-twitter"></i> Sign in with Twitter
+              </a>
+              <a class="btn btn-block btn-social btn-md btn-facebook" href="{% url 'social:begin' 'facebook' %}">
+                <i class="fa fa-facebook"></i> Sign in with Facebook
+              </a>
             </div>
           </div>
+        </div>
 
-          <div class="modal-footer">
-            New here ? <a href="{% url 'public:register' %}"><b>Join Us</b></a>
-          </div>
+        <div class="modal-footer">
+          New here ? <a href="{% url 'public:register' %}"><b>Join Us</b></a>
         </div>
       </div>
     </div>
@@ -198,21 +194,45 @@
   </div>
   <!-- Notification Modal -->
 
-  <!-- Reject Modal -->
-  <div id="myModal" class="modal fade">
+  <div class="modal" id="modal-item" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
-        <!-- dialog body -->
-        <div class="modal-body">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          Hello world!
+        <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal">×</button>
+            <h3 class="modal-title"></h3>
         </div>
-        <!-- dialog buttons -->
-        <div class="modal-footer"><button type="button" class="btn btn-primary">OK</button></div>
+        <div class="modal-body">
+            <div id="modal-carousel" class="carousel">
+     
+              <div class="carousel-inner">           
+              </div>
+              
+              <a class="carousel-control left" href="#modal-carousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+              <a class="carousel-control right" href="#modal-carousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+              
+            </div>
+            <div class="details">
+              <div class="row">
+                <p class="gradient-effect text-center">Item name</p>
+              </div>
+              <div class="row">
+                <p class="gradient-effect text-center">Item category</p>
+              </div>
+              <div class="row">
+                <p class="gradient-effect text-center">Date found</p>
+              </div>
+              <div class="row">
+                <p class="gradient-effect text-center">Location</p>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-  <!-- Reject Modal -->
+
       
   {% if error_message %}
   <script>$('#loginModal').modal('show');</script>
