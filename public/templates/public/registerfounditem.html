@@ -23,6 +23,45 @@
 {% endblock %}
 
 {% block body_block %}
+<script type="text/javascript">
+    $(document).ready(function() {
+       
+        $('#upload-item-form').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                tags: {
+                    message: 'The tags field is mandatory',
+                    validators: {
+                        notEmpty: {
+                            message: 'The tags field is mandatory'
+                        },
+                    }
+                },
+                description: {
+                    message: 'Please provide a description of the item',
+                    validators: {
+                        notEmpty: {
+                            message: 'Please provide a description of the item'
+                        },
+                    }
+                },
+                filebutton: {
+                    message: 'Please add at least one photo of the item',
+                    validators: {
+                        notEmpty: {
+                            message: 'Please add at least one photo of the item'
+                        },
+                    }
+                },
+            }
+        });
+    });
+</script>
+
 
 <div class="container container1" id="item_registration_form">
   <div class="row">
@@ -32,7 +71,7 @@
           <h4 class="modal-title">Register the found item</h4>
       </div>
 
-      <form class="form-horizontal" action="" method="post">
+      <form id="upload-item-form" class="form-horizontal" action="" method="post">
 
         {% csrf_token %}
         <div class="modal-body">
@@ -47,7 +86,7 @@
           </div>
 
           <!-- File Button --> 
-          <div class="form-group">
+          <div class="form-group has-feedback no-feedback-icon">
             <label class="col-md-3 control-label" for="filebutton">Upload phtoto...</label>
             <div class="col-md-6">
               <input id="file-upload-input" name="filebutton" multiple class="input-file" type="file">
@@ -74,23 +113,24 @@
           </div>
 
           <!-- Textarea -->
-          <div class="form-group">
+          <div class="form-group has-feedback no-feedback-icon">
             <label class="col-md-3 control-label" for="textarea">Description</label>
             <div class="col-md-6">                     
               <textarea class="form-control" id="descriptionid" name="description" placeholder="Give as much details as you can about this item"></textarea>
             </div>
           </div>
           <!-- Textarea -->
-          <div class="form-group">
+          <div class="form-group has-feedback no-feedback-icon">
             <label class="col-md-3 control-label" for="textarea">Tags</label>
             <div class="col-md-6">                     
               <input id="tagsid" type="text" name="tags" class="form-control" data-role="tagsinput" placeholder="i.e. Iphone, 6, black ...">
+              <small id="emptytagserror" class="help-block red hide" data-bv-validator="notEmpty" data-bv-for="description" data-bv-result="INVALID" style="">The tags field is mandatory</small>
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
-          <input type="button" id="submitButton" name="reportfound" value="Report item" class="btn btn-success btn-icon" onClick="uploadData()"/>
+          <input type="button" id="submitButton" name="reportfound" value="Report item" class="btn btn-success btn-icon" onClick="uploadData('{{user.is_authenticated}}')"/>
           <a class="btn btn-default btn-icon" href='{% url "public:index" %}'><i class="fa fa-times-circle"></i> Cancel</a>
         </div>
 
@@ -98,6 +138,23 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="loginRequiredModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content" style="overflow-y:hidden;">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">You are not logged in</h4>
+        </div>
+
+        <div class="modal-body">
+          Please login using the top-right menu or register with pur service <a href='{% url 'public:register' %}'>here</a> before uploading an item!!
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script>
   
@@ -113,34 +170,55 @@ $("#file-upload-input").fileinput({
     }
 });
 
-function uploadData(){
+function uploadData(user){
 
   var ui = $('#uid').val();
   var category = $('#categoryid').val();
   var description = $('#descriptionid').val();
   var tags = $('#tagsid').val();
-  var files = []
+  var files = [];
+  var cont = true;
+
+  $('#upload-item-form').bootstrapValidator('validate');
+
+  if(user!="True"){
+      $('#loginRequiredModal').modal('toggle');
+      cont = false;
+  }
+
+  if(tags==""){
+    $('#emptytagserror').removeClass('hide');
+    cont = false;
+  } else {
+    $('#emptytagserror').addClass('hide');
+  }
 
   $("img.file-preview-image").each(function( index ) {
-     files.push(JSON.stringify(getBase64Image(this)));
+   files.push(JSON.stringify(getBase64Image(this)));
   });
 
-  $.post('/item_registration/',{
-        'uniqueid':   ui,
-        'category':   category,
-        'description':   description,
-        'tags':   tags,
-        'media1':   files[0],
-        'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
-    },function(result){
-        if(result.result=='OK'){
-           location.reload();
-        }
-        else{
-          alert("An error has occured while uploading yur file");
-        }
-    });
+  if(cont && form_is_valid()){
+
+    $('#submitButton').prop('disabled', true);
+
+    $.post('/item_registration/',{
+          'uniqueid':   ui,
+          'category':   category,
+          'description':   description,
+          'tags':   tags,
+          'media':   JSON.stringify(files),
+          'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+      },function(result){
+          if(result.result=='OK'){
+             location.reload();
+          }
+          else{
+            alert("An error has occured while uploading yur file");
+          }
+      });
+  }
 }
+  
 
 function getBase64Image(imgElem) {
 // imgElem must be on the same server otherwise a cross-origin error will be thrown "SECURITY_ERR: DOM Exception 18"
@@ -153,6 +231,18 @@ function getBase64Image(imgElem) {
     return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 }
 
+
+function form_is_valid(){
+    var result = true;
+    $('.form-group').each(function(){
+        if($(this).hasClass('has-error')){
+            result = false;
+            return false;
+        }
+    });
+    console.log(result);
+    return result;
+}
 </script>
 
 {% endblock %}

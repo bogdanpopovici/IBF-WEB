@@ -320,12 +320,11 @@ def item_registration(request):
      category = request.POST.get('category')
      description = request.POST.get('description')
      tags = request.POST.get('tags')
-     media = request.POST.get('media1')
-
+     photos = json.loads(request.POST['media'])
      new_item = Item()
      new_item.unique_id = uid
      new_item.tags = tags
-     new_item.tags = description
+     new_item.description = description
      new_item.location = "Southampton"
      new_item.category = category
      new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -333,18 +332,19 @@ def item_registration(request):
      new_item.found_by_user = request.user
      new_item.save()
 
-     photo = Media()
-     photo.of_item = new_item
-     photo.media_type = "PHOTO" 
-     save_base64image_to_media(photo, media)
-     photo.save()
+     for media in photos:
+       photo = Media()
+       photo.of_item = new_item
+       photo.media_type = "PHOTO" 
+       save_base64image_to_media(photo, media)
+       photo.save()
 
      call_command('update_index')
      
      return HttpResponse(json.dumps({'result': 'OK'}), content_type="application/json")
     except Exception as e:
+     traceback.print_exc()
      return HttpResponse(json.dumps({'result': 'ERROR'}), content_type="application/json")
-
   context = RequestContext(request,
                            {'request': request,
                             'user': request.user

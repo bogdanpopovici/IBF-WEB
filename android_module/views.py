@@ -7,87 +7,90 @@ from django.core.files import File
 from core.models import *
 import hashlib, datetime, random, json, re, traceback, base64, string
 from django.core.management import call_command
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
+from ibfAPI.views import email_check_ok
 
 @csrf_exempt
 def upload_item(request):
   response_data = {}
 
   if request.method=='POST':
+
     try:
      body_unicode = request.body.decode('utf-8')
      body = json.loads(body_unicode)
-
      try:
       username = body['username']
-      finder =  CustomUser.objects.filter(username=username)
+      finder =  get_user_model().objects.filter(username=username)
      except:
       finder = None
 
      if not finder:
       password = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
       email = body['email']
-      username = email.split('@')[0]
-      print  email.split('@')[0]
-      if CustomUser.objects.filter(username=username):
-        print "yes"
-        i = 0
-        new_username = username+str(i)
-        while CustomUser.objects.filter(new_username=username):
-          i = i + 1
+      if not email_check_ok(email):
+        response_data['message'] = 'The email you entered is already in use'
+        response_data['result'] = 'ERROR'
+      else:
+        username = email.split('@')[0]
+        if get_user_model().objects.filter(username=username):
+          i = 0
           new_username = username+str(i)
-        username = new_username
+          while get_user_model().objects.filter(new_username=username):
+            i = i + 1
+            new_username = username+str(i)
+          username = new_username
 
-      finder = CustomUser()
-      finder.username = username
-      finder.email = email
-      finder.prefered_way_of_contact = "IBF"
-      finder.set_password(password)
-      finder.save()
-      
+        finder = CustomUser()
+        finder.username = username
+        finder.email = email
+        finder.prefered_way_of_contact = "IBF"
+        finder.set_password(password)
+        finder.save()
+        
 
-      salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
-      activation_key = hashlib.sha1(salt+email).hexdigest()            
-      key_expires = datetime.datetime.today() + datetime.timedelta(2)
+        salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
+        activation_key = hashlib.sha1(salt+email).hexdigest()            
+        key_expires = datetime.datetime.today() + datetime.timedelta(2)
 
-      # Create and save user profile                                                                                                                                  
-      new_profile = UserProfile(user=finder, activation_key=activation_key, 
-          key_expires=key_expires)
-      new_profile.save()
+        # Create and save user profile                                                                                                                                  
+        new_profile = UserProfile(user=finder, activation_key=activation_key, 
+            key_expires=key_expires)
+        new_profile.save()
 
-      # Send email with activation key
-      email_subject = 'Account confirmation'
-      email_body = "Hey %s, thanks for uploading the item. We have created an account for you.\n To activate your account, click this link within \
-      48hours http://127.0.0.1:8000/accounts/confirm/%s. \n Your username: %s \n Your password: %s \n" % (username, activation_key, username, password)
+        # Send email with activation key
+        email_subject = 'Account confirmation'
+        email_body = "Hey %s, thanks for uploading the item. We have created an account for you.\n To activate your account, click this link within \
+        48hours http://127.0.0.1:8000/accounts/confirm/%s. \n Your username: %s \n Your password: %s \n" % (username, activation_key, username, password)
 
-      send_mail(email_subject, email_body, 'myemail@example.com',
-          [email], fail_silently=False)
+        send_mail(email_subject, email_body, 'myemail@example.com',
+            [email], fail_silently=False)
 
-     category = body['category']
-     tags = body['tags']
-     location = body['location']
-     valuable = body['valuable']
-     media =  body['media']
+       category = body['category']
+       tags = body['tags']
+       location = body['location']
+       valuable = body['valuable']
+       media =  body['media']
 
-     new_item = Item()
-     new_item.tags = tags
-     new_item.description = valuable
-     new_item.category = category
-     new_item.location = location
-     new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
-     new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
-     new_item.found_by_user = CustomUser.objects.all()[:1].get()
-     new_item.save()
+       new_item = Item()
+       new_item.tags = tags
+       new_item.description = valuable
+       new_item.category = category
+       new_item.location = location
+       new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
+       new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
+       new_item.found_by_user = CustomUser.objects.all()[:1].get()
+       new_item.save()
 
-     photo = Media()
-     photo.of_item = new_item
-     photo.media_type = "PHOTO" 
-     save_base64image_to_media(photo, media)
-     photo.save()
+       photo = Media()
+       photo.of_item = new_item
+       photo.media_type = "PHOTO" 
+       save_base64image_to_media(photo, media)
+       photo.save()
 
-     call_command('update_index')
+       call_command('update_index')
 
-     response_data['result'] = 'OK'
+       response_data['result'] = 'OK'
     except Exception as e:
      response_data['result'] = 'ERROR'
      print traceback.print_exc()
