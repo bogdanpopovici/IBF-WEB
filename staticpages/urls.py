@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 from staticpages import views
 
 urlpatterns = patterns('',
+    url(r'^contact_page/$', views.contact_page, name='contact_page'),
     url(r'^accessibility_support/$', views.accessibility_support, name='accessibility_support'),
     url(r'^terms_conditions/$', views.terms_conditions, name='terms_conditions'),
     url(r'^site_map/$', views.site_map, name='site_map'),
