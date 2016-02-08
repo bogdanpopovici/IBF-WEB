@@ -97,7 +97,7 @@
             <div class="panel-body" style="padding: 18px;">
               <div class="row">
                 {% if result.media %}
-                <img src="{{MEDIA_URL}}{{result.media.data}}" class="image-resize img-responsive pull-right">
+                <img src="{{MEDIA_URL}}{{result.media.0.data}}" class="image-resize img-responsive pull-right">
                 {% else %}
                 <img src="{% static 'img/no_media.jpg' %}" class="image-resize img-responsive pull-right">
                 {% endif %}
@@ -111,12 +111,12 @@
               </div>
               <div class="pull-right" style="margin-top: -60px; margin-right: 0px;">
                 {% if item.status == 'FOUND' %}
-                <a onclick="popUpNotificationModal('{{item.pk}}', '{{item.found_by_user.prefered_way_of_contact}}', '{{item.found_by_user.phone_number}}')" class="btn btn-success" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item</a>
+                <a  class="btn btn-success btn-claim" onclick="popUpNotificationModal('{{result.object.pk}}', '{{result.object.found_by_user.prefered_way_of_contact}}', '{{result.object.found_by_user.phone_number}}')"><span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item</a>
                 {% else %}
-                <a class="btn btn-success active" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
+                <a class="btn btn-success active btn-claim"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
                 {% endif %}
                 <br>
-                <button type="button" class="btn btn-info" style="margin-left: 2.5px;"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
+                <button  onclick="popUpItemModal('{{results.object.description}}', '{{results.object.category}}', '{{results.object.found_by_user}}', '{{results.object.location}}',  '{{results.object.date_field}}', '{{results.object.time_field}}')"  type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
               </div>
             </div>
           </div>
@@ -145,7 +145,7 @@
             <div class="panel-body" style="padding: 18px;">
               <div class="row">
                 {% if item.media %}
-                <img src="{{MEDIA_URL}}/{{item.media.data}}" class="image-resize img-responsive pull-right" alt="image of {{item.tags}}">
+                <img src="{{MEDIA_URL}}/{{item.media.0.data}}" class="image-resize img-responsive pull-right" alt="image of {{item.tags}}">
                 {% else %}
                 <img src="{% static 'img/no_media.jpg' %}" class="image-resize img-responsive pull-right" alt="no image available for this item">
                 {% endif %}
@@ -159,12 +159,14 @@
               </div>
               <div class="pull-right" style="margin-top: -60px; margin-right: 0px;">
                 {% if item.status == 'FOUND' %}
-                <a onclick="popUpNotificationModal('{{item.pk}}', '{{item.found_by_user.prefered_way_of_contact}}', '{{item.found_by_user.phone_number}}')" class="btn btn-success" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item</a>
+                <a   onclick="popUpNotificationModal('{{item.pk}}', '{{item.found_by_user.prefered_way_of_contact}}', '{{item.found_by_user.phone_number}}')"  class="btn btn-success btn-claim">
+                  <span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item
+                </a>
                 {% else %}
-                <a class="btn btn-success active" style="margin-bottom: 5px;"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
+                <a class="btn btn-success active btn-claim"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
                 {% endif %}
                 <br>
-                <button type="button" class="btn btn-info" style="margin-left: 2.5px;"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
+                <button onclick="popUpItemModal('{{item.media|safe}}', '{{item.description}}', '{{item.category}}', '{{item.found_by_user}}', '{{item.location}}', '{{item.date_field}}', '{{item.time_field}}')" type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
               </div>
             </div>
           </div>
@@ -174,6 +176,58 @@
           {% endfor %}
         {% endif %}
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- item details modal -->
+<div class="modal fade" id="itemModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <button class="close" type="button" data-dismiss="modal">×</button>
+          <h3 class="modal-title"></h3>
+      </div>
+      <div class="modal-body">
+          <div id="preview-carousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+          <div class="details">
+            <div class="row">
+              <p id="description" class="gradient-effect text-center"></p>
+            </div>
+            <div class="row">
+              <p id="category" class="gradient-effect text-center"></p>
+            </div>
+            <div class="row">
+              <p id="finder" class="gradient-effect text-center"></p>
+            </div>
+            <div class="row">
+              <p id="location" class="gradient-effect text-center"></p>
+            </div>
+            <div class="row">
+              <p id="dateNTime" class="gradient-effect text-center"></p>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+      </div>
     </div>
   </div>
 </div>

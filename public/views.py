@@ -320,12 +320,13 @@ def item_registration(request):
      category = request.POST.get('category')
      description = request.POST.get('description')
      tags = request.POST.get('tags')
+     location = request.POST.get('location')
      photos = json.loads(request.POST['media'])
      new_item = Item()
      new_item.unique_id = uid
      new_item.tags = tags
      new_item.description = description
-     new_item.location = "Southampton"
+     new_item.location = request.POST.get('location')
      new_item.category = category
      new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
      new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 

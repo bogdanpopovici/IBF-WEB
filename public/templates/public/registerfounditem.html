@@ -49,6 +49,14 @@
                         },
                     }
                 },
+                location: {
+                    message: 'Please provide a location for the item',
+                    validators: {
+                        notEmpty: {
+                            message: 'Please provide a location of the item'
+                        },
+                    }
+                },
                 filebutton: {
                     message: 'Please add at least one photo of the item',
                     validators: {
@@ -61,6 +69,7 @@
         });
     });
 </script>
+
 
 
 <div class="container container1" id="item_registration_form">
@@ -121,16 +130,26 @@
           </div>
           <!-- Textarea -->
           <div class="form-group has-feedback no-feedback-icon">
+            <label class="col-md-3 control-label" for="textarea">Location</label>
+            <div class="col-md-6">      
+              <input id="pac-input" class="controls form-control" name="location" type="text" placeholder="Enter a location">
+              <div id="map"></div>
+            </div>
+          </div>
+          
+          <!-- Textarea -->
+          <div class="form-group has-feedback no-feedback-icon">
             <label class="col-md-3 control-label" for="textarea">Tags</label>
             <div class="col-md-6">                     
               <input id="tagsid" type="text" name="tags" class="form-control" data-role="tagsinput" placeholder="i.e. Iphone, 6, black ...">
               <small id="emptytagserror" class="help-block red hide" data-bv-validator="notEmpty" data-bv-for="description" data-bv-result="INVALID" style="">The tags field is mandatory</small>
+              <span class="tip"><strong>Tip: </strong>Please press the <strong>ENTER</strong> key after each tag.</span>
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
-          <input type="button" id="submitButton" name="reportfound" value="Report item" class="btn btn-success btn-icon" onClick="uploadData('{{user.is_authenticated}}')"/>
+          <button type="button" id="submitButton" name="reportfound" class="btn btn-success btn-icon" onClick="uploadData('{{user.is_authenticated}}')">Report Item</button>
           <a class="btn btn-default btn-icon" href='{% url "public:index" %}'><i class="fa fa-times-circle"></i> Cancel</a>
         </div>
 
@@ -150,99 +169,12 @@
         </div>
 
         <div class="modal-body">
-          Please login using the top-right menu or register with pur service <a href='{% url 'public:register' %}'>here</a> before uploading an item!!
+          Please login using the top-right menu or register with pur service <a href='{% url "public:register" %}'>here</a> before uploading an item!!
         </div>
       </div>
     </div>
-  </div>
-
-<script>
-  
-$("#file-upload-input").fileinput({
-    uploadUrl: '#', // you must set a valid URL here else you will get an error
-    allowedFileExtensions : ['jpg', 'png','gif'],
-    overwriteInitial: false,
-    maxFileSize: 1000,
-    maxFilesNum: 10,
-    //allowedFileTypes: ['image', 'video', 'flash'],
-    slugCallback: function(filename) {
-        return filename.replace('(', '_').replace(']', '_');
-    }
-});
-
-function uploadData(user){
-
-  var ui = $('#uid').val();
-  var category = $('#categoryid').val();
-  var description = $('#descriptionid').val();
-  var tags = $('#tagsid').val();
-  var files = [];
-  var cont = true;
-
-  $('#upload-item-form').bootstrapValidator('validate');
-
-  if(user!="True"){
-      $('#loginRequiredModal').modal('toggle');
-      cont = false;
-  }
-
-  if(tags==""){
-    $('#emptytagserror').removeClass('hide');
-    cont = false;
-  } else {
-    $('#emptytagserror').addClass('hide');
-  }
-
-  $("img.file-preview-image").each(function( index ) {
-   files.push(JSON.stringify(getBase64Image(this)));
-  });
-
-  if(cont && form_is_valid()){
-
-    $('#submitButton').prop('disabled', true);
-
-    $.post('/item_registration/',{
-          'uniqueid':   ui,
-          'category':   category,
-          'description':   description,
-          'tags':   tags,
-          'media':   JSON.stringify(files),
-          'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
-      },function(result){
-          if(result.result=='OK'){
-             location.reload();
-          }
-          else{
-            alert("An error has occured while uploading yur file");
-          }
-      });
-  }
-}
-  
-
-function getBase64Image(imgElem) {
-// imgElem must be on the same server otherwise a cross-origin error will be thrown "SECURITY_ERR: DOM Exception 18"
-    var canvas = document.createElement("canvas");
-    canvas.width = imgElem.naturalWidth;
-    canvas.height = imgElem.naturalHeight;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(imgElem, 0, 0);
-    var dataURL = canvas.toDataURL("image/png");
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-}
-
-
-function form_is_valid(){
-    var result = true;
-    $('.form-group').each(function(){
-        if($(this).hasClass('has-error')){
-            result = false;
-            return false;
-        }
-    });
-    console.log(result);
-    return result;
-}
-</script>
-
+</div>
+    
+<script src="{% static 'public/js/item_registration.js' %}" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXr6cPuKrMcZ7IJ7_K4zV1X-0AwF3VLcU&signed_in=true&libraries=places&mapTypeControl=false&callback=initMap" async defer></script>
 {% endblock %}

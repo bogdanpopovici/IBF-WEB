@@ -66,34 +66,34 @@ def upload_item(request):
         send_mail(email_subject, email_body, 'myemail@example.com',
             [email], fail_silently=False)
 
-       category = body['category']
-       tags = body['tags']
-       location = body['location']
-       valuable = body['valuable']
-       media =  body['media']
+        category = body['category']
+        tags = body['tags']
+        location = body['location']
+        valuable = body['valuable']
+        media =  body['media']
 
-       new_item = Item()
-       new_item.tags = tags
-       new_item.description = valuable
-       new_item.category = category
-       new_item.location = location
-       new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
-       new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
-       new_item.found_by_user = CustomUser.objects.all()[:1].get()
-       new_item.save()
+        new_item = Item()
+        new_item.tags = tags
+        new_item.description = valuable
+        new_item.category = category
+        new_item.location = location
+        new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
+        new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
+        new_item.found_by_user = CustomUser.objects.all()[:1].get()
+        new_item.save()
 
-       photo = Media()
-       photo.of_item = new_item
-       photo.media_type = "PHOTO" 
-       save_base64image_to_media(photo, media)
-       photo.save()
+        photo = Media()
+        photo.of_item = new_item
+        photo.media_type = "PHOTO" 
+        save_base64image_to_media(photo, media)
+        photo.save()
 
-       call_command('update_index')
+        call_command('update_index')
 
-       response_data['result'] = 'OK'
+        response_data['result'] = 'OK'
     except Exception as e:
-     response_data['result'] = 'ERROR'
-     print traceback.print_exc()
+      response_data['result'] = 'ERROR'
+      print traceback.print_exc()
  
   return HttpResponse(json.dumps(response_data), content_type="application/json")
 

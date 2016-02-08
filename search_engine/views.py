@@ -132,18 +132,12 @@ class CustomSearchView(SearchView):
         if self.query:
             for item in page.object_list:
                 media = Media.objects.all().filter(of_item=item.object)
-                if not media:
-                   item.media = media
-                else:
-                   item.media = media[0]  
+                item.media = media 
                 search_results.append(item)
         else:
             for item in Item.objects.all().order_by('pk')[:20]:
                 media = Media.objects.all().filter(of_item=item)
-                if not media:
-                   item.media = media
-                else:
-                   item.media = media[0]  
+                item.media = media
                 recent_feeds.append(item)
         page.objects_list = search_results
         context = {

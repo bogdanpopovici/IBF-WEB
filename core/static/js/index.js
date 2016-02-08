@@ -92,6 +92,30 @@ function popUpNotificationModal(item_id, pwoc, contact_details){
 
 }
 
+function popUpItemModal(media, description, category, finder, location, date, time){
+
+  $('#decription').text(description);
+  $('#decrcategoryiption').text(category);
+  $('#finder').text(finder);
+  $('#location').text(location);
+  $('#dateNTime').text(date + time);
+  console.log(media.length);
+
+  $('#itemModal').modal('toggle');
+}
+
+function add_image_to_carousel(element, index, array) {
+    
+  if(index==0){
+    $('#carousel-indicators').append('<li data-target="#preview-carousel" data-slide-to="0" class="active"></li>');
+    $('#carousel-inner').append('<div class="item active"><img src="'+ element +'" alt="photo of '+ description +'"></div>');
+  } else{
+    $('#carousel-indicators').append('<li data-target="#preview-carousel" data-slide-to="'+ index +'"></li>');
+    $('#carousel-inner').append('<div class="item"><img src="'+ element +'" alt="photo of '+ description +'"></div>');
+  }
+  console.log('a[' + index + '] = ' + element);
+}
+
 $(document).ready( function() {
     get_notifications();
 setInterval(function() {
@@ -144,4 +168,38 @@ function get_notifications(){
     });
   }
   
+}
+
+function seeItem() {
+  
+  new_item_title = $('#titleid').val();
+  new_item_category = $('#categoryid').val();
+  new_item_description = $('#descriptionid').val();
+  new_item_uid = $('#uid').val();
+  
+  $("img.file-preview-image").each(function( index ) {
+     new_item_files.push(JSON.stringify(getBase64Image(this)));
+  });
+
+  $('#preview-modal').modal('toggle');
+
+  var p_title = $('#preview_title');
+  var p_photos = $('#preview_photos');
+  var p_desc = $('#preview_desc');
+  var p_uid = $('#preview_uid');
+
+  p_title.html(new_item_title);
+  p_desc.html(new_item_description);
+
+  if (new_item_uid != ''){
+    p_uid.html(new_item_uid);
+    p_uid.removeClass("hideIt");
+  }
+  else{
+    p_uid.addClass("hideIt");
+  }
+  
+  $("img.file-preview-image").each(function( index ) {
+     p_photos.append(this);
+  });
 }
