@@ -179,6 +179,7 @@ function pre_register_item(media_url){
         'category':   new_item_category,
         'description':   new_item_description,
         'tags':   new_item_title,
+        'media1':   new_item_files[0],
         'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
     },function(result){
     	console.log("out");
