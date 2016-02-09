@@ -264,15 +264,21 @@ def edit_personal_details(request):
         user.save()
         response_data['new_value'] = value
     elif (attr == 'phone_number'):
-      pattern = re.compile("^d+$")
+      pattern = re.compile("\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4}")
       if not pattern.match(value):  
+        print value+"a"
         response_data['result'] = 'ERROR'
-        response_data['err_message'] = 'Telephone number must contain only digits'
+        response_data['err_message'] = 'Telephone number is not recognised'
       else:
         response_data['result'] = 'OK'
         user.phone_number = value
         user.save()
         response_data['new_value'] = value
+    elif (attr == 'address'):
+      response_data['result'] = 'OK'
+      user.address = value
+      user.save()
+      response_data['new_value'] = value
     elif (attr == 'password'):
       current_password = request.POST.get('value1')
       new_password = request.POST.get('value2')

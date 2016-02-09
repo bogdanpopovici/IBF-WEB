@@ -506,3 +506,7 @@ h4.section-title{
 span.tip {
   font-style: italic;
 }
+
+.hideIt{
+  display: none!important;
+}

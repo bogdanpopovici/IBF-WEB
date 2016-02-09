@@ -131,7 +131,7 @@ function change_settings(container, input1, input2, input3, value, option, field
 }
 
 function reset() {
-	for (i = 1; i <= 7; i++) {
+	for (i = 1; i <= 6; i++) {
 
 			var it = document.getElementById('it'+i);
     		it.style.display = "none";

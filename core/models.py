@@ -74,6 +74,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 											   choices=CONTACT_METHODS)
 
 	phone_number = models.CharField(max_length=15, null=True, blank=True)
+	address = models.CharField(max_length=100, null=True, blank=True)
 	is_premium = models.BooleanField(_('premium status'), default=False)
 
 	profile_picture = StdImageField(upload_to='profile_pics', null=True, blank=True, variations={
@@ -186,7 +187,7 @@ class PreRegisteredItem(AbstractItem):
 		return self.tags + self.category
 
 	def __repr__(self):
-		return str(self)
+		return str(self.tags)
 
 class Media(models.Model):
 
