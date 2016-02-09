@@ -134,7 +134,7 @@ def item_pre_registration(request):
      
      return HttpResponse(json.dumps({'result': 'OK', 'image':image.url}), content_type="application/json")
     except Exception as e:
-     traceback.print_exc()
+     traceback.print_exc()'''
   return HttpResponse(json.dumps({'result': 'ERROR'}), content_type="application/json")
 
 @login_required
@@ -181,7 +181,7 @@ def notify(request):
         response_data['result'] = 'OK'
     except Exception, e:
       traceback.print_exc()
-      response_data['result'] = 'ERROR'''
+      response_data['result'] = 'ERROR'
   
   return HttpResponse(json.dumps(response_data), content_type="application/json")
 
