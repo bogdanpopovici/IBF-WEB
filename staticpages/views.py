@@ -5,6 +5,12 @@
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 
+def contact_page(request):
+  context = RequestContext(request,
+                           {'request': request,
+                            'user': request.user
+                            })
+  return render_to_response('staticpages/contact_page.html', context_instance=context)
 
 def terms_conditions(request):
   context = RequestContext(request,
