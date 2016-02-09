@@ -173,7 +173,7 @@ function reply_to_notification(seq_index, topic_pk){
 
 function pre_register_item(media_url){
 
-	console.log($('[name="csrfmiddlewaretoken"]').val());
+  $('#pre-register-btn').html('<span class="glyphicon glyphicon-refresh spinning"></span> Registering...');
   $.post('/API/item_pre_registration/',{
         'uniqueid':   new_item_uid,
         'category':   new_item_category,
@@ -182,7 +182,6 @@ function pre_register_item(media_url){
         'media1':   new_item_files[0],
         'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
     },function(result){
-    	console.log("out");
         if(result.result=='OK'){
 
 
@@ -204,7 +203,6 @@ function pre_register_item(media_url){
 
 
 function repatriate_item(item_id){
-	console.log("okk");
 	$.post('/API/repatriate_item/',{
         'item_id':   item_id,
         'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
