@@ -73,6 +73,7 @@ def upload_item(request):
         media =  body['media']
 
         new_item = Item()
+        new_item.title = tags
         new_item.tags = tags
         new_item.description = valuable
         new_item.category = category

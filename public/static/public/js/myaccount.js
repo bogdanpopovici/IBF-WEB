@@ -173,6 +173,7 @@ function reply_to_notification(seq_index, topic_pk){
 
 function pre_register_item(media_url){
 
+	console.log("in");
   $.post('/API/item_pre_registration/',{
         'uniqueid':   new_item_uid,
         'category':   new_item_category,
@@ -181,6 +182,7 @@ function pre_register_item(media_url){
         'media1':   new_item_files[0],
         'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
     },function(result){
+    	console.log("out");
         if(result.result=='OK'){
 
 
