@@ -110,7 +110,7 @@ function change_settings(container, input1, input2, input3, value, option, field
 		        it3.value = '';
 
 		        if(field == "email")
-					document.getElementById('s7').innerHTML = result.new_value
+					document.getElementById('s6').innerHTML = result.new_value
 		    }
 		    else{
 		    	alert(result.err_message);
