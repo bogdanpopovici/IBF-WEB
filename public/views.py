@@ -51,7 +51,6 @@ def index(request):
 
   if request.user and request.user.is_authenticated():
     notifications = Notification.objects.filter(receiver=request.user, seen=False, notification_type__in=['CLAIM','ACCEPT'])
-    print "match"
     matches = Notification.objects.filter(receiver=request.user, seen=False, notification_type="MATCH")
   context = RequestContext(request,
                            {'request': request,

@@ -108,6 +108,7 @@ def item_pre_registration(request):
   image = None
 
   if request.method=='POST':
+    print "yes"
     try:
      uid = request.POST.get('uniqueid')
      category = request.POST.get('category')

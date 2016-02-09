@@ -147,7 +147,7 @@
             <div class="panel-body" style="padding: 18px;">
               <div class="row">
                 {% if item.media %}
-                <img src="{{MEDIA_URL}}/{{item.media.0.data}}" class="image-resize img-responsive pull-right" alt="image of {{item.title}}">
+                <img src="{{MEDIA_URL}}{{item.media.0.data}}" class="image-resize img-responsive pull-right" alt="image of {{item.title}}">
                 {% else %}
                 <img src="{% static 'img/no_media.jpg' %}" class="image-resize img-responsive pull-right" alt="no image available for this item">
                 {% endif %}
