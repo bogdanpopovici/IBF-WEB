@@ -93,7 +93,7 @@
           <div class="panel panel-default">
 
             <div class="panel-heading">
-              <h1 class="panel-title">{{ result.object.tags }}</h1>
+              <h1 class="panel-title">{{ result.object.title }}</h1>
             </div>
 
             <div class="panel-body" style="padding: 18px;">
@@ -141,13 +141,13 @@
           <div class="panel panel-default">
 
             <div class="panel-heading">
-              <h1 class="panel-title">{{ item.tags }}</h1>
+              <h1 class="panel-title">{{ item.title }}</h1>
             </div>
 
             <div class="panel-body" style="padding: 18px;">
               <div class="row">
                 {% if item.media %}
-                <img src="{{MEDIA_URL}}/{{item.media.0.data}}" class="image-resize img-responsive pull-right" alt="image of {{item.tags}}">
+                <img src="{{MEDIA_URL}}/{{item.media.0.data}}" class="image-resize img-responsive pull-right" alt="image of {{item.title}}">
                 {% else %}
                 <img src="{% static 'img/no_media.jpg' %}" class="image-resize img-responsive pull-right" alt="no image available for this item">
                 {% endif %}
@@ -165,7 +165,7 @@
                   <span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item
                 </a>
                 {% else %}
-                <a class="btn btn-success active btn-claim"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
+                <a class="btn btn-success disabled btn-claim"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
                 {% endif %}
                 <br>
                 <button onclick="popUpItemModal('{{item.media|safe}}', '{{item.description}}', '{{item.category}}', '{{item.found_by_user}}', '{{item.location}}', '{{item.date_field}}', '{{item.time_field}}')" type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>

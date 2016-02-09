@@ -33,6 +33,14 @@
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
+                title: {
+                    message: 'A title of the item is required',
+                    validators: {
+                        notEmpty: {
+                            message: 'A title of the item is required'
+                        },
+                    }
+                },
                 tags: {
                     message: 'The tags field is mandatory',
                     validators: {
@@ -90,10 +98,15 @@
             <label class="col-md-3 control-label" for="textinput">Unique identifier</label>  
             <div class="col-md-6">
               <input id="uid" name="textinput" type="text" placeholder="I.e. MEI, Serial Number, reference number..." class="form-control input-md">
-                
             </div>
           </div>
 
+          <div class="form-group has-feedback no-feedback-icon">
+            <label class="col-md-3 control-label" for="textarea">Title</label>
+            <div class="col-md-6">                     
+              <textarea class="form-control" id="titleid" name="title" placeholder="i.e. Samsung Galaxy S5"></textarea>
+            </div>
+          </div>
           <!-- File Button --> 
           <div class="form-group has-feedback no-feedback-icon">
             <label class="col-md-3 control-label" for="filebutton">Upload phtoto...</label>

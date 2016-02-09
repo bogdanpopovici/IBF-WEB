@@ -113,10 +113,12 @@ def item_pre_registration(request):
      category = request.POST.get('category')
      description = request.POST.get('description')
      tags = request.POST.get('tags')
+     title = tags
      media = request.POST.get('media1')
 
      new_item = PreRegisteredItem()
      new_item.unique_id = uid
+     new_item.title = title
      new_item.tags = tags
      new_item.description = description
      new_item.category = category 
@@ -245,12 +247,12 @@ def respond_to_repatriation(request):
       new_notification.sender = request.user
       new_notification.receiver = notification.sender
       if response == 'true':
-        new_notification.message = "Congratulations!! "+notification.topic.tags + " has been repatriated."
+        new_notification.message = "Congratulations!! "+notification.topic.title + " has been repatriated."
         new_notification.notification_type = 'CLAIM'
         item.status = "REPATRIATED"
         item.save()
       else:
-        new_notification.message = request.user.username + " and you have to agree how the repatriation will occur. Once this is done, you can request a 'Repatriated' status change on "+notification.topic.tags
+        new_notification.message = request.user.username + " and you have to agree how the repatriation will occur. Once this is done, you can request a 'Repatriated' status change on "+notification.topic.title
         new_notification.notification_type = 'CLAIM'
         item.status = "CLAIMED"
         item.save()
@@ -279,7 +281,7 @@ def notifications_job(request):
 
     for item in pre_reg_items:
       log+= "<p>== Searching matches for item:</p>"
-      log+= "<p>______Title: "+item.tags+"</p>"
+      log+= "<p>______Title: "+item.title+"</p>"
       log+= "<p>______Category: "+item.category+"</p>"
       log+= "<p>______Created on: "+str(item.created_at)+"</p>"
       t= request.GET.copy()
@@ -292,7 +294,7 @@ def notifications_job(request):
       for match in match_results:
         if not Notification.objects.filter(notification_type="MATCH", match=item, topic=match.object):
           log+= "<p>== Creating notification for match:</p>"
-          log+= "<p>______Title: "+match.object.tags+"</p>"
+          log+= "<p>______Title: "+match.object.title+"</p>"
           log+= "<p>______Category: "+match.object.category+"</p>"
           log+= "<p>______Created on: "+str(match.object.date_field)+"</p>"
 
@@ -333,7 +335,7 @@ def get_notifications(request):
                               })
       for match in matches:
         notifications_JSON.append({'id': match.id,
-                                   'item': match.match.tags
+                                   'item': match.match.title
                                   })
       response_data['notifications'] = notifications_JSON
       response_data['messages'] = messages_JSON

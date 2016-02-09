@@ -55,19 +55,27 @@ class Command(BaseCommand):
 
 		pitem = PreRegisteredItem()
 		pitem.unique_id = ''
+		pitem.title = "Green Adidas Bag "
 		pitem.tags = "Bag"
 		pitem.description = 'Green Bag lost near Southampton'
-		pitem.location = "southampton"
+		pitem.location = "Southampton"
 		pitem.category = "Bag"
 		pitem.owner = CustomUser.objects.filter(username='bodi')[0]
 		pitem.lost = True
 		pitem.save()
 
+		photo = Media()
+		photo.of_item = pitem
+		photo.media_type = "PHOTO" 
+		save_url_to_image(photo, 'http://www.fashionvortex.com/image/cache/data/Medici/MF-2475-Gr-a-600x600.jpg')
+		photo.save()
+
 		tphone = Item()
 		tphone.unique_id = '123456789'
+		tphone.title = "Black Samsung Galaxy S6 34GB"
 		tphone.tags = "Black Samsung Galaxy S6 34GB"
 		tphone.description = 'Black Samsung Galaxy S6 found in Stile'
-		tphone.location = "southampton"
+		tphone.location = "Southampton"
 		tphone.category = "Electronics"
 		tphone.date_field = "2015-09-15"
 		tphone.time_field = "14:33::22"
@@ -76,6 +84,7 @@ class Command(BaseCommand):
 
 		tbag = Item()
 		tbag.description = 'Green bag found on the poll edge at "Summer Time"'
+		tbag.title = "Bag Green"
 		tbag.tags = "Bag Green"
 		tbag.location = "london"
 		tbag.category = "Bag"
@@ -92,6 +101,7 @@ class Command(BaseCommand):
 
 		tbag = Item()
 		tbag.description = 'Green bag found on the poll edge at "Summer Time"'
+		tbag.title = "Big Bag"
 		tbag.tags = "Bag"
 		tbag.location = "london"
 		tbag.category = "Bag"
@@ -109,6 +119,7 @@ class Command(BaseCommand):
 		tLeptop = Item()
 		tLeptop.unique_id = '098765432'
 		tLeptop.description = '15 inch Dell found in Winchester"'
+		tLeptop.title = "Dell Leptop Inspiron"
 		tLeptop.tags = "Leptop Dell Black"
 		tLeptop.location = "london"
 		tLeptop.category = "Electronics"
@@ -120,6 +131,7 @@ class Command(BaseCommand):
 		tLaptop = Item()
 		tLaptop.unique_id = '123456788'
 		tLaptop.description = 'Apple MacBook 15" found at Hartley Library'
+		tLaptop.title = "Apple MacBook"
 		tLaptop.tags = "Apple MacBook"
 		tLaptop.location = "Southampton"
 		tLaptop.category = "Electronics"
@@ -137,6 +149,7 @@ class Command(BaseCommand):
 		tIDCard = Item()
 		tIDCard.unique_id = '123459876'
 		tIDCard.description = 'Passport found outside Sprinkles'
+		tIDCard.title = "UK EU e-passport"
 		tIDCard.tags = "Passport UK EU e-passport"
 		tIDCard.location = "Southampton"
 		tIDCard.category = "ID/Cards"
@@ -154,6 +167,7 @@ class Command(BaseCommand):
 		tBook = Item()
 		tBook.unique_id = '121212123'
 		tBook.description = 'Dan Brown The Lost Symbol paperback edition'
+		tBook.title = "The Lost Symbol Paperback"
 		tBook.tags = "Dan Brown The Lost Symbol Paperback "
 		tBook.location = "Bournemouth"
 		tBook.category = "Books"
@@ -171,6 +185,7 @@ class Command(BaseCommand):
 		tScarf = Item()
 		tScarf.unique_id = '666777888'
 		tScarf.description = 'Grey Scarf with Dark Grey Stripes'
+		tScarf.title = "Scarf"
 		tScarf.tags = "Scarf Grey Dark Grey Stripes "
 		tScarf.location = "Surrey"
 		tScarf.category = "Clothes"
@@ -187,6 +202,7 @@ class Command(BaseCommand):
 
 		tNecklace = Item()
 		tNecklace.unique_id = '898998989'
+		tNecklace.title = 'Black Leather necklace'
 		tNecklace.tags = 'Black Leather necklace'
 		tNecklace.description = "leather necklace black men unisex"
 		tNecklace.location = "Glasgow"
@@ -204,6 +220,7 @@ class Command(BaseCommand):
 
 		tHobbit = Item()
 		tHobbit.unique_id = '454647489'
+		tHobbit.title = 'J R R Tolkien -'
 		tHobbit.tags = 'J R R Tolkien - The Hobbit Hard Cover'
 		tHobbit.description = "tolkien hobbit the hobbit hardcover"
 		tHobbit.location = "Eastleigh"
@@ -221,6 +238,7 @@ class Command(BaseCommand):
 
 		tPlayer = Item()
 		tPlayer.unique_id = '145897123'
+		tPlayer.title = 'Sony Walkman MP4 Player Black'
 		tPlayer.tags = 'Sony Walkman MP4 Player Black'
 		tPlayer.description = "sony walkman mp4 player mp3 black "
 		tPlayer.location = "London"
@@ -238,6 +256,7 @@ class Command(BaseCommand):
 
 		tDog = Item()
 		tDog.unique_id = '321654987'
+		tDog.title = 'Chihuahua'
 		tDog.tags = 'Lost Chihuahua found on Portswood Road'
 		tDog.description = "chihuahua dog portswood southampton lost "
 		tDog.location = "Southampton"
@@ -255,6 +274,7 @@ class Command(BaseCommand):
 
 		tHobbit = Item()
 		tHobbit.unique_id = '125678991'
+		tHobbit.title = 'Adele - Rolling in the Deep'
 		tHobbit.tags = 'Adele - Rolling in the Deep CD Album'
 		tHobbit.description = "adele rolling in the deep cd album"
 		tHobbit.location = "Manchester"
@@ -273,6 +293,7 @@ class Command(BaseCommand):
 		tMug = Item()
 		tMug.unique_id = '123654897'
 		tMug.description = 'Found this mug at the Solent Library, 2nd Level'
+		tMug.title = "Mug"
 		tMug.tags = "mug white solent southampton"
 		tMug.location = "Southampton"
 		tMug.category = "Other"

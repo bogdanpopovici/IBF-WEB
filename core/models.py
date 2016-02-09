@@ -133,19 +133,29 @@ class UserProfile(models.Model):
         verbose_name_plural='User profiles'
 
 class AbstractItem(models.Model):
-	item_id = models.AutoField(primary_key=True)
-
-class Item(AbstractItem):
-
 	unique_id = models.CharField(_('Unique Identification ID'), blank=True, null=True, max_length=40,
 							help_text = "Unique Identification numbers like IMEI,Serial Number,reference number etc (Every item might not have it,so optional)")
-
+	
+	item_id = models.AutoField(primary_key=True)
+	title = models.CharField(max_length=2000)
 	tags = models.CharField(max_length=2000)
 	description = models.CharField(max_length=2000)
+	category = models.CharField(max_length=30)
+
+	def __unicode__(self):
+		return self.title
+
+	def __str__(self):
+		return self.title
+
+	def __repr__(self):
+		return str(self)
+
+class Item(AbstractItem):
+	
 	found_by_user = models.ForeignKey('CustomUser', related_name='Item_found_by_user', null=True, blank=True, help_text = "The user id of the user who found item")
 	lost_by_user = models.ForeignKey('CustomUser', related_name='Item_lost_by_user', null=True, blank=True, help_text = "The user id of the user who lost the item")
 	location = models.CharField(max_length=30)
-	category = models.CharField(max_length=30)
 	date_field = models.DateField(blank=True)
 	time_field = models.TimeField(blank=True)
 
@@ -159,35 +169,11 @@ class Item(AbstractItem):
 								  choices=STATUS_TYPE ,
 								  default='FOUND')
 
-	def __unicode__(self):
-		return self.tags + self.location
-
-	def __str__(self):
-		return self.tags + self.location
-
-	def __repr__(self):
-		return str(self)
-
 class PreRegisteredItem(AbstractItem):
 
-	unique_id = models.CharField(_('Unique Identification ID'), blank=True, null=True, max_length=40,
-							help_text = "Unique Identification numbers like IMEI,Serial Number,reference number etc (Every item might not have it,so optional)")
-
-	tags = models.CharField(max_length=2000)
-	description = models.CharField(max_length=2000)
 	owner = models.ForeignKey('CustomUser', related_name='owner', null=True, blank=True, help_text = "The user id of the user who found item")
-	category = models.CharField(max_length=30)
 	lost = models.BooleanField(default=False)
 	created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
-	def __unicode__(self):
-		return self.tags + self.category
-
-	def __str__(self):
-		return self.tags + self.category
-
-	def __repr__(self):
-		return str(self.tags)
 
 class Media(models.Model):
 

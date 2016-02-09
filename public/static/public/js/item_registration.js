@@ -13,6 +13,7 @@ $("#pac-input").bind("keydown", function(e) { if (e.keyCode === 13) return false
 function uploadData(user){
 
   var ui = $('#uid').val();
+  var title = $('#titleid').val();
   var category = $('#categoryid').val();
   var description = $('#descriptionid').val();
   var tags = $('#tagsid').val();
@@ -46,6 +47,7 @@ function uploadData(user){
 
     $.post('/item_registration/',{
           'uniqueid':   ui,
+          'title': title,
           'category':   category,
           'description':   description,
           'tags':   tags,
@@ -64,7 +66,6 @@ function uploadData(user){
 }
 
 function getBase64Image(imgElem) {
-// imgElem must be on the same server otherwise a cross-origin error will be thrown "SECURITY_ERR: DOM Exception 18"
     var canvas = document.createElement("canvas");
     canvas.width = imgElem.naturalWidth;
     canvas.height = imgElem.naturalHeight;
@@ -115,14 +116,13 @@ function initMap() {
       return;
     }
 
-    // If the place has a geometry, then present it on a map.
     if (place.geometry.viewport) {
       map.fitBounds(place.geometry.viewport);
     } else {
       map.setCenter(place.geometry.location);
-      map.setZoom(17);  // Why 17? Because it looks good.
+      map.setZoom(17);  
     }
-    marker.setIcon(/** @type {google.maps.Icon} */({
+    marker.setIcon( ({
       url: place.icon,
       size: new google.maps.Size(71, 71),
       origin: new google.maps.Point(0, 0),
@@ -145,6 +145,4 @@ function initMap() {
     infowindow.open(map, marker);
   });
 
-  // Sets a listener on a radio button to change the filter type on Places
-  // Autocomplete
 }

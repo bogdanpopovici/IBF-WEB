@@ -4,7 +4,7 @@
 	</header>
     {% for seq in message_sequences %}
     <div id="message_box_{{seq.index}}" class="messages-box">
-        <div class="other-user">Coversation with {{seq.other_user}} about item: '{{seq.topic.topic.tags}}'</div>
+        <div class="other-user">Coversation with {{seq.other_user}} about item: '{{seq.topic.topic.title}}'</div>
         {% for message in seq.messages %}
         <div class="row no-margin">
         {% if message.type == "SEND" %}

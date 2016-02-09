@@ -88,7 +88,7 @@ def register(request):
           # Send email with activation key
           email_subject = 'Account confirmation'
           email_body = "Hey %s, thanks for signing up. To activate your account, click this link within \
-          48hours http://127.0.0.1:8000/accounts/confirm/%s" % (username, activation_key)
+          48hours http://ibf.herokuapp.com//accounts/confirm/%s" % (username, activation_key)
 
           send_mail(email_subject, email_body, 'myemail@example.com',
               [email], fail_silently=False)
@@ -323,12 +323,14 @@ def item_registration(request):
   if request.method=='POST':
     try:
      uid = request.POST.get('uniqueid')
+     title = request.POST.get('title')
      category = request.POST.get('category')
      description = request.POST.get('description')
      tags = request.POST.get('tags')
      location = request.POST.get('location')
      photos = json.loads(request.POST['media'])
      new_item = Item()
+     new_item.title = title
      new_item.unique_id = uid
      new_item.tags = tags
      new_item.description = description
