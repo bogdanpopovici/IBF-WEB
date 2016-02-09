@@ -173,7 +173,7 @@ function reply_to_notification(seq_index, topic_pk){
 
 function pre_register_item(media_url){
 
-  $('#pre-register-btn').html('<span class="glyphicon glyphicon-refresh spinning"></span> Registering...');
+  $('#submitButton').html('<span class="glyphicon glyphicon-refresh spinning"></span> Registering...');
   $.post('/API/item_pre_registration/',{
         'uniqueid':   new_item_uid,
         'category':   new_item_category,
