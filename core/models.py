@@ -155,7 +155,7 @@ class Item(AbstractItem):
 	
 	found_by_user = models.ForeignKey('CustomUser', related_name='Item_found_by_user', null=True, blank=True, help_text = "The user id of the user who found item")
 	lost_by_user = models.ForeignKey('CustomUser', related_name='Item_lost_by_user', null=True, blank=True, help_text = "The user id of the user who lost the item")
-	location = models.CharField(max_length=30)
+	location = models.CharField(max_length=1000)
 	date_field = models.DateField(blank=True)
 	time_field = models.TimeField(blank=True)
 
