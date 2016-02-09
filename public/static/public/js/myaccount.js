@@ -173,8 +173,8 @@ function reply_to_notification(seq_index, topic_pk){
 
 function pre_register_item(media_url){
 
-	console.log("in");
-  $.post('/API/item_pre_registration/',{
+	console.log($('[name="csrfmiddlewaretoken"]').val());
+  $.get('/API/item_pre_registration/',{
         'uniqueid':   new_item_uid,
         'category':   new_item_category,
         'description':   new_item_description,
