@@ -5,7 +5,7 @@
     {% for item in pre_reg_items %}
     <li class="row registered-item">
         <div class="col-md-3">
-            <img src="{{MEDIA_URL}}/{{item.media.data}}" class="img-responsive center-block"></img>
+            <img src="{{MEDIA_URL}}{{item.media.data}}" class="img-responsive center-block"></img>
         </div>
         <div class="col-md-6 text-muted">
             <label class="panel-title" id="s6">{{item.title}}</label>
