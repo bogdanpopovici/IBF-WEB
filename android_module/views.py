@@ -61,7 +61,7 @@ def upload_item(request):
         # Send email with activation key
         email_subject = 'Account confirmation'
         email_body = "Hey %s, thanks for uploading the item. We have created an account for you.\n To activate your account, click this link within \
-        48hours http://127.0.0.1:8000/accounts/confirm/%s. \n Your username: %s \n Your password: %s \n" % (username, activation_key, username, password)
+        48hours http://ibf.herokuapp.com/accounts/confirm/%s. \n Your username: %s \n Your password: %s \n" % (username, activation_key, username, password)
 
         send_mail(email_subject, email_body, 'myemail@example.com',
             [email], fail_silently=False)

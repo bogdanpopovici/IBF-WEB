@@ -106,8 +106,8 @@ def reply_to_notification(request):
 def item_pre_registration(request):
 
   image = None
-
-  if request.method=='POST':
+  print "yes"
+  '''if request.method=='POST':
     try:
      uid = request.POST.get('uniqueid')
      category = request.POST.get('category')
@@ -181,7 +181,7 @@ def notify(request):
         response_data['result'] = 'OK'
     except Exception, e:
       traceback.print_exc()
-      response_data['result'] = 'ERROR'
+      response_data['result'] = 'ERROR'''
   
   return HttpResponse(json.dumps(response_data), content_type="application/json")
 
