@@ -3,6 +3,7 @@
 {% block pagetitle %}Lost Items{% endblock %}
 
 {% load staticfiles %}
+{% load css_utils %}
 
 {% block header %}
 <link href="{% static 'public/css/search_for_item.css' %}" rel="stylesheet">
@@ -29,48 +30,35 @@
         <div class="row">
           <label for="name">Item name:</label>
           <div class="form-group">
-            <input class="form-control" input id="id_q" name="q" type="text" placeholder="Item name" tabindex="5">
+            {{form.q|addcss:"class:form-control,placeholder:Item title,tabindex:5"}}
           </div>
         </div>  
 
         <div class="row">
           <label for="name">Please select a category:</label>
           <div class="form-group">
-            <select id="selectbasic" name="category" class="form-control" tabindex="6">
-              <optgroup label="Please select a category">
-                <option value="Accessories">Accessories</option>
-                <option value="Animal">Animal</option>
-                <option value="Bag">Bag</option>
-                <option value="Book">Book</option>
-                <option value="Clothes">Clothes</option>
-                <option value="Container">Container</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Id/cards">Id/cards</option>
-                <option value="Jewellery">Jewellery</option>
-                <option value="Other">Other</option>
-              </optgroup>
-            </select>
+            {{form.category|addcss:"class:form-control isearch,id:selectbasic,tabindex:6"}}
           </div>
         </div>
 
         <div class="row">
           <label for="name">Location:</label>
            <div class="form-group">
-            <input class="form-control isearch" name="location" id="locationInput" type="text" placeholder="Location" default="Unknown" tabindex="7">
+            {{form.location|addcss:"class:form-control isearch,placeholder:Location, id:locationInput,tabindex:7"}}
           </div>
         </div>
         
         <div class="row">
           <label for="name">Date Interval Start:</label>
           <div class="form-group">
-            <input class="form-control isearch" name="start_date" id="dateStartInput" type="date" placeholder="Start date" tabindex="8">
+            {{form.start_date|addcss:"class:form-control isearch,placeholder:Location, type:date,id:dateStartInput,tabindex:8"}}
           </div>
         </div>
 
         <div class="row">
           <label for="name">Date Interval End:</label>
           <div class="form-group">
-            <input class="form-control isearch" name="end_date" id="dateEndInput" type="date" tabindex="9">
+            {{form.end_date|addcss:"class:form-control isearch,placeholder:Location, type:date,id:dateEndInput,tabindex:9"}}
           </div>
         </div>
 

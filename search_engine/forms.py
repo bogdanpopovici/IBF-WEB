@@ -3,9 +3,23 @@ from haystack.forms import SearchForm
 import datetime
 
 class ItemsSearchForm(SearchForm):
+
+    CATEGORY_CHOICES = (
+        ('ACCESSORY', 'Accessory'),
+        ('ANIMAL', 'Animal'),
+        ('BAG', 'Bag'),
+        ('BOOK', 'Book'),
+        ('CLOTHES', 'Clothes'),
+        ('CONTAINER', 'Container'),
+        ('ELECTRONICS', 'Electronics'),
+        ('ID/CARDS', 'Id/cards'),
+        ('JEWELLERY', 'Jewellery'),
+        ('OTHER', 'Other')
+    )
     start_date = forms.DateField(required=False)
     end_date = forms.DateField(required=False)
     location = forms.CharField(required=False)
+    category = forms.ChoiceField(choices=CATEGORY_CHOICES)
 
     def search(self):
         # First, store the SearchQuerySet received from other processing.
