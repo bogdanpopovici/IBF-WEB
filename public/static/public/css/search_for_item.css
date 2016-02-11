@@ -1,0 +1,67 @@
+.image-resize{
+  padding-top: 5px;
+  height: 155px;
+  width: 180px;
+  border: 2px solid #dddddd;
+  border-radius:20px;
+  margin-right: 7px;
+}
+
+img.image-resize:hover{
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 10px #9ecaed;
+  margin-right: 7px;
+}
+
+.list-groups {
+  padding-left: 0;
+  margin-right: 200px;
+  margin-left: 8px;
+  margin-top: 14px;
+}
+
+.list-groups-item {
+  position: relative;
+  display: block;
+  padding: 9px 15px;
+  background-color: rgba(214, 214, 194, 0.4);
+  border: 1px solid #dddddd;
+}
+
+.search-cont{
+  padding: 50px;
+  margin-top: 10px;
+}
+
+.search-panel{
+  margin-top: 20px;
+  margin-bottom: 50px;
+  min-height: 90vh;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-top: solid 7px #d7565b;
+  -webkit-box-shadow: 0px 7px 2px 0px rgba(50, 50, 50, 0.27);
+  -moz-box-shadow:    0px 7px 2px 0px rgba(50, 50, 50, 0.27);
+  box-shadow:         0px 7px 2px 0px rgba(50, 50, 50, 0.27);
+}
+
+img.bg {
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+    
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+  z-index: -9999;
+    
+  /* Set up positioning */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.btn-claim{
+  margin-bottom: 5px;
+  width: 100%;
+}

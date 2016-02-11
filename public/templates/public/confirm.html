@@ -1,0 +1,25 @@
+<!-- University of Southampton 
+     Group Design Project in collaboration with 'The Big Consulting' 
+     Copyright 2015 -->
+
+{% extends 'base.html' %}
+
+{% block pagetitle %}Account Activated{% endblock %}
+
+{% block main_block %}
+
+<div style="margin-top:30px; width:60%; min-width:500px; margin-left:auto; margin-right:auto;">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">You have successfuly activated your account. Now, you can log in</div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-6"><a href="{% url 'public:index' %}" id="details_cancel" class="btn btn-block btn-default">Go back to website</a></div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

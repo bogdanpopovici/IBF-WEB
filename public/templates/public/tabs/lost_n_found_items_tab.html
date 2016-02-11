@@ -1,0 +1,33 @@
+<ul class="registered-items">
+    {% for found_item in found_items %}
+    <li id="foound_{{found_item.pk}}"class="row registered-item">
+        <div class="col-md-3">
+            <img src="{{MEDIA_URL}}/{{found_item.media.data}}" class="img-responsive center-block"></img>
+        </div>
+        <div class="col-md-6 text-muted">
+            <label class="panel-title" id="s6">{{found_item.title}}    Category:{{found_item.category}}</label>
+            <hr>
+            <p>{{found_item.description}}</p>
+        </div>
+        <div class="col-md-3 text-right">
+            <label>
+                <a class="btn btn-info custom-report-button">View</a>
+                <br/>
+                {% if found_item.status == 'CLAIMED' %}
+                <a id="repatriate_button_found_item.pk" onclick="repatriate_item('{{found_item.pk}}')" class="btn btn-primary custom-report-button">Repatriate item</a>
+                {% endif %}
+                {% if found_item.status == 'PREREPATRIATED' %}
+                <a id="repatriate_button_found_item.pk" class="btn btn-primary custom-report-button">Waiting response...</a>
+                {% endif %}
+            </label>
+        </div>
+    </li>
+    {% empty %}
+    <li class="row registered-item">
+        <div class="col-md-6 text-muted">
+            <label class="panel-title" id="s6">You haven't registered any found item with our services</label>
+            <hr>
+        </div>
+    </li>
+    {% endfor %}
+</ul>

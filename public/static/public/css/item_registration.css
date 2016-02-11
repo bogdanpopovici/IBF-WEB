@@ -1,0 +1,96 @@
+#item_registration_form {
+	padding-top: 2%;
+  padding-bottom: 1%;
+}
+
+.bootstrap-tagsinput {
+    width: 100%;
+}
+
+.label-info {
+    background-color: #303880;
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 100%;
+    font-weight: normal;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.modal-body{
+    padding-top: 25px;
+}
+
+.modal-footer{
+  padding: 19px 20px 20px;
+  margin-top: 0;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+
+.modal-content {
+
+  overflow-y: scroll;
+}
+
+.main-panel{
+  overflow-y: scroll;
+}
+
+.container1 {
+  padding-bottom: 5%;
+}
+
+#map {
+  height: 200px;
+}
+
+.controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 300px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+.pac-container {
+  font-family: Roboto;
+}
+
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.gm-style-mtc {
+  display: none;
+}

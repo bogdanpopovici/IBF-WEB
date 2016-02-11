@@ -1,0 +1,193 @@
+<!-- University of Southampton 
+     Group Design Project in collaboration with 'The Big Consulting' 
+     Copyright 2015 -->
+
+{% extends 'index.html' %}
+
+{% load staticfiles %}
+
+{% block pagetitle %}ItemRegistration{% endblock %}
+
+{% block header %}
+
+<!-- load tags plugin for creating tag-based description -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.css" />
+<script src="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.min.js"></script>
+
+<!-- load file-input plugin -->
+<link href="{% static 'public/css/fileinput.css' %}" media="all" rel="stylesheet" type="text/css" />
+<script src="{% static 'public/js/fileinput.js' %}" type="text/javascript"></script>
+
+<link href="{% static 'public/css/item_registration.css' %}" media="all" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block body_block %}
+<script type="text/javascript">
+    $(document).ready(function() {
+       
+        $('#upload-item-form').bootstrapValidator({
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                title: {
+                    message: 'A title of the item is required',
+                    validators: {
+                        notEmpty: {
+                            message: 'A title of the item is required'
+                        },
+                    }
+                },
+                tags: {
+                    message: 'The tags field is mandatory',
+                    validators: {
+                        notEmpty: {
+                            message: 'The tags field is mandatory'
+                        },
+                    }
+                },
+                description: {
+                    message: 'Please provide a description of the item',
+                    validators: {
+                        notEmpty: {
+                            message: 'Please provide a description of the item'
+                        },
+                    }
+                },
+                location: {
+                    message: 'Please provide a location for the item',
+                    validators: {
+                        notEmpty: {
+                            message: 'Please provide a location of the item'
+                        },
+                    }
+                },
+                filebutton: {
+                    message: 'Please add at least one photo of the item',
+                    validators: {
+                        notEmpty: {
+                            message: 'Please add at least one photo of the item'
+                        },
+                    }
+                },
+            }
+        });
+    });
+</script>
+
+
+
+<div class="container container1" id="item_registration_form">
+  <div class="row">
+    <div class="modal-content  main-panel">
+
+      <div class="modal-header">
+          <h4 class="modal-title">Register the found item</h4>
+      </div>
+
+      <form id="upload-item-form" class="form-horizontal" action="" method="post">
+
+        {% csrf_token %}
+        <div class="modal-body">
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-3 control-label" for="textinput">Unique identifier</label>  
+            <div class="col-md-6">
+              <input id="uid" name="textinput" type="text" placeholder="I.e. MEI, Serial Number, reference number..." class="form-control input-md">
+            </div>
+          </div>
+
+          <div class="form-group has-feedback no-feedback-icon">
+            <label class="col-md-3 control-label" for="textarea">Title</label>
+            <div class="col-md-6">                     
+              <textarea class="form-control" id="titleid" name="title" placeholder="i.e. Samsung Galaxy S5"></textarea>
+            </div>
+          </div>
+          <!-- File Button --> 
+          <div class="form-group has-feedback no-feedback-icon">
+            <label class="col-md-3 control-label" for="filebutton">Upload phtoto...</label>
+            <div class="col-md-6">
+              <input id="file-upload-input" name="filebutton" multiple class="input-file" type="file">
+            </div>
+          </div>
+            
+          <!-- Select Basic -->
+          <div class="form-group">
+            <label class="col-md-3 control-label" for="selectbasic">Category</label>
+            <div class="col-md-6">
+              <select id="categoryid" name="category" class="form-control">
+                <option value="Accessories">Accessories</option>
+                <option value="Animal">Animal</option>
+                <option value="Bag">Bag</option>
+                <option value="Book">Book</option>
+                <option value="Clothes">Clothes</option>
+                <option value="Container">Container</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Id/cards">Id/cards</option>
+                <option value="Jewellery">Jewellery</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Textarea -->
+          <div class="form-group has-feedback no-feedback-icon">
+            <label class="col-md-3 control-label" for="textarea">Description</label>
+            <div class="col-md-6">                     
+              <textarea class="form-control" id="descriptionid" name="description" placeholder="Give as much details as you can about this item"></textarea>
+            </div>
+          </div>
+          <!-- Textarea -->
+          <div class="form-group has-feedback no-feedback-icon">
+            <label class="col-md-3 control-label" for="textarea">Location</label>
+            <div class="col-md-6">      
+              <input id="pac-input" class="controls form-control" name="location" type="text" placeholder="Enter a location">
+              <div id="map"></div>
+            </div>
+          </div>
+          
+          <!-- Textarea -->
+          <div class="form-group has-feedback no-feedback-icon">
+            <label class="col-md-3 control-label" for="textarea">Tags</label>
+            <div class="col-md-6">                     
+              <input id="tagsid" type="text" name="tags" class="form-control" data-role="tagsinput" placeholder="i.e. Iphone, 6, black ...">
+              <small id="emptytagserror" class="help-block red hide" data-bv-validator="notEmpty" data-bv-for="description" data-bv-result="INVALID" style="">The tags field is mandatory</small>
+              <span class="tip"><strong>Tip: </strong>Please press the <strong>ENTER</strong> key after each tag.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="submitButton" name="reportfound" class="btn btn-success btn-icon" onClick="uploadData('{{user.is_authenticated}}')">Report Item</button>
+          <a class="btn btn-default btn-icon" href='{% url "public:index" %}'><i class="fa fa-times-circle"></i> Cancel</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="loginRequiredModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content" style="overflow-y:hidden;">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">You are not logged in</h4>
+        </div>
+
+        <div class="modal-body">
+          Please login using the top-right menu or register with pur service <a href='{% url "public:register" %}'>here</a> before uploading an item!!
+        </div>
+      </div>
+    </div>
+</div>
+    
+<script src="{% static 'public/js/item_registration.js' %}" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXr6cPuKrMcZ7IJ7_K4zV1X-0AwF3VLcU&signed_in=true&libraries=places&mapTypeControl=false&callback=initMap" async defer></script>
+{% endblock %}

@@ -1,0 +1,113 @@
+<!-- University of Southampton 
+     Group Design Project in collaboration with 'The Big Consulting' 
+     Copyright 2015 -->
+
+{% extends 'index.html' %}
+
+{% load staticfiles %}
+
+{% block pagetitle %}Welcome{% endblock %}
+
+{% block body_block %}
+
+
+<a href="#main-content" class="skip-link" tabindex="2">skip to main content</a>
+<a href="#footer" class="skip-link" tabindex="3">skip to footer content</a>
+
+<div id="main-content">
+  <div class="page-top">
+    <div class="top-image">
+      <img class="ibf-logo-big" src="{% static 'public/img/ibf_logo_big.png' %}"/>
+      <p class="connecting-text">Connecting Seekers and Finders</p>
+    </div>
+    <div class="action-buttons">
+      <div class="row">
+        <div class="col-xs-6">
+          <a href="{% url 'search:custom_search' %}" class="a-btn ilost" tabindex="5" accesskey="l">
+            <span class="a-btn-text">I've lost something</span>
+          </a>
+        </div>
+        <div class="col-xs-6">
+          <a href="{% url 'public:item_registration' %}" class="a-btn ifound" tabindex="6" accesskey="f">
+            <span class="a-btn-text">I've found something</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="row stories no-margin">
+    <ul class="stories col-md-10 col-md-offset-1">
+      <li class="story col-md-3">
+        <div class="text-muted">
+          <label class="panel-title" id="s6">"Never thought I'd find it"</label>
+          <hr class="story-line">
+          <p>Kate lost her purse in central London this week. Now Mark is her hero after he found the purse and retured it within 24 hours</p>
+        </div>
+      </li>
+      <li class="story col-md-3">
+        <div class="text-muted">
+          <label class="panel-title" id="s6">Go hard or go with IBF</label>
+          <hr class="story-line">
+          <p>Nicole lost her watch in Asda in November. After trying to determine the place where she lost it she discevered IBF. Surprise, the watch was already online</p>
+        </div>
+      </li>  
+      <li class="story col-md-3">
+        <div class="text-muted">
+          <label class="panel-title" id="s6">Missing home</label>
+          <hr class="story-line">
+          <p>Johnson's dog BigBoy got lost on a Friday. The Mickelsons found him 9 miles away in their yard. IBF is happy that Johnson got his companion back</p>
+        </div>
+      </li>  
+      <li class="story col-md-3">
+        <div class="text-muted">
+          <label class="panel-title" id="s6">"I am grateful to IBF"</label>
+          <hr class="story-line">
+          <p>Joe lost his only car key he had. Before taking the car to service she had a look on the IBF website. Joe donated 120£ to the largest homeless center in UK</p>
+        </div>
+      </li>        
+    </ul>
+  </div>
+
+  
+  <footer id="footer" class="footer">
+    <div class="row">
+      <div class="col-xs-3">
+        <p class="footer-column">About us</p>
+        <ul class="">
+          <li class=""><a href="{% url 'staticpages:about_us' %}" tabindex="7">What is IBF?</a></li>
+          <li class=""><a href="{% url 'staticpages:why_our_services' %}" tabindex="8">Why use our service?<a/></li>
+          <li class=""><a href="{% url 'staticpages:our_strategy' %}" tabindex="9">Our strategy</a></li>
+          <li class=""><a href="{% url 'staticpages:terms_conditions' %}"  tabindex="10">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+      <div class="col-xs-3">
+        <p class="footer-column">How to:</p>
+        <ul class="">
+          <li class=""><a href="{% url 'staticpages:register_tutorial' %}" tabindex="11">Register a found item</a></li>
+          <li class=""><a href="{% url 'staticpages:search_tutorial' %}" tabindex="12">Look up a lost item<a/></li>
+          <li class=""><a href="{% url 'staticpages:return_item' %}" tabindex="13">Return an item</a></li>
+          <li class=""><a href="{% url 'staticpages:common_tips' %}" tabindex="14">Common tips</a></li>
+        </ul>
+      </div>
+      <div class="col-xs-3">
+        <p class="footer-column">Our App</p>
+        <ul class="">
+          <li class=""><a href="{{MEDIA_URL}}app-release.apk" tabindex="15">Android App</a></li>
+          <li class=""><a tabindex="16">IOS App (soon)<a/></li>
+          <li class=""><a tabindex="17">Windows Phone (soon)</a></li>
+        </ul>
+      </div>
+      <div class="col-xs-3">
+        <p class="footer-column">Contact &amp; Support</p>
+        <ul class="">
+          <li class=""><a tabindex="18">Tel: 01234566789</a></li>
+          <li class=""><a href="mailto:contact@ivebeenfound.com" tabindex="19">Email: contact@ivebeenfound.com<a/></li>
+          <li class=""><a tabindex="20">Or try our live chat (soon)</a></li>
+          <li class=""><a href="{% url 'staticpages:accessibility_support' %}" tabindex="21">Accessibility Note</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+{% endblock %}

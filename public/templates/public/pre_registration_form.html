@@ -1,0 +1,138 @@
+<div id="pre-register-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Register an item with our services</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" action="" method="post">
+
+        {% csrf_token %}
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label class="col-md-3 control-label" >Title<span class="mandatory-star">*<span></label>
+            <div class="col-md-6">                     
+              <input id="titleid" type="textinput" name="title" class="form-control" placeholder="i.e. Iphone 6 black ...">
+            </div>
+          </div>
+
+          <!-- Select Basic -->
+          <div class="form-group">
+            <label class="col-md-3 control-label" for="selectbasic">Category<span class="mandatory-star">*<span></label>
+            <div class="col-md-6">
+              <select id="categoryid" name="category" class="form-control">
+                <option value="Accessories">Accessories</option>
+                <option value="Animal">Animal</option>
+                <option value="Bag">Bag</option>
+                <option value="Book">Book</option>
+                <option value="Clothes">Clothes</option>
+                <option value="Container">Container</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Id/cards">Id/cards</option>
+                <option value="Jewellery">Jewellery</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-3 control-label" for="textinput">Unique identifier</label>  
+            <div class="col-md-6">
+              <input id="uid" name="textinput" type="text" placeholder="I.e. MEI, Serial Number, Reference Number..." class="form-control input-md">
+                
+            </div>
+          </div>
+
+           <!-- Textarea -->
+          <div class="form-group">
+            <label class="col-md-3 control-label" for="textarea">Description<span class="mandatory-star">*<span></label>
+            <div class="col-md-6">                     
+              <textarea class="form-control" id="descriptionid" name="description" placeholder="Give as much details as you can about this item"></textarea>
+            </div>
+          </div>
+
+          <!-- File Button --> 
+          <div class="form-group">
+            <label class="col-md-3 control-label" for="fillebutton">Upload phtoto...</label>
+            <div class="col-md-6">
+              <input id="photos-upload-input" name="filebutton" multiple class="input-file" type="file">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <input type="button" id="previewButton" name="preview" value="Preview item" class="btn btn-success btn-icon" onClick="previewItem()"/>
+        </div>
+
+      </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="preview-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Preview of your item</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12 item-title">
+            <p id="preview_title"></p>
+          </div>
+        </div>
+
+        <div id="preview_photos" class="row">
+
+        </div>
+
+        <div class="row"> 
+          <div class="col-md-6 col-md-offset-1">
+            <p id="preview_desc"></p>                
+          </div>
+        </div>
+
+        <div class="row"> 
+          <div class="col-md-6 col-md-offset-1">
+            <p id="preview_uid"></p>                
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <a class="btn btn-danger btn-icon" onClick="backToEdit()">Edit</a>
+        <input type="button" id="submitButton" name="submit" value="Save item" class="btn btn-success btn-icon" onClick="pre_register_item('{{MEDIA_URL}}')"/>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  
+$("#photos-upload-input").fileinput({
+    uploadUrl: '#', // you must set a valid URL here else you will get an error
+    allowedFileExtensions : ['jpg', 'png','gif', 'jpeg'],
+    overwriteInitial: false,
+    maxFileSize: 1000,
+    maxFilesNum: 10,
+    //allowedFileTypes: ['image', 'video', 'flash'],
+    slugCallback: function(filename) {
+        return filename.replace('(', '_').replace(']', '_');
+    }
+});
+
+</script>

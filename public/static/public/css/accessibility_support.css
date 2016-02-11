@@ -1,0 +1,29 @@
+.keys-content{
+	width: 70%;
+	margin:auto;
+	margin-top: 20px;
+	border-radius: 15px;
+	border: solid 3px #1f7a1f;
+	padding: 0 5%;
+}
+.keys-content h2,
+.keys-content h3{
+	font-family: 'Calisto MT', 'Bookman Old Style', Bookman, 'Goudy Old Style', Garamond, 'Hoefler Text', 'Bitstream Charter', Georgia, serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+}
+
+.keys-content h2{
+	font-size: 3.5rem;
+}
+.keys-content i{
+	margin-right: 1rem;
+}
+.keys-content h3{
+	font-size: 2.3rem;
+}
+.keys-content ul li
+{
+	font-family: 'Lucida Bright', Georgia, serif;
+}

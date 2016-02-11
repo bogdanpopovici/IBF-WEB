@@ -1,0 +1,17 @@
+Django==1.8.5
+Pillow==3.0.0
+PyJWT==1.4.0
+django-haystack==2.4.1
+django-paypal==0.2.7
+django-stdimage==2.0.8
+elasticsearch==2.1.0
+--allow-external mysql-connector-python mysql-connector-python==2.0.4
+mysql-python==1.2.5
+oauthlib==1.0.3
+progressbar2==2.7.3
+python-openid==2.2.5
+python-social-auth==0.2.13
+requests==2.8.1
+requests-oauthlib==0.5.0
+six==1.10.0
+urllib3==1.12

@@ -1,0 +1,22 @@
+<!-- University of Southampton 
+     Group Design Project in collaboration with 'The Big Consulting' 
+     Copyright 2015 -->
+
+{% extends 'base.html' %}
+
+{% block pagetitle %}Code Expired{% endblock %}
+
+{% block main_block %}
+
+<div style="margin-top:30px; width:60%; min-width:500px; margin-left:auto; margin-right:auto;">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">This link has expired. Click the button below to receive another verification link</div>
+    </div>
+    <div class="row">
+          <div class="col-md-6"><a href="{% url 'public:resend_confirm' %}" id="details_cancel" class="btn btn-block btn-default">Re-send</a></div>
+        </div>
+  </div>
+</div>
+
+{% endblock %}

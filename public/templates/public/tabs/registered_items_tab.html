@@ -1,0 +1,29 @@
+<div class="row controls">
+    <a href="" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#pre-register-modal" ><span class="glyphicon glyphicon-plus"></span> Register New Item</a>
+</div>
+<ul class="registered-items">
+    {% for item in pre_reg_items %}
+    <li class="row registered-item">
+        <div class="col-md-3">
+            <img src="{{MEDIA_URL}}{{item.media.data}}" class="img-responsive center-block"></img>
+        </div>
+        <div class="col-md-6 text-muted">
+            <label class="panel-title" id="s6">{{item.title}}</label>
+            <hr>
+            <p>{{item.category}}</p>
+        </div>
+        <div class="col-md-3 text-right">
+            <label>
+                <a id="e6" href="javascript:toggle('it6','s6','e6');">Update</a>
+            </label>
+        </div>
+    </li>
+    {% empty %}
+    <li class="row registered-item">
+        <div class="col-md-6 text-muted">
+            <label class="panel-title" id="s6">You don't have any items registered with our system at the moment. To register one use the 'register Item' button above</label>
+            <hr>
+        </div>
+    </li>
+    {% endfor %}
+</ul>

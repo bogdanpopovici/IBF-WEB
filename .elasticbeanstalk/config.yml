@@ -1,0 +1,10 @@
+branch-defaults:
+  default:
+    environment: Ivebeenfound-dev2
+global:
+  application_name: Ivebeenfound
+  default_ec2_keyname: ivebeenfound
+  default_platform: Python 2.7
+  default_region: us-west-2
+  profile: eb-cli
+  sc: null

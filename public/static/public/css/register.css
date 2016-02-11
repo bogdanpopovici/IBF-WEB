@@ -1,0 +1,201 @@
+.modal-content{
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #999999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  outline: none;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  background-clip: padding-box;
+}
+
+.modal-header{
+  min-height: 16.4286px;
+  padding: 10px 15px;
+}
+
+.close{
+  float: right;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .2;
+  filter: alpha(opacity=20);
+}
+
+.modal-body{
+  position: relative;
+  padding: 40px;
+}
+
+.modal-footer{
+  padding: 19px 20px 20px;
+  margin-top: 0;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Membership choice*/
+.reveal-if-active{
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  font-size: 16px;
+  transform: scale(0.8);
+  transition: 0.5s;
+  margin-bottom: 20px;
+}
+.reveal-if-active input[type=text]{
+  width: 100%;
+}
+
+input[type="radio"]:checked ~ .reveal-if-active, input[type="checkbox"]:checked ~ .reveal-if-active{
+  opacity: 1;
+  max-height: 100px;
+  transform: scale(1);
+  overflow: visible;
+}
+
+.membership{
+  display: block;
+  margin-left:10%;
+  margin-bottom: 20px;
+}
+
+.choice-standard{
+  font-size: 22px; 
+  color:  #122F7F;
+  background: -webkit-linear-gradient(transparent, transparent),
+             -webkit-linear-gradient(top, rgba(9,35,107,1) 0%, rgba(9,35,107,1) 26%, rgba(18,47,187,1) 35%, rgba(37,44,102,1) 45%, rgba(27,42,84,1) 61%, rgba(9,35,107,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.choice-premium{
+  font-size: 22px;
+  font-style: italic;
+  color: #D5AD6D;
+  background: -webkit-linear-gradient(transparent, transparent),
+             -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pay-button{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.checkmark{
+    vertical-align: middle;
+    padding-top: 10px;
+    display:inline-block;
+    width: 22px;
+    height:22px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+.checkmark_circle{
+    position: absolute;
+    width:22px;
+    height:22px;
+    background-color: green;
+    border-radius:11px;
+    left:0;
+    top:0;
+}
+
+.xmark_circle{
+    position: absolute;
+    width:22px;
+    height:22px;
+    background-color: red;
+    border-radius:11px;
+    left:0;
+    top:0;
+}
+
+.checkmark_stem{
+    position: absolute;
+    width:3px;
+    height:9px;
+    background-color:#fff;
+    left:11px;
+    top:6px;
+}
+
+.xmark_stem1{
+    position: absolute;
+    width:3px;
+    height:12px;
+    background-color:#fff;
+    left:10px;
+    top:5px;
+}
+
+.xmark_stem2{
+    position: absolute;
+    width:3px;
+    height:12px;
+    background-color:#fff;
+    left:10px;
+    top:5px;
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    transform: rotate(90deg);
+}
+
+.checkmark_kick{
+    position: absolute;
+    width:3px;
+    height:3px;
+    background-color:#fff;
+    left:8px;
+    top:12px;
+}
+
+/*end*/
+
+.accept{
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+.tip{
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.glyphicon-ok,  .glyphicon-remove, .glyphicon-refresh{
+  position: absolute;
+  margin-top: 34px;
+  pointer-events: none;
+  right: 24px;
+}
+
+.has-error .help-block, .has-error .control-label, .has-error .form-control-feedback{
+    color: #ff4136;
+}
+
+.has-error .form-control{
+    border-color: #ff4136;
+}
+
+.has-success .help-block, .has-success .control-label, .has-success .form-control-feedback{
+    color: #28b62c;
+}
+
+.has-success .form-control{
+    border-color: #28b62c;
+}
+.row.accept i{
+  display: none!important;
+}

@@ -1,0 +1,34 @@
+<ul class="registered-items">
+    {% for match in matches %}
+    <li id="match_{{match.pk}}"class="row registered-item">
+        <div class="col-md-3">
+            <img src="{{MEDIA_URL}}/{{match.media.data}}" class="img-responsive center-block"></img>
+        </div>
+        <div class="col-md-6 text-muted">
+            <label class="panel-title" id="s6">{{match.topic.title}}    Category:{{match.topic.category}}</label>
+            <hr>
+            <p>{{match.topic.description}}</p>
+        </div>
+        <div class="col-md-3 text-right">
+            <label>
+                <a class="btn btn-info custom-report-button">View</a>
+                <br/>
+                {% if match.topic.status == 'FOUND' %}
+                <a onclick="popUpNotificationModal('{{match.topic.pk}}', '{{match.topic.found_by_user.prefered_way_of_contact}}', '{{match.topic.found_by_user.phone_number}}')" class="btn btn-info custom-report-button">Claim</a>
+                {% else %}
+                <a class="btn btn-primary custom-report-button">Item Claimed</a>
+                {% endif %}
+                <br/>
+                <a onclick="rejectNotification('{{match.pk}}', '{{match.topic.found_by_user.prefered_way_of_contact}}', '{{match.topic.found_by_user.phone_number}}')" class="btn btn-info custom-report-button">Not mine</a>
+            </label>
+        </div>
+    </li>
+    {% empty %}
+    <li class="row registered-item">
+        <div class="col-md-6 text-muted">
+            <label class="panel-title" id="s6">There are now items that match any of your lost items or you don't have any items registered with us</label>
+            <hr>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
