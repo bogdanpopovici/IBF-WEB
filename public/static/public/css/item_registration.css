@@ -94,3 +94,10 @@
 .gm-style-mtc {
   display: none;
 }
+.carousel-photo img{
+  display: block!important;
+  margin: 0 auto!important;
+  width:100%!important;
+  height:auto!important;
+  max-height: 300px!important;
+}

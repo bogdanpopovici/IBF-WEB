@@ -1,3 +1,12 @@
+var ui;
+var title;
+var category;
+var description;
+var tags;
+var location_text;
+var files;
+var cont;
+
 $("#file-upload-input").fileinput({
     uploadUrl: '#', // you must set a valid URL here else you will get an error
     allowedFileExtensions : ['jpg', 'png','gif'],
@@ -10,16 +19,79 @@ $("#file-upload-input").fileinput({
     }
 });
 $("#pac-input").bind("keydown", function(e) { if (e.keyCode === 13) return false; });
+
+function previewItem(is_authenticated, user){
+  ui = $('#uid').val();
+  title = $('#titleid').val();
+  category = $('#categoryid').val();
+  description = $('#descriptionid').val();
+  tags = $('#tagsid').val();
+  location_text = $('#pac-input').val();
+  files = [];
+  cont = true;
+  
+  var myDate = new Date();
+  var displayDate = (myDate.getMonth()+1) + '/' + (myDate.getDate()) + '/' + myDate.getFullYear();
+  var photosContainer = $('#photos-container');
+  photosContainer.empty();
+
+  if(ui!=""){
+    $('#prev_uid').html(ui);
+  }else {
+    $('#prev_uid').addClass('hideIt');
+  }
+  $('#prev_title').html(title);
+  $('#prev_category').html(category);
+  $('#prev_description').html(description);
+  $('#prev_tags').html(tags);
+  $('#prev_location').html(location_text);
+  $('#prev_dateNTime').html(displayDate);
+  $('#prev_finder').html(user);
+
+
+  $('#upload-item-form').bootstrapValidator('validate');
+
+  if(is_authenticated!="True"){
+      $('#loginRequiredModal').modal('toggle');
+      cont = false;
+  }
+  if(tags==""){
+    $('#emptytagserror').removeClass('hide');
+    cont = false;
+  } else {
+    $('#emptytagserror').addClass('hide');
+  }
+
+  
+  $("img.file-preview-image").each(function( index ) {
+    var photo = this;
+    var div = $("<div></div>");
+
+    div.addClass("item");
+    div.addClass("carousel-photo");
+
+    if(index==0)
+      div.addClass("active");
+    div.append(this);
+     photosContainer.append(div);
+  });
+
+
+  if(cont && form_is_valid()){
+      $('#previewModal').modal('toggle');
+  }
+}
+
 function uploadData(user){
 
-  var ui = $('#uid').val();
-  var title = $('#titleid').val();
-  var category = $('#categoryid').val();
-  var description = $('#descriptionid').val();
-  var tags = $('#tagsid').val();
-  var location = $('#pac-input').val();
-  var files = [];
-  var cont = true;
+  ui = $('#uid').val();
+  title = $('#titleid').val();
+  category = $('#categoryid').val();
+  description = $('#descriptionid').val();
+  tags = $('#tagsid').val();
+  location_text = $('#pac-input').val();
+  files = [];
+  cont = true;
 
   $('#upload-item-form').bootstrapValidator('validate');
 
@@ -51,7 +123,7 @@ function uploadData(user){
           'category':   category,
           'description':   description,
           'tags':   tags,
-          'location': location,
+          'location': location_text,
           'media':   JSON.stringify(files),
           'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
       },function(result){
