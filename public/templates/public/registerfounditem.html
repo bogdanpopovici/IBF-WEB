@@ -287,13 +287,18 @@
         <hr class="narrow">
         <div class="row">
           <div class="col-xs-5">
-            <p class="hint text-muted text-right">Date n' TIme</p>
+            <p class="hint text-muted text-right">Registration TIme</p>
           </div>
           <div class="col-xs-5">
             <p class="value" id="prev_dateNTime"></p>
           </div>
         </div>
         <hr class="narrow">
+      </div>
+
+      <div class="modal-footer">
+            <button type="button" id="submitButton" name="reportfound" class="btn btn-success btn-icon" onClick="uploadData()">Report Item</button>
+            <a id="cancelSubmissionButton" class="btn btn-default btn-icon" href='{% url "public:index" %}'><i class="fa fa-times-circle"></i> Cancel</a>
       </div>
     </div>
   </div>

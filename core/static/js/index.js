@@ -92,16 +92,40 @@ function popUpNotificationModal(item_id, pwoc, contact_details){
 
 }
 
-function popUpItemModal(media, description, category, finder, location, date, time){
+function popUpItemModal(uid, title, description, tags, category, finder, location, date, time, media, media_uri){
 
-  $('#decription').text(description);
-  $('#decrcategoryiption').text(category);
-  $('#finder').text(finder);
-  $('#location').text(location);
-  $('#dateNTime').text(date + time);
-  console.log(media.length);
+  
+  var photosContainer = $('#details-photos-container');
+  photosContainer.empty();
 
-  $('#itemModal').modal('toggle');
+  if(uid!=""){
+    $('#details_uid').html(ui);
+  }else {
+    $('#details_uid').addClass('hideIt');
+  }
+  $('#details_title').html(title);
+  $('#details_category').html(category);
+  $('#details_description').html(description);
+  $('#details_tags').html(tags);
+  $('#details_location').html(location);
+  $('#details_dateNTime').html(date+" "+time);
+  $('#details_finder').html(finder);
+  
+
+  var photos = JSON.parse(media);
+
+  for(var i=0;i<photos.length;i++) {
+    console.log(media_uri);
+    var photo = '<img src="'+media_uri+photos[i].fields.data+'" alt="...">';
+    if(i==0)
+      photosContainer.append('<div class="item carousel-photo active">'+photo+'</div>');
+    else
+      photosContainer.append('<div class="item carousel-photo">'+photo+'</div>');
+  }
+
+
+  $('#detailsModal').modal('toggle');
+  
 }
 
 function add_image_to_carousel(element, index, array) {

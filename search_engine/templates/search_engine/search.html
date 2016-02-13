@@ -106,7 +106,7 @@
                 <a class="btn btn-success active btn-claim"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
                 {% endif %}
                 <br>
-                <button  onclick="popUpItemModal('{{results.object.description}}', '{{results.object.category}}', '{{results.object.found_by_user}}', '{{results.object.location}}',  '{{results.object.date_field}}', '{{results.object.time_field}}')"  type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
+                <button  onclick="popUpItemModal('{{results.object.description}}', '{{results.object.category}}', '{{results.object.found_by_user}}', '{{results.object.location}}',  '{{results.object.date_field}}', '{{results.object.time_field}}', '{{MEDIA_URL}}, {{result.media}}')"  type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
               </div>
             </div>
           </div>
@@ -156,7 +156,18 @@
                 <a class="btn btn-success disabled btn-claim"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
                 {% endif %}
                 <br>
-                <button onclick="popUpItemModal('{{item.media|safe}}', '{{item.description}}', '{{item.category}}', '{{item.found_by_user}}', '{{item.location}}', '{{item.date_field}}', '{{item.time_field}}')" type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
+                <button onclick="popUpItemModal('{{item.uid}}', 
+                                                '{{item.title}}', 
+                                                '{{item.description}}', 
+                                                '{{item.tags}}', 
+                                                '{{item.category}}', 
+                                                '{{item.found_by_user}}', 
+                                                '{{item.location}}', 
+                                                '{{item.date_field}}', 
+                                                '{{item.time_field}}',
+                                                '{{item.media|jsonify}}',
+                                                '{{MEDIA_URL}}')" 
+                type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
               </div>
             </div>
           </div>
@@ -170,15 +181,31 @@
   </div>
 </div>
 
+
+<div class="modal fade" id="loginRequiredModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="overflow-y:hidden;">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">You are not logged in</h4>
+      </div>
+
+      <div class="modal-body">
+        Please login using the top-right menu or register with pur service <a href='{% url "public:register" %}'>here</a> before uploading an item!!
+      </div>
+    </div>
+  </div>
+</div>
 <!-- item details modal -->
 <!-- preview modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="itemModal" aria-hidden="true">
+<div class="modal fade" tabindex="-1" role="dialog" id="detailsModal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content" style="overflow:hidden">
       <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 
         <!-- Wrapper for slides -->
-        <div id="photos-container" class="carousel-inner">
+        <div id="details-photos-container" class="carousel-inner">
           <div class="item active">
             <img class="img-responsive" src="http://placehold.it/1200x600/555/000&text=One" alt="...">
             <div class="carousel-caption">
@@ -218,7 +245,7 @@
             <p class="hint text-muted text-right">Uid</p>
           </div>
           <div class="col-xs-7">
-            <p class="value" id="prev_uid"></p>
+            <p class="value" id="details_uid"></p>
           </div>
         </div>
         <hr class="narrow">
@@ -227,7 +254,7 @@
             <p class="hint text-muted text-right">Description</p>
           </div>
           <div class="col-xs-7">
-            <p class="value" id="prev_description"></p>
+            <p class="value" id="details_description"></p>
           </div>
         </div>
         <hr class="narrow">
@@ -236,7 +263,7 @@
             <p class="hint text-muted text-right">Category</p>
           </div>
           <div class="col-xs-7">
-            <p class="value" id="prev_category"></p>
+            <p class="value" id="details_category"></p>
           </div>
         </div>
         <hr class="narrow">
@@ -245,7 +272,7 @@
             <p class="hint text-muted text-right">Tags</p>
           </div>
           <div class="col-xs-7">
-            <p class="value" id="prev_tags"></p>
+            <p class="value" id="details_tags"></p>
           </div>
         </div>
         <hr class="narrow">
@@ -254,7 +281,7 @@
             <p class="hint text-muted text-right">Finder</p>
           </div>
           <div class="col-xs-7">
-            <p class="value" id="prev_finder"></p>
+            <p class="value" id="details_finder"></p>
           </div>
         </div>
         <hr class="narrow">
@@ -263,16 +290,16 @@
             <p class="hint text-muted text-right">Location</p>
           </div>
           <div class="col-xs-7">
-            <p class="value" id="prev_location"></p>
+            <p class="value" id="details_location"></p>
           </div>
         </div>
         <hr class="narrow">
         <div class="row">
           <div class="col-xs-5">
-            <p class="hint text-muted text-right">Date n' TIme</p>
+            <p class="hint text-muted text-right">Reported Time</p>
           </div>
           <div class="col-xs-5">
-            <p class="value" id="prev_dateNTime"></p>
+            <p class="value" id="details_dateNTime"></p>
           </div>
         </div>
         <hr class="narrow">
@@ -280,6 +307,5 @@
     </div>
   </div>
 </div>
-
 
 {% endblock %}

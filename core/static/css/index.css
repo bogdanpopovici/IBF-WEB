@@ -786,3 +786,10 @@ span.tip {
   margin-top: 1%;
   margin-bottom: 1%;
 }
+.carousel-photo img{
+  display: block!important;
+  margin: 0 auto!important;
+  width:auto!important;
+  height:auto!important;
+  max-height: 300px!important;
+}

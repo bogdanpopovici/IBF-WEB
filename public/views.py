@@ -321,6 +321,7 @@ def item_registration(request):
 
   if request.method=='POST':
     try:
+     print request.POST
      uid = request.POST.get('uniqueid')
      title = request.POST.get('title')
      category = request.POST.get('category')
@@ -349,7 +350,7 @@ def item_registration(request):
 
      call_command('update_index')
      
-     return HttpResponse(json.dumps({'result': 'OK'}), content_type="application/json")
+     return HttpResponse(json.dumps({'result': 'OK', 'pk':new_item.pk}), content_type="application/json")
     except Exception as e:
      traceback.print_exc()
      return HttpResponse(json.dumps({'result': 'ERROR'}), content_type="application/json")
@@ -358,6 +359,20 @@ def item_registration(request):
                             'user': request.user
                             })
   return render_to_response('public/registerfounditem.html', context_instance=context)
+
+
+def item_registration_confirmation(request, pk):
+  item = None
+  try:
+    item = Item.objects.filter(pk=pk)
+  except:
+    pass
+  context = RequestContext(request,
+                           {'request': request,
+                            'user': request.user,
+                            'item': item[0]
+                            })
+  return render_to_response('public/item_registration_confirmation.html', context_instance=context)
 
 def save_base64image_to_media(media_obj, data):
   img_temp = NamedTemporaryFile()

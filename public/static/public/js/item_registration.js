@@ -19,6 +19,7 @@ $("#file-upload-input").fileinput({
     }
 });
 $("#pac-input").bind("keydown", function(e) { if (e.keyCode === 13) return false; });
+$("#upload-item-form").bind("keydown", function(e) { if (e.keyCode === 13) return false; });
 
 function previewItem(is_authenticated, user){
   ui = $('#uid').val();
@@ -61,9 +62,11 @@ function previewItem(is_authenticated, user){
   } else {
     $('#emptytagserror').addClass('hide');
   }
-
   
   $("img.file-preview-image").each(function( index ) {
+    
+    files.push(JSON.stringify(getBase64Image(this)));
+
     var photo = this;
     var div = $("<div></div>");
 
@@ -82,59 +85,31 @@ function previewItem(is_authenticated, user){
   }
 }
 
-function uploadData(user){
+function uploadData(){
 
-  ui = $('#uid').val();
-  title = $('#titleid').val();
-  category = $('#categoryid').val();
-  description = $('#descriptionid').val();
-  tags = $('#tagsid').val();
-  location_text = $('#pac-input').val();
-  files = [];
-  cont = true;
+  $('#submitButton').html('<span class="glyphicon glyphicon-refresh spinning"></span> Loading...');
 
-  $('#upload-item-form').bootstrapValidator('validate');
+  $('#submitButton').prop('disabled', true);
+  $('#cancelSubmissionButton').prop('disabled', true)
 
-  if(user!="True"){
-      $('#loginRequiredModal').modal('toggle');
-      cont = false;
-  }
-
-  if(tags==""){
-    $('#emptytagserror').removeClass('hide');
-    cont = false;
-  } else {
-    $('#emptytagserror').addClass('hide');
-  }
-
-  $("img.file-preview-image").each(function( index ) {
-   files.push(JSON.stringify(getBase64Image(this)));
-  });
-
-  if(cont && form_is_valid()){
-
-    $('#submitButton').html('<span class="glyphicon glyphicon-refresh spinning"></span> Loading...');
-
-    //$('#submitButton').prop('disabled', true);
-
-    $.post('/item_registration/',{
-          'uniqueid':   ui,
-          'title': title,
-          'category':   category,
-          'description':   description,
-          'tags':   tags,
-          'location': location_text,
-          'media':   JSON.stringify(files),
-          'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
-      },function(result){
-          if(result.result=='OK'){
-             window.location.reload();
-          }
-          else{
-            alert("An error has occured while uploading yur file");
-          }
-      });
-  }
+  $.post('/item_registration/',{
+        'uniqueid':   ui,
+        'title': title,
+        'category':   category,
+        'description':   description,
+        'tags':   tags,
+        'location': location_text,
+        'media':   JSON.stringify(files),
+        'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+    },function(result){
+        if(result.result=='OK'){
+           window.location = "/item_registration_confirmation/"+result.pk+"/";
+           console.log("yes");
+        }
+        else{
+          alert("An error has occured while uploading yur file");
+        }
+    });
 }
 
 function getBase64Image(imgElem) {
