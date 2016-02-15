@@ -17,29 +17,33 @@ def upload_item(request):
   if request.method=='POST':
 
     try:
-     body_unicode = request.body.decode('utf-8')
-     body = json.loads(body_unicode)
-     try:
-      username = body['username']
-      finder =  get_user_model().objects.filter(username=username)
-     except:
-      finder = None
+      body_unicode = request.body.decode('utf-8')
+      body = json.loads(body_unicode)
+      print "1"
+      try:
+        print "2"
+        username = body['username']
+        finder =  get_user_model().objects.filter(username=username)
+      except:
+        finder = None
 
-     if not finder:
-      password = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
-      email = body['email']
-      if not email_check_ok(email):
-        response_data['message'] = 'The email you entered is already in use'
-        response_data['result'] = 'ERROR'
-      else:
-        username = email.split('@')[0]
-        if get_user_model().objects.filter(username=username):
-          i = 0
-          new_username = username+str(i)
-          while get_user_model().objects.filter(new_username=username):
-            i = i + 1
+      if not finder:
+        password = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
+        email = body['email']
+        if not email_check_ok(email):
+          response_data['message'] = 'The email you entered is already in use'
+          response_data['result'] = 'ERROR'
+          return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+        else:
+          username = email.split('@')[0]
+          if get_user_model().objects.filter(username=username):
+            i = 0
             new_username = username+str(i)
-          username = new_username
+            while get_user_model().objects.filter(new_username=username):
+              i = i + 1
+              new_username = username+str(i)
+            username = new_username
 
         finder = CustomUser()
         finder.username = username
@@ -66,32 +70,32 @@ def upload_item(request):
         send_mail(email_subject, email_body, 'myemail@example.com',
             [email], fail_silently=False)
 
-        category = body['category']
-        tags = body['tags']
-        location = body['location']
-        valuable = body['valuable']
-        media =  body['media']
+      category = body['category']
+      tags = body['tags']
+      location = body['location']
+      valuable = body['valuable']
+      media =  body['media']
 
-        new_item = Item()
-        new_item.title = tags
-        new_item.tags = tags
-        new_item.description = valuable
-        new_item.category = category
-        new_item.location = location
-        new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
-        new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
-        new_item.found_by_user = CustomUser.objects.all()[:1].get()
-        new_item.save()
+      new_item = Item()
+      new_item.title = tags
+      new_item.tags = tags
+      new_item.description = valuable
+      new_item.category = category
+      new_item.location = location
+      new_item.date_field = datetime.datetime.now().strftime("%Y-%m-%d")
+      new_item.time_field = datetime.datetime.now().strftime("%H:%M:%S") 
+      new_item.found_by_user = CustomUser.objects.all()[:1].get()
+      new_item.save()
 
-        photo = Media()
-        photo.of_item = new_item
-        photo.media_type = "PHOTO" 
-        save_base64image_to_media(photo, media)
-        photo.save()
+      photo = Media()
+      photo.of_item = new_item
+      photo.media_type = "PHOTO" 
+      save_base64image_to_media(photo, media)
+      photo.save()
 
-        call_command('update_index')
+      call_command('update_index')
 
-        response_data['result'] = 'OK'
+      response_data['result'] = 'OK'
     except Exception as e:
       response_data['result'] = 'ERROR'
       print traceback.print_exc()

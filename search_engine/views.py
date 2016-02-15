@@ -135,7 +135,7 @@ class CustomSearchView(SearchView):
                 item.media = media 
                 search_results.append(item)
         else:
-            for item in Item.objects.all().order_by('pk')[:20]:
+            for item in Item.objects.all().order_by('-pk')[:20]:
                 media = Media.objects.all().filter(of_item=item)
                 item.media = media
                 recent_feeds.append(item)
