@@ -9,8 +9,8 @@ def pay_premium(request):
     item = {"paymentrequest_0_amt": "10.00",  # amount to charge for item
             "inv": "inventory",         # unique tracking variable paypal
             "custom": "tracking",       # custom tracking variable for you
-            "cancelurl": "http://...",  # Express checkout cancel url
-            "returnurl": "http://..."}  # Express checkout return url
+            "cancelurl": "./",  # Express checkout cancel url
+            "returnurl": "./"}  # Express checkout return url
 
     ppp = PayPalPro(
               item=item,                            # what you're selling

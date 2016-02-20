@@ -66,7 +66,7 @@
         </div>
 
         <div class="modal-footer">
-          <input type="button" id="previewButton" name="preview" value="Preview item" class="btn btn-success btn-icon" onClick="previewItem()"/>
+          <input type="button" id="previewButton" name="preview" value="Preview item" class="btn btn-success btn-icon" onClick="previewItem('{{MEDIA_URL}}')"/>
         </div>
 
       </form>
@@ -75,49 +75,58 @@
 
   </div>
 </div>
-
-<div id="preview-modal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
+<!-- preview modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="preview-modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="overflow:hidden">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Preview of your item</h4>
       </div>
-      <div class="modal-body">
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 
-        <div class="row">
-          <div class="col-md-12 item-title">
-            <p id="preview_title"></p>
-          </div>
+        <!-- Wrapper for slides -->
+        <div id="preview-photos-container" class="carousel-inner">
         </div>
 
-        <div id="preview_photos" class="row">
-
-        </div>
-
-        <div class="row"> 
-          <div class="col-md-6 col-md-offset-1">
-            <p id="preview_desc"></p>                
-          </div>
-        </div>
-
-        <div class="row"> 
-          <div class="col-md-6 col-md-offset-1">
-            <p id="preview_uid"></p>                
-          </div>
-        </div>
-
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
       </div>
-
+      <div class="details">
+        <hr class="narrow">
+        <div class="row">
+           <p class="text-center" style="font-size: 16px; font-weight: bold;" id="preview_title"></p>
+        </div>
+        <hr class="narrow">
+        <div class="row">
+          <div class="col-xs-5">
+            <p class="hint text-muted text-right">Uid</p>
+          </div>
+          <div class="col-xs-7">
+            <p class="value" id="preview_uid"></p>
+          </div>
+        </div>
+        <hr class="narrow">
+        <div class="row">
+          <div class="col-xs-5">
+            <p class="hint text-muted text-right">Description</p>
+          </div>
+          <div class="col-xs-7">
+            <p class="value" id="preview_desc"></p>
+          </div>
+        </div>
+        <hr class="narrow">
+      </div>
       <div class="modal-footer">
         <a class="btn btn-danger btn-icon" onClick="backToEdit()">Edit</a>
-        <input type="button" id="submitButton" name="submit" value="Save item" class="btn btn-success btn-icon" onClick="pre_register_item('{{MEDIA_URL}}')"/>
+        <input type="button" id="preRegisterButton" name="submit" value="Save item" class="btn btn-success btn-icon" onClick="pre_register_item('{{MEDIA_URL}}')"/>
       </div>
-
     </div>
-
   </div>
 </div>
 

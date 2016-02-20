@@ -73,6 +73,14 @@
                         },
                     }
                 },
+                category: {
+                    message: 'No category selected',
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select one category'
+                        },
+                    }
+                },
             }
         });
     });
@@ -93,14 +101,6 @@
         {% csrf_token %}
         <div class="modal-body">
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-md-3 control-label" for="textinput">Unique identifier</label>  
-            <div class="col-md-6">
-              <input id="uid" name="textinput" type="text" placeholder="I.e. MEI, Serial Number, reference number..." class="form-control input-md">
-            </div>
-          </div>
-
           <div class="form-group has-feedback no-feedback-icon">
             <label class="col-md-3 control-label" for="textarea">Title</label>
             <div class="col-md-6">                     
@@ -109,17 +109,18 @@
           </div>
           <!-- File Button --> 
           <div class="form-group has-feedback no-feedback-icon">
-            <label class="col-md-3 control-label" for="filebutton">Upload phtoto...</label>
+            <label class="col-md-3 control-label" for="filebutton">Upload photo...</label>
             <div class="col-md-6">
               <input id="file-upload-input" name="filebutton" multiple class="input-file" type="file">
             </div>
           </div>
             
           <!-- Select Basic -->
-          <div class="form-group">
+          <div class="form-group no-feedback-icon">
             <label class="col-md-3 control-label" for="selectbasic">Category</label>
             <div class="col-md-6">
               <select id="categoryid" name="category" class="form-control">
+                <option selected disabled default >Select Category...</option>
                 <option value="Accessories">Accessories</option>
                 <option value="Animal">Animal</option>
                 <option value="Bag">Bag</option>
@@ -131,6 +132,15 @@
                 <option value="Jewellery">Jewellery</option>
                 <option value="Other">Other</option>
               </select>
+            </div>
+          </div>
+
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-3 control-label" for="textinput">Unique identifier</label>  
+            <div class="col-md-6">
+              <input id="uid" name="textinput" type="text" placeholder="I.e. MEI, Serial Number, reference number..." class="form-control input-md">
             </div>
           </div>
 
@@ -162,8 +172,11 @@
         </div>
 
         <div class="modal-footer">
-          <!--<button type="button" id="submitButton" name="reportfound" class="btn btn-success btn-icon" onClick="uploadData('{{user.is_authenticated}}')">Report Item</button>-->
+          {% if user.is_authenticated %}
           <a onclick="previewItem('{{user.is_authenticated}}', '{{user.username}}')" type="button" id="previewButton" name="preview" class="btn btn-success btn-icon">Preview Item</a>
+          {% else %}
+          <a data-target="#loginModal" data-toggle="modal" type="button" id="previewButton" name="preview" class="btn btn-success btn-icon">Preview Item</a>
+          {% endif %}
           <a class="btn btn-default btn-icon" href='{% url "public:index" %}'><i class="fa fa-times-circle"></i> Cancel</a>
         </div>
 
@@ -183,7 +196,7 @@
       </div>
 
       <div class="modal-body">
-        Please login using the top-right menu or register with pur service <a href='{% url "public:register" %}'>here</a> before uploading an item!!
+        Please login using the top-right menu or register with our service <a href='{% url "public:register" %}'>here</a> before uploading an item!!
       </div>
     </div>
   </div>
@@ -287,7 +300,7 @@
         <hr class="narrow">
         <div class="row">
           <div class="col-xs-5">
-            <p class="hint text-muted text-right">Registration TIme</p>
+            <p class="hint text-muted text-right">Registration Time</p>
           </div>
           <div class="col-xs-5">
             <p class="value" id="prev_dateNTime"></p>

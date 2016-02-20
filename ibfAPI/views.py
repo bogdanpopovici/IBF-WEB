@@ -106,7 +106,6 @@ def reply_to_notification(request):
 def item_pre_registration(request):
 
   image = None
-  print "yes"
   if request.method=='POST':
     try:
      uid = request.POST.get('uniqueid')

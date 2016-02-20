@@ -1,6 +1,6 @@
 branch-defaults:
   default:
-    environment: Ivebeenfound-dev2
+    environment: ivebeenfound
 global:
   application_name: Ivebeenfound
   default_ec2_keyname: ivebeenfound

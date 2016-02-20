@@ -16,8 +16,7 @@ class ItemsSearchForm(SearchForm):
         ('JEWELLERY', 'Jewellery'),
         ('OTHER', 'Other')
     )
-    start_date = forms.DateField(required=False)
-    end_date = forms.DateField(required=False)
+    date_item_lost = forms.DateField(required=False)
     location = forms.CharField(required=False)
     category = forms.ChoiceField(choices=CATEGORY_CHOICES)
 
@@ -33,17 +32,17 @@ class ItemsSearchForm(SearchForm):
                 sqs = sqs.filter(location=self.cleaned_data['location'])
 
         # Check to see if a start_date was chosen.
-        if self.cleaned_data['start_date']:
-            sqs = sqs.filter(date_found__gte=self.cleaned_data['start_date'])
+        if self.cleaned_data['date_item_lost']:
+            lost_date = self.cleaned_data['date_item_lost']
+            start_date = lost_date - datetime.timedelta(days=7)
+            end_date = lost_date + datetime.timedelta(days=7)
+            sqs = sqs.filter(date_found__gte=start_date)
+            sqs = sqs.filter(date_found__lte=end_date)
 
-        # Check to see if an end_date was chosen.
-        if self.cleaned_data['end_date']:
-            sqs = sqs.filter(date_found__lte=self.cleaned_data['end_date'])
 
         return sqs
 
 class ItemsMatchForm(SearchForm):
-    start_date = forms.DateField(required=False)
     category = forms.CharField(required=False)
     unique_id = forms.CharField(required=False)
 
@@ -54,10 +53,6 @@ class ItemsMatchForm(SearchForm):
             return self.no_query_found()
         if self.cleaned_data['category']:
                 sqs = sqs.filter(category=self.cleaned_data['category'])
-
-        # Check to see if a start_date was chosen.
-        #if self.cleaned_data['start_date']:
-        #    sqs = sqs.filter(date_found__lte=self.cleaned_data['start_date'])
 
         if self.cleaned_data['unique_id']:
                 sqs = sqs.filter(unique_id=self.cleaned_data['unique_id'])

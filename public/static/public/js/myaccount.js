@@ -4,26 +4,23 @@ var new_item_category  = ''
 var new_item_uid =''
 var new_item_files = []
 
-function previewItem() {
+function previewItem(media_uri) {
 	
   new_item_title = $('#titleid').val();
   new_item_category = $('#categoryid').val();
   new_item_description = $('#descriptionid').val();
   new_item_uid = $('#uid').val();
-  
-  $("img.file-preview-image").each(function( index ) {
-     new_item_files.push(JSON.stringify(getBase64Image(this)));
-  });
 
   $('#preview-modal').modal('toggle');
 
   var p_title = $('#preview_title');
-  var p_photos = $('#preview_photos');
+  var photosContainer = $('#preview-photos-container');
   var p_desc = $('#preview_desc');
   var p_uid = $('#preview_uid');
 
   p_title.html(new_item_title);
   p_desc.html(new_item_description);
+  photosContainer.empty();
 
   if (new_item_uid != ''){
   	p_uid.html(new_item_uid);
@@ -34,7 +31,19 @@ function previewItem() {
   }
   
   $("img.file-preview-image").each(function( index ) {
-     p_photos.append(this);
+    new_item_files.push(JSON.stringify(getBase64Image(this)));
+
+    var photo = this;
+    var div = $("<div></div>");
+
+    div.addClass("item");
+    div.addClass("carousel-photo");
+
+    if(index==0)
+	    div.addClass("active");
+
+    div.append(this);
+    photosContainer.append(div);
   });
 }
 
@@ -86,7 +95,42 @@ function toggle(input, value, option, field) {
 		v.style.display = "none";
 	}
 }
+function updateItem(title, uid, description, category,  media, media_uri){
+	$('#u_titleid').val(title);
+	$('#u_descriptionid').val(description);
+	$('#u_uid').val(uid);
+	$('#u_categoryid').val(category);
+	$('#update-modal').modal('toggle');
 
+	var photos = JSON.parse(media);
+	console.log(photos);
+
+	 for(var i=0;i<photos.length;i++) {
+	    var photo = media_uri+photos[i].fields.data;
+
+	    $('.file-preview-thumbnails').append('<div class="file-preview-frame" id="preview-1455980621246-0" data-fileindex="0">'+
+										          '<img src="'+photo+'" class="file-preview-image" style="width:auto;height:80px;">'+
+											      '<div class="file-thumbnail-footer">'+
+											          '<div class="file-footer-caption" title="global_del.png">global_del.png</div>'+
+											          '<div class="file-thumb-progress hide">'+
+											          	'<div class="progress">'+
+											          		'<div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;">0%+</div>'+
+											          	'</div>'+
+											          '</div>'+
+												      '<div class="file-actions">'+
+											              '<div class="file-footer-buttons"><button type="button" class="kv-file-remove btn btn-xs btn-default" title="Remove file"><i class="glyphicon glyphicon-trash text-danger"></i></button></div>'+
+											              '<div class="file-upload-indicator" title="Not uploaded yet"><i class="glyphicon glyphicon-hand-down text-warning"></i></div>'+
+											              '<div class="clearfix"></div>'+
+												       '</div>'+
+													'</div>'+
+											 '</div>');
+		}
+
+	$('#update-modal').modal('toggle');
+	
+
+	//$('u_titleid').val(title);
+}
 function change_settings(container, input1, input2, input3, value, option, field) {
 	var c = document.getElementById(container);
 	var it1 = document.getElementById(input1);
@@ -173,7 +217,8 @@ function reply_to_notification(seq_index, topic_pk){
 
 function pre_register_item(media_url){
 
-  $('#submitButton').html('<span class="glyphicon glyphicon-refresh spinning"></span> Registering...');
+  $('#preRegisterButton').prop('disabled', true);
+  $('#preRegisterButton').html('<span class="glyphicon glyphicon-refresh spinning"></span> Registering...');
   $.post('/API/item_pre_registration/',{
         'uniqueid':   new_item_uid,
         'category':   new_item_category,
@@ -273,6 +318,5 @@ function respond_to_repatriation(response, notification_id, seq_index){
 	            alert("An error occured. Please get in contact with the support team");
 	          }
 	      });
-
 	
 }

@@ -1,8 +1,9 @@
+{% load css_utils %}
 <ul class="registered-items">
     {% for found_item in found_items %}
-    <li id="foound_{{found_item.pk}}"class="row registered-item">
+    <li id="found_{{found_item.pk}}"class="row registered-item">
         <div class="col-md-3">
-            <img src="{{MEDIA_URL}}/{{found_item.media.data}}" class="img-responsive center-block"></img>
+            <img src="{{MEDIA_URL}}{{found_item.media.0.data}}" class="img-responsive center-block"></img>
         </div>
         <div class="col-md-6 text-muted">
             <label class="panel-title" id="s6">{{found_item.title}}    Category:{{found_item.category}}</label>
@@ -11,13 +12,23 @@
         </div>
         <div class="col-md-3 text-right">
             <label>
-                <a class="btn btn-info custom-report-button">View</a>
+                <a onclick="popUpItemModal('{{found_item.unique_id}}', 
+                                                '{{found_item.title}}', 
+                                                '{{found_item.description}}', 
+                                                '{{found_item.tags}}', 
+                                                '{{found_item.category}}', 
+                                                '{{found_item.found_by_user}}', 
+                                                '{{found_item.location}}', 
+                                                '{{found_item.date_field}}', 
+                                                '{{found_item.time_field}}',
+                                                '{{found_item.media|jsonify}}',
+                                                '{{MEDIA_URL}}')"  class="btn btn-info custom-report-button">View</a>
                 <br/>
                 {% if found_item.status == 'CLAIMED' %}
-                <a id="repatriate_button_found_item.pk" onclick="repatriate_item('{{found_item.pk}}')" class="btn btn-primary custom-report-button">Repatriate item</a>
+                <a id="repatriate_button_found_item.pk" onclick="repatriate_item('{{found_item.pk}}')" class="btn btn-primary custom-report-button">Repatriate</a>
                 {% endif %}
                 {% if found_item.status == 'PREREPATRIATED' %}
-                <a id="repatriate_button_found_item.pk" class="btn btn-primary custom-report-button">Waiting response...</a>
+                <a id="repatriate_button_found_item.pk" class="btn btn-primary custom-report-button">Waiting...</a>
                 {% endif %}
             </label>
         </div>
@@ -31,3 +42,94 @@
     </li>
     {% endfor %}
 </ul>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="detailsModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="overflow:hidden">
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+        <!-- Wrapper for slides -->
+        <div id="details-photos-container" class="carousel-inner">
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+      </div>
+      <div class="details">
+        <hr class="narrow">
+        <div class="row">
+           <p class="text-center" style="font-size: 16px; font-weight: bold;" id="details_title"></p>
+        </div>
+        <hr class="narrow">
+        <div class="row">
+          <div class="col-xs-5">
+            <p class="hint text-muted text-right">Uid</p>
+          </div>
+          <div class="col-xs-7">
+            <p class="value" id="details_uid"></p>
+          </div>
+        </div>
+        <hr class="narrow">
+        <div class="row">
+          <div class="col-xs-5">
+            <p class="hint text-muted text-right">Description</p>
+          </div>
+          <div class="col-xs-7">
+            <p class="value" id="details_description"></p>
+          </div>
+        </div>
+        <hr class="narrow">
+        <div class="row">
+          <div class="col-xs-5">
+            <p class="hint text-muted text-right">Category</p>
+          </div>
+          <div class="col-xs-7">
+            <p class="value" id="details_category"></p>
+          </div>
+        </div>
+        <hr class="narrow">
+        <div class="row">
+          <div class="col-xs-5">
+            <p class="hint text-muted text-right">Tags</p>
+          </div>
+          <div class="col-xs-7">
+            <p class="value" id="details_tags"></p>
+          </div>
+        </div>
+        <hr class="narrow">
+        <div class="row">
+          <div class="col-xs-5">
+            <p class="hint text-muted text-right">Finder</p>
+          </div>
+          <div class="col-xs-7">
+            <p class="value" id="details_finder"></p>
+          </div>
+        </div>
+        <hr class="narrow">
+        <div class="row">
+          <div class="col-xs-5">
+            <p class="hint text-muted text-right">Location</p>
+          </div>
+          <div class="col-xs-7">
+            <p class="value" id="details_location"></p>
+          </div>
+        </div>
+        <hr class="narrow">
+        <div class="row">
+          <div class="col-xs-5">
+            <p class="hint text-muted text-right">Reported Time</p>
+          </div>
+          <div class="col-xs-5">
+            <p class="value" id="details_dateNTime"></p>
+          </div>
+        </div>
+        <hr class="narrow">
+      </div>
+    </div>
+  </div>
+</div>

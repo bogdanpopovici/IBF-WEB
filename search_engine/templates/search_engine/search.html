@@ -49,21 +49,15 @@
         </div>
         
         <div class="row">
-          <label for="name">Date Interval Start:</label>
+          <label for="name">Date Item Lost:</label>
           <div class="form-group">
-            {{form.start_date|addcss:"class:form-control isearch,placeholder:Location, type:date,id:dateStartInput,tabindex:8"}}
+            {{form.date_item_lost|addcss:"class:form-control isearch,placeholder:Location, type:date,id:dateStartInput,tabindex:8"}}
           </div>
+          <span class="tip">We will automatically search <strong>7 days</strong> either side of this date you provide</span>
         </div>
 
         <div class="row">
-          <label for="name">Date Interval End:</label>
-          <div class="form-group">
-            {{form.end_date|addcss:"class:form-control isearch,placeholder:Location, type:date,id:dateEndInput,tabindex:9"}}
-          </div>
-        </div>
-
-        <div class="row">
-          <input type="submit" value="Search/find" class="btn btn-default" style="border-radius:100px; margin-left:33%;" tabindex="10">
+          <input type="submit" value="Search/find" class="btn btn-default" style="border-radius:100px; margin-left:33%;" tabindex="9">
         </div>
 
       </form>
@@ -100,13 +94,26 @@
                 </ul>
               </div>
               <div class="pull-right" style="margin-top: -60px; margin-right: 0px;">
-                {% if item.status == 'FOUND' %}
-                <a  class="btn btn-success btn-claim" onclick="popUpNotificationModal('{{result.object.pk}}', '{{result.object.found_by_user.prefered_way_of_contact}}', '{{result.object.found_by_user.phone_number}}')"><span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item</a>
+                {% if result.object.status == 'FOUND' %}
+                <a   onclick="popUpNotificationModal('{{result.object.pk}}', '{{result.object.found_by_user.prefered_way_of_contact}}', '{{user.is_authenticated}}','{{result.object.found_by_user.phone_number}}')"  class="btn btn-success btn-claim">
+                  <span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item
+                </a>
                 {% else %}
-                <a class="btn btn-success active btn-claim"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
+                <a class="btn btn-success disabled btn-claim"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
                 {% endif %}
                 <br>
-                <button  onclick="popUpItemModal('{{results.object.description}}', '{{results.object.category}}', '{{results.object.found_by_user}}', '{{results.object.location}}',  '{{results.object.date_field}}', '{{results.object.time_field}}', '{{MEDIA_URL}}, {{result.media}}')"  type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
+                <button onclick="popUpItemModal('{{result.object.unique_id}}', 
+                                                '{{result.object.title}}', 
+                                                '{{result.object.description}}', 
+                                                '{{result.object.tags}}', 
+                                                '{{result.object.category}}', 
+                                                '{{result.object.found_by_user}}', 
+                                                '{{result.object.location}}', 
+                                                '{{result.object.date_field}}', 
+                                                '{{result.object.time_field}}',
+                                                '{{result.media|jsonify}}',
+                                                '{{MEDIA_URL}}')" 
+                type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
               </div>
             </div>
           </div>
@@ -149,14 +156,14 @@
               </div>
               <div class="pull-right" style="margin-top: -60px; margin-right: 0px;">
                 {% if item.status == 'FOUND' %}
-                <a   onclick="popUpNotificationModal('{{item.pk}}', '{{item.found_by_user.prefered_way_of_contact}}', '{{item.found_by_user.phone_number}}')"  class="btn btn-success btn-claim">
+                <a   onclick="popUpNotificationModal('{{item.pk}}', '{{item.found_by_user.prefered_way_of_contact}}', '{{user.is_authenticated}}','{{item.found_by_user.phone_number}}')"  class="btn btn-success btn-claim">
                   <span class="glyphicon glyphicon-comment"></span>&nbsp;Claim item
                 </a>
                 {% else %}
                 <a class="btn btn-success disabled btn-claim"><span class="glyphicon glyphicon-comment"></span>&nbsp;Item Claimed</a>
                 {% endif %}
                 <br>
-                <button onclick="popUpItemModal('{{item.uid}}', 
+                <button onclick="popUpItemModal('{{item.unique_id}}', 
                                                 '{{item.title}}', 
                                                 '{{item.description}}', 
                                                 '{{item.tags}}', 
@@ -192,7 +199,7 @@
       </div>
 
       <div class="modal-body">
-        Please login using the top-right menu or register with pur service <a href='{% url "public:register" %}'>here</a> before uploading an item!!
+        Please login using the top-right menu or register with our service <a href='{% url "public:register" %}'>here</a> before uploading an item!!
       </div>
     </div>
   </div>
@@ -237,7 +244,7 @@
       <div class="details">
         <hr class="narrow">
         <div class="row">
-           <p class="text-center" style="font-size: 16px; font-weight: bold;" id="prev_title"></p>
+           <p class="text-center" style="font-size: 16px; font-weight: bold;" id="details_title"></p>
         </div>
         <hr class="narrow">
         <div class="row">
@@ -308,4 +315,19 @@
   </div>
 </div>
 
+<div class="modal fade" id="loginRequiredModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="overflow-y:hidden;">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">You are not logged in</h4>
+      </div>
+
+      <div class="modal-body">
+        Please login using the top-right menu or register with pur service <a href='{% url "public:register" %}'>here</a> before uploading an item!!
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

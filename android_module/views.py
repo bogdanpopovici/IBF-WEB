@@ -19,9 +19,7 @@ def upload_item(request):
     try:
       body_unicode = request.body.decode('utf-8')
       body = json.loads(body_unicode)
-      print "1"
       try:
-        print "2"
         username = body['username']
         finder =  get_user_model().objects.filter(username=username)
       except:
@@ -98,7 +96,6 @@ def upload_item(request):
       response_data['result'] = 'OK'
     except Exception as e:
       response_data['result'] = 'ERROR'
-      print traceback.print_exc()
  
   return HttpResponse(json.dumps(response_data), content_type="application/json")
 
@@ -126,7 +123,6 @@ def login_user(request):
        
     except Exception as e:
      response_data['result'] = 'ERROR'
-     print traceback.print_exc()
  
   return HttpResponse(json.dumps(response_data), content_type="application/json")
 

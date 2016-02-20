@@ -100,7 +100,7 @@ def register(request):
 
           return render_to_response('public/confirm_sent.html', context_instance=context)
       else:
-        print "Invalid"
+        pass
   context = RequestContext(request,
                            {'request': request,
                             'user': request.user
@@ -213,14 +213,14 @@ def myaccount(request, **tab):
   for item in pre_reg_items:
       media = Media.objects.all().filter(of_item=item)
       if media:
-         item.media = media[0] 
+         item.media = media 
 
   #=========fetch found items===============
   found_items = Item.objects.filter(found_by_user=user)
   for item in found_items:
       media = Media.objects.all().filter(of_item=item)
       if media:
-         item.media = media[0]   
+         item.media = media 
 
   context = RequestContext(request,
                            {'request': request,
@@ -265,7 +265,6 @@ def edit_personal_details(request):
     elif (attr == 'phone_number'):
       pattern = re.compile("\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4}")
       if not pattern.match(value):  
-        print value+"a"
         response_data['result'] = 'ERROR'
         response_data['err_message'] = 'Telephone number is not recognised'
       else:
@@ -308,6 +307,11 @@ def edit_personal_details(request):
         request.user.save()
         response_data['result'] = 'OK'
         response_data['new_value'] = new_email
+    elif (attr == 'prefered_way_of_contact'):
+      response_data['result'] = 'OK'
+      user.prefered_way_of_contact = value
+      user.save()
+      response_data['new_value'] = value
   except Exception, e:
     traceback.print_exc()
   else:
@@ -321,7 +325,6 @@ def item_registration(request):
 
   if request.method=='POST':
     try:
-     print request.POST
      uid = request.POST.get('uniqueid')
      title = request.POST.get('title')
      category = request.POST.get('category')

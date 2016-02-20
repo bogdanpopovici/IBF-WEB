@@ -329,6 +329,7 @@ a.ilost:hover{
 .action-buttons{
   padding: 0rem 25%;
   margin-top: -2.4rem;
+  margin-bottom: -2.4rem;
 }
 .action-buttons > .row > .col-xs-6:nth-child(1) > a{
   float:right;
@@ -341,7 +342,8 @@ a.ilost:hover{
 }
 
 .footer{
-  padding: 1% 10%;
+  height: 45vh;
+  padding: 4% 10%;
   background: rgba(1, 177, 107, 0.3);
   background-color: #01b16b;
   color: #fff;

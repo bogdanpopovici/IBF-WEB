@@ -1,7 +1,6 @@
 import os, subprocess, string
 from django.db.utils import OperationalError
 from django.db import connections
-import mysql.connector
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
@@ -30,6 +29,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'paypal.standard',
     'paypal.pro',
+    'paypal.standard.ipn',
     'public',
     'paypalapp',
     'haystack',
@@ -134,7 +134,6 @@ else:
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        #'URL': 'http://127.0.0.1:9200/',
         'URL' : 'search-ibf-es-tdw2x7ovuds4tqycwd7f336axe.us-west-2.es.amazonaws.com:80',
         'INDEX_NAME': 'haystack',
     },
@@ -157,7 +156,7 @@ LOGIN_URL = '/'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ibfdefaultmail@gmail.com'
-EMAIL_HOST_PASSWORD = 'IBFpassword2015'
+EMAIL_HOST_PASSWORD = 'IBFpassword2017'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'ibfdefaultmail@gmail.com'

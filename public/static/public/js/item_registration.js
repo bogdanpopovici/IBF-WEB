@@ -19,7 +19,13 @@ $("#file-upload-input").fileinput({
     }
 });
 $("#pac-input").bind("keydown", function(e) { if (e.keyCode === 13) return false; });
-$("#upload-item-form").bind("keydown", function(e) { if (e.keyCode === 13) return false; });
+$("#upload-item-form").on('keyup keypress', function(e) {
+  var keyCode = e.keyCode || e.which;
+  if (keyCode === 13) { 
+    e.preventDefault();
+    return false;
+  }
+});
 
 function previewItem(is_authenticated, user){
   ui = $('#uid').val();
@@ -135,8 +141,8 @@ function form_is_valid(){
 
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -33.8688, lng: 151.2195},
-    zoom: 13
+    center: {lat: 51.531298, lng: -0.120851},
+    zoom: 7
   });
   var input = /** @type {!HTMLInputElement} */(
       document.getElementById('pac-input'));
