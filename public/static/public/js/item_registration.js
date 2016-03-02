@@ -91,6 +91,7 @@ function previewItem(is_authenticated, user){
   }
 }
 
+
 function uploadData(){
 
   $('#submitButton').html('<span class="glyphicon glyphicon-refresh spinning"></span> Loading...');

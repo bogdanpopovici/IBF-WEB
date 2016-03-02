@@ -320,3 +320,17 @@ function respond_to_repatriation(response, notification_id, seq_index){
 	      });
 	
 }
+
+function deleteItem(pk){
+  $.post('/API/delete_item/',{
+        'pk':   pk,
+        'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+    },function(result){
+        if(result.result=='OK'){
+          window.location = "/myaccount/4/";
+        }
+        else{
+          alert("An error has occured while uploading yur file");
+        }
+    });
+}

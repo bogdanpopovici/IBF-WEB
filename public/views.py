@@ -227,6 +227,7 @@ def myaccount(request, **tab):
                             'user': user,
                             'message_sequences':message_sequences,
                             'pre_reg_items': pre_reg_items,
+                            'pre_reg_items_length': pre_reg_items.__len__(),
                             'matches': matches,
                             'found_items': found_items,
                             'tab': tab['tab'],

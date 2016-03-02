@@ -20,6 +20,13 @@
 
 {% block body_block %}
 
+<div class="container no-padding">
+  <ol class="breadcrumb">
+    <li><a href="{% url 'public:index' %}">Home</a></li>
+    <li class="active">My Account</li>
+  </ol>
+</div>
+
 <div class="container tab-container">
     <div class="panel with-nav-tabs panel-default">
         <div class="panel-heading">

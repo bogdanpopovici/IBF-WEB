@@ -13,4 +13,5 @@ urlpatterns = patterns('',
 	url(r'^item_pre_registration/$', views.item_pre_registration, name='item_pre_registration'),
     url(r'^username_check/$', views.username_check, name='username_check'),
     url(r'^email_check/$', views.email_check, name='email_check'),
+    url(r'^delete_item/$', views.delete_item, name='delete_item'),
 )

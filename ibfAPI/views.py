@@ -210,6 +210,21 @@ def repatriate_item(request):
   return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 @login_required
+def delete_item(request):
+  response_data = {}
+  if request.method=='POST':
+    try:
+     item_id = request.POST.get('pk')
+     PreRegisteredItem.objects.filter(pk=item_id).delete()
+
+     response_data['result'] = 'OK'
+    except Exception, e:
+      traceback.print_exc()
+      response_data['result'] = 'ERROR'
+  
+  return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+@login_required
 def reject_match(request):
 
   response_data = {}

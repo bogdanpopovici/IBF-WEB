@@ -14,8 +14,15 @@
 <a href="#search-box" class="skip-link" tabindex="2" accesskey="s">skip to search box</a>
 <a href="#items-list" class="skip-link" tabindex="3">skip to items list</a>
 
+<div class="container no-padding">
+  <ol class="breadcrumb">
+    <li><a href="{% url 'public:index' %}">Home</a></li>
+    <li class="active">Search</li>
+  </ol>
+</div>
   <!-- Begin Body -->
 <div id="search-box" class="container search-panel">
+
   <img class="bg" src="{% static 'public/img/world.gif' %}"></img>
   <div class="row">
     <!-- intermediate search -->

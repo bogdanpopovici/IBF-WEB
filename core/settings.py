@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'android_module',
     'staticpages',
     'ibfAPI',
+    'mathfilters',
+    'analytical',
 )
 
 
@@ -186,3 +188,6 @@ PAYPAL_WPP_USER = "pbp1g12_api1.soton.ac.uk"
 PAYPAL_WPP_PASSWORD = "24U5CU57CDE224FZ"
 PAYPAL_WPP_SIGNATURE = "AFcWxV21C7fd0v3bYYYRCpSSRl31AgaCQ0HaFjkigPaC.eZZZqsGeK6I"
 PAYPAL_RECEIVER_EMAIL = "bogdan_gem@yahoo.com"
+
+#==========google analitycs integration======================
+GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-74499271-1'

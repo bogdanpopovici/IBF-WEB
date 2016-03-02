@@ -1,12 +1,24 @@
 
  {% load css_utils %}
+ {% load mathfilters %}
+
 <div class="row controls">
     <div class="col-xs-8">
-        <p>You can pre-register items with I've Been Found, and if someone uploads it as a found item, you will be notified immediately.</p>
+        <p>You can pre-register items with I've Been Found, and if someone uploads it as a found item, you will be notified immediately. 
+        {% if pre_reg_items_length >= 5 %}
+        You have reached your account limit of 5 pte-registered items. Please upgrade to 'Premium' if you want to register
+        more items.
+        {% else %}
+        You can register {{5|sub:pre_reg_items_length}} more items.
+        {% endif %}
+        </p>
     </div>
+    {% if pre_reg_items_length < 5 %}
     <div class="col-xs-4">
         <a href="" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#pre-register-modal" ><span class="glyphicon glyphicon-plus"></span> Register New Item</a>
     </div>
+    {% endif %}
+
 </div>
 <ul class="registered-items">
     {% for item in pre_reg_items %}
@@ -21,7 +33,7 @@
         </div>
         <div class="col-md-3 text-right">
             <label>
-                <a href="javascript:updateItem('{{item.title}}', '{{item.unique_id}}', '{{item.description}}', '{{item.category}}', '{{item.media}}', '{{MEDIA_URL|jsonify}}');">Update</a>
+                <a href="javascript:deleteItem('{{item.pk}}');" style="color:#d9534f">Delete</a>
             </label>
         </div>
     </li>

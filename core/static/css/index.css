@@ -476,6 +476,9 @@ h4.section-title{
 .no-margin {
   margin: 0;
 }
+.no-padding {
+  padding: 0;
+}
 
 .no-feedback-icon i{
   display: none!important;
