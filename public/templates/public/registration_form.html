@@ -122,7 +122,7 @@
                 {% csrf_token %}
 
                 <div class="modal-body">
-                    <div class="col-lg-8"> 
+                    <div class="col-lg-8 col-lg-offset-2"> 
                         <div class="tip">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;<label for="username">Fields marked with * are mandatory</label>
                         </div>           
@@ -196,21 +196,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <img src="{% static 'public/img/lost-wallet.png' %}">
-                    </div>
                     <div class="row membership">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4 col-lg-offset-1">
                             <div class="form-group">
                                 <input type="radio" name="is_premium" id="choice-standard" checked="checked" value="False">
                                 <label class="choice-standard" for="choice-standard">Standard </label>
                                 <div class="reveal-if-active">
                                     <div class="choice">
-                                        <span>Up to 5 registered items registered items;</span>
+                                        <span>Up to 5 registered items;</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!--
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -230,11 +228,12 @@
                                 </div>
                             </div>   
                         </div>
+                    -->
                     </div>
                     <div class="row accept">
                         <div class="form-group">
                             <input type="checkbox" name="accept" id="acceptterms">
-                            <label  for="acceept">I accept the <a href='{% url "staticpages:terms_conditions" %}'>terms and conditions</a> applying to the content and the usage of this site </label>
+                            <label  for="accept">I accept the <a target="_blank" href='{% url "staticpages:terms_conditions" %}'>terms and conditions</a> applying to the content and the usage of this site </label>
                         </div>
                     </div>
                 </div>

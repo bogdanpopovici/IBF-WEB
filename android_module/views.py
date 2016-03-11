@@ -65,7 +65,7 @@ def upload_item(request):
         email_body = "Hey %s, thanks for uploading the item. We have created an account for you.\n To activate your account, click this link within \
         48hours http://ivebeenfound-dev2.elasticbeanstalk.com/accounts/confirm/%s. \n Your username: %s \n Your password: %s \n" % (username, activation_key, username, password)
 
-        send_mail(email_subject, email_body, 'myemail@example.com',
+        send_mail(email_subject, email_body, 'hello@ivebeenfound.com',
             [email], fail_silently=False)
 
       category = body['category']

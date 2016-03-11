@@ -166,7 +166,7 @@ def notify(request):
         email_subject = 'IBF: Claimed Item'
         email_body = "Hey %s, someone is claiming one of the items you found. Here's his email address so you can get in touchL %s" % (receiver.username, sender.email)
 
-        send_mail(email_subject, email_body, 'myemail@example.com',
+        send_mail(email_subject, email_body, 'hello@ivebeenfound.com',
               [receiver.email], fail_silently=False)
         item.status = 'CLAIMED'
         item.lost_by_user = sender
@@ -177,6 +177,15 @@ def notify(request):
         item.status = 'CLAIMED'
         item.lost_by_user = sender
         item.save()
+        response_data['result'] = 'OK'
+      if (method == 'leave_message'):
+        notification = Notification()
+        notification.sender = sender
+        notification.receiver = receiver
+        notification.message = message
+        notification.topic = item
+        notification.notification_type = 'CLAIM'
+        notification.save()
         response_data['result'] = 'OK'
     except Exception, e:
       traceback.print_exc()

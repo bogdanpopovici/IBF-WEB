@@ -23,9 +23,9 @@
       </div>
       <div class="navbar-collapse collapse ">
         <ul class="nav navbar-nav main-nav nav-center">
-          <li>
+          <!--<li>
             <a href="{% url 'staticpages:site_map' %}"  class="smap">Site Map</a>
-          </li>
+          </li>-->
           <li>
             <a href="{% url 'staticpages:contact_page' %}" class="contact">Contact</a>
           </li>
@@ -181,7 +181,7 @@
                       <p id="notification_text" ><strong>Hi!</strong>The finder will receive a notification</p> 
                     </div>
                     <label class="sr-only" for="location">Message</label>
-                    <textarea id="notification_message" rows="4" cols="50" class="form-control" name="location" autocapitalize="off" autocomplete="off" autocorrect="off" required placeholder="e.g. 59 Harrison Road Southampton" value=""></textarea>
+                    <textarea id="notification_message" rows="4" cols="50" class="form-control" name="location" autocapitalize="off" autocomplete="off" autocorrect="off" required placeholder="e.g. This looks to be mine..." value=""></textarea>
                   </div>
                   <a id="notification_creator" class="btn btn-success btn-block">Claim item</a>
                 </div>
@@ -191,6 +191,36 @@
         </div>
       </div>
     </div>
+    <!-- Notification Modal -->
+    <div class="modal fade" id="messagingModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Leave a message</h4>
+          </div>
+
+          <div class="modal-body">
+             <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div>
+                      <div class="alert alert-warning">
+                        <p id="leave_message_text" ><strong>Hi!</strong>The finder will receive a notification</p> 
+                      </div>
+                      <label class="sr-only" for="location">Message</label>
+                      <textarea id="leave_message" rows="4" cols="50" class="form-control" name="location" autocapitalize="off" autocomplete="off" autocorrect="off" required placeholder="e.g. This looks to be mine..." value=""></textarea>
+                    </div>
+                    <a id="message_creator" class="btn btn-success btn-block">Leave Message</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
   </div>
   <!-- Notification Modal -->
 

@@ -89,7 +89,7 @@ def register(request):
           email_body = "Hey %s, thanks for signing up. To activate your account, click this link within \
           48hours http://ivebeenfound-dev2.elasticbeanstalk.com/accounts/confirm/%s" % (username, activation_key)
 
-          send_mail(email_subject, email_body, 'myemail@example.com',
+          send_mail(email_subject, email_body, 'hello@ivebeenfound.com',
               [email], fail_silently=False)
 
           context = RequestContext(request,

@@ -120,7 +120,10 @@
                                                 '{{result.object.time_field}}',
                                                 '{{result.media|jsonify}}',
                                                 '{{MEDIA_URL}}')" 
-                type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
+                type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button><br>
+                <a   onclick="popUpNotificationModal('{{result.object.pk}}', 'leave_message', '{{user.is_authenticated}}')"  class="btn send-message-btn">
+                  <span class="glyphicon glyphicon-comment"></span>&nbsp;Leave Message
+                </a>
               </div>
             </div>
           </div>
@@ -182,6 +185,10 @@
                                                 '{{item.media|jsonify}}',
                                                 '{{MEDIA_URL}}')" 
                 type="button" class="btn btn-info btn-details"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;See more details</button>
+                <br/>
+                <a   onclick="popUpNotificationModal('{{item.pk}}', 'leave_message', '{{user.is_authenticated}}')"  class="btn send-message-btn">
+                  <span class="glyphicon glyphicon-comment"></span>&nbsp;Leave Message
+                </a>
               </div>
             </div>
           </div>
@@ -252,15 +259,6 @@
         <hr class="narrow">
         <div class="row">
            <p class="text-center" style="font-size: 16px; font-weight: bold;" id="details_title"></p>
-        </div>
-        <hr class="narrow">
-        <div class="row">
-          <div class="col-xs-5">
-            <p class="hint text-muted text-right">Uid</p>
-          </div>
-          <div class="col-xs-7">
-            <p class="value" id="details_uid"></p>
-          </div>
         </div>
         <hr class="narrow">
         <div class="row">

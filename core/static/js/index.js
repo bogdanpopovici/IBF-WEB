@@ -74,6 +74,26 @@ function popUpNotificationModal(item_id, pwoc, user_registered, contact_details)
       });
 
 
+    } else 
+    if (pwoc=='leave_message'){
+      $('#leave_message_text').text("Hi! Use our internal messaging system to leave a message to this finder below...");
+      $('#message_creator').click(function(){
+        $.post('/API/notify/',{
+            'method': 'leave_message',
+            'message':   $('#leave_message').val(),
+            'item_id':   item_id,
+            'csrfmiddlewaretoken':      $('[name="csrfmiddlewaretoken"]').val()
+        },function(result){
+            if(result.result=='OK'){
+                location.reload();
+            }
+            else{
+              alert("An error occured. Please get in contact with the support team");
+            }
+        });
+      });
+
+
     } else {
       $('#notification_text').text("Hi! The finder would like to contact him by phone, here's his/her number: " + contact_details + ", so please get in touch before claiming the item.");
       $('#notification_message').css('display','none')
@@ -92,8 +112,13 @@ function popUpNotificationModal(item_id, pwoc, user_registered, contact_details)
         });
       });
     }
-
-    $('#notificationModal').modal('toggle');
+    if(pwoc=='leave_message'){
+      $('#messagingModal').modal('toggle');
+    }
+    else{
+      $('#notificationModal').modal('toggle');
+    }
+      
   }
 
   
@@ -106,11 +131,6 @@ function popUpItemModal(uid, title, description, tags, category, finder, locatio
   var photosContainer = $('#details-photos-container');
   photosContainer.empty();
 
-  if(uid!=""){
-    $('#details_uid').html(uid);
-  }else {
-    $('#details_uid').addClass('hideIt');
-  }
   $('#details_title').html(title);
   $('#details_category').html(category);
   $('#details_description').html(description);

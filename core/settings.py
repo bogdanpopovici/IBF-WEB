@@ -156,12 +156,12 @@ LOGIN_URL = '/'
 
 #==========Email Setup using Gmail platform==============
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ibfdefaultmail@gmail.com'
-EMAIL_HOST_PASSWORD = 'IBFpassword2017'
+EMAIL_HOST = 'olympus.krystal.co.uk'
+EMAIL_HOST_USER = 'hello@ivebeenfound.com'
+EMAIL_HOST_PASSWORD = 'E-nddubQDXb6'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'ibfdefaultmail@gmail.com'
+DEFAULT_FROM_EMAIL = 'hello@ivebeenfound.com'
 
 #==========Custom User Model=============================
 

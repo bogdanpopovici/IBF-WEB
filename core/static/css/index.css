@@ -798,3 +798,16 @@ span.tip {
   height:auto!important;
   max-height: 300px!important;
 }
+.send-message-btn{
+  margin-top: 0.5rem;
+  background-color: #ff9933;
+  color:#ffffff;
+  width: 100%;
+}
+.send-message-btn:hover{
+  background-color: #ff8000;
+  color:#ffffff;
+}
+.btn-details{
+  width: 100%;
+}
